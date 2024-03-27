@@ -46,9 +46,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Report> reports = new ArrayList<>();
 
-    @OneToMany(mappedBy = "openedBy")
-    private List<TableSession> openedTableSessions = new ArrayList<>();
-
-    @OneToMany(mappedBy = "closedBy")
-    private List<TableSession> closedTableSessions = new ArrayList<>();
+//    @OneToMany(mappedBy = "openedBy")
+//    private List<TableSession> openedTableSessions = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "closedBy")
+//    private List<TableSession> closedTableSessions = new ArrayList<>();
 }
