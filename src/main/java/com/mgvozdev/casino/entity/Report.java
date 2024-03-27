@@ -2,9 +2,7 @@ package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,9 +10,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "reports")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(exclude = "user")
+@ToString(exclude = "user")
 public class Report {
 
     @Id

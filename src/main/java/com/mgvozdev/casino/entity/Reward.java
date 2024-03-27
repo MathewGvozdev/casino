@@ -4,9 +4,7 @@ import com.mgvozdev.casino.entity.enums.RewardStatus;
 import com.mgvozdev.casino.entity.enums.RewardType;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,9 +12,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "rewards")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"player", "user"})
+@ToString(exclude = {"player", "user"})
 public class Reward {
 
     @Id

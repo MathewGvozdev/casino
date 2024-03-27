@@ -2,17 +2,18 @@ package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "roles_authorities")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
+@ToString(of = "id")
 public class RoleAuthority {
 
     @Id
@@ -27,4 +28,14 @@ public class RoleAuthority {
     @ManyToOne
     @Column(name = "authority_id")
     private Authority authority;
+
+    public void setRole(Role role) {
+        this.role = role;
+        this.role.getRoleAuthorities().add(this);
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+        this.authority.getRoleAuthorities().add(this);
+    }
 }

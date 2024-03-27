@@ -3,9 +3,7 @@ package com.mgvozdev.casino.entity;
 import com.mgvozdev.casino.entity.enums.Shift;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,9 +11,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_info")
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(exclude = {"user"})
+@ToString(exclude = {"user"})
 public class UserInfo {
 
     @Id

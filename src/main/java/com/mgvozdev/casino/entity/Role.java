@@ -2,17 +2,20 @@ package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "roles")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Role {
 
     @Id
@@ -24,4 +27,7 @@ public class Role {
             unique = true,
             nullable = false)
     private String title;
+
+    @OneToMany(mappedBy = "role")
+    private List<RoleAuthority> roleAuthorities = new ArrayList<>();
 }

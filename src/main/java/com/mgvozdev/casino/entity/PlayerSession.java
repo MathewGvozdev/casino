@@ -2,19 +2,22 @@ package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "player_sessions")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(exclude = "player")
+@ToString(exclude = "player")
 public class PlayerSession {
 
     @Id
@@ -42,4 +45,7 @@ public class PlayerSession {
 
     @Column(name = "avg_bet")
     private Integer avgBet;
+
+    @OneToMany(mappedBy = "playerSession")
+    private List<Session> sessions = new ArrayList<>();
 }

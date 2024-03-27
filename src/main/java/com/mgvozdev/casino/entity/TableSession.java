@@ -1,18 +1,21 @@
 package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @jakarta.persistence.Table(name = "table_sessions")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"table", "dealer", "openedBy", "closedBy"})
+@ToString(exclude = {"table", "dealer", "openedBy", "closedBy"})
 public class TableSession {
 
     @Id
@@ -53,4 +56,7 @@ public class TableSession {
     @ManyToOne
     @Column(name = "closed_by")
     private User closedBy;
+
+    @OneToMany(mappedBy = "tableSession")
+    private List<Session> sessions = new ArrayList<>();
 }

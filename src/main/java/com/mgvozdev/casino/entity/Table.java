@@ -2,17 +2,18 @@ package com.mgvozdev.casino.entity;
 
 import com.mgvozdev.casino.entity.enums.Game;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @jakarta.persistence.Table(name = "tables")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Table {
 
     @Id

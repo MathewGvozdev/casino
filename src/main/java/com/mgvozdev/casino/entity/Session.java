@@ -2,18 +2,19 @@ package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "sessions")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(of = {"id", "startedAt"})
+@ToString(of = {"id", "startedAt"})
 public class Session {
 
     @Id
@@ -34,4 +35,14 @@ public class Session {
     @Column(name = "started_at",
             nullable = false)
     private LocalDateTime startedAt;
+
+    public void setPlayerSession(PlayerSession playerSession) {
+        this.playerSession = playerSession;
+        this.playerSession.getSessions().add(this);
+    }
+
+    public void setTableSession(TableSession tableSession) {
+        this.tableSession = tableSession;
+        this.tableSession.getSessions().add(this);
+    }
 }

@@ -3,18 +3,19 @@ package com.mgvozdev.casino.entity;
 import com.mgvozdev.casino.entity.enums.DocumentType;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @Table(name = "profiles")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@EqualsAndHashCode(exclude = "player")
+@ToString(exclude = "player")
 public class Profile {
 
     @Id
