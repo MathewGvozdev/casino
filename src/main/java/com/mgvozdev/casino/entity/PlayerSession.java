@@ -16,8 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "player")
-@ToString(exclude = "player")
+@EqualsAndHashCode(exclude = {"player", "sessions"})
+@ToString(exclude = {"player", "sessions"})
 public class PlayerSession {
 
     @Id

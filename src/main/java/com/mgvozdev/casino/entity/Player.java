@@ -5,6 +5,8 @@ import com.mgvozdev.casino.entity.enums.PlayerStatus;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.uuid.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ import java.util.UUID;
 public class Player {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "UUID", strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
 
@@ -42,7 +45,8 @@ public class Player {
     @Column(name = "total_winnings")
     private BigDecimal totalWinnings;
 
-    @OneToOne(mappedBy = "player")
+    @OneToOne(mappedBy = "player",
+            cascade = CascadeType.ALL)
     private Profile profile;
 
     @OneToMany(mappedBy = "player")

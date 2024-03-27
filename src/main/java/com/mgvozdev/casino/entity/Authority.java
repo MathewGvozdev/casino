@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(exclude = "roleAuthorities")
+@ToString(exclude = "roleAuthorities")
 public class Authority {
 
     @Id

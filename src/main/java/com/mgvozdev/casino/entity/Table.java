@@ -61,4 +61,10 @@ public class Table {
     private Integer quarter0_25;
 
     //TODO MapKeyEnumerated -> private Map<Chip, Integer> rack = new HashMap<>();
+    /*
+    * Embeddable class ->   @Embeddable public class Rack
+    *            field ->   @Embedded
+    *
+    * maybe should use ->   @ElementCollection
+    */
 }

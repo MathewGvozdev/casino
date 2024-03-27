@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"table", "dealer", "openedBy", "closedBy"})
-@ToString(exclude = {"table", "dealer", "openedBy", "closedBy"})
+@EqualsAndHashCode(exclude = {"table", "dealer", "openedBy", "closedBy", "sessions"})
+@ToString(exclude = {"table", "dealer", "openedBy", "closedBy", "sessions"})
 public class TableSession {
 
     @Id
