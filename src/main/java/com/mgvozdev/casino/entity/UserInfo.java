@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user_info")
+@Table(name = "users_info")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -23,12 +23,6 @@ public class UserInfo {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
-
-    @OneToOne
-    @JoinColumn(name = "user_id",
-            unique = true,
-            nullable = false)
-    private User user;
 
     @Column(name = "first_name",
             nullable = false)
@@ -48,4 +42,9 @@ public class UserInfo {
     @Column(name = "salary")
     private BigDecimal salary;
 
+    @OneToOne
+    @JoinColumn(name = "user_id",
+            unique = true,
+            nullable = false)
+    private User user;
 }

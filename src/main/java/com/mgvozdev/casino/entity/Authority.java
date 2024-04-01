@@ -4,18 +4,16 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-@Table(name = "authorities")
+@Table(name = "authority")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "roleAuthorities")
-@ToString(exclude = "roleAuthorities")
+@EqualsAndHashCode(exclude = "roles")
+@ToString(exclude = "roles")
 public class Authority {
 
     @Id
@@ -28,6 +26,6 @@ public class Authority {
             nullable = false)
     private String permission;
 
-    @OneToMany(mappedBy = "authority")
-    private List<RoleAuthority> roleAuthorities = new ArrayList<>();
+    @ManyToMany(mappedBy = "authorities")
+    private Set<Role> roles = new HashSet<>();
 }

@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "players")
+@Table(name = "player")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "profile")
-@ToString(exclude = "profile")
+@EqualsAndHashCode(exclude = {"profile", "playerSessions", "rewards"})
+@ToString(exclude = {"profile", "playerSessions", "rewards"})
 public class Player {
 
     @Id

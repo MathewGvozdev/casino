@@ -4,18 +4,16 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "roleAuthorities")
-@ToString(exclude = "roleAuthorities")
+@EqualsAndHashCode(exclude = {"users", "authorities"})
+@ToString(exclude = {"users", "authorities"})
 public class Role {
 
     @Id
@@ -28,6 +26,12 @@ public class Role {
             nullable = false)
     private String title;
 
-    @OneToMany(mappedBy = "role")
-    private List<RoleAuthority> roleAuthorities = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "role_authority",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    private Set<Authority> authorities = new HashSet<>();
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
 }

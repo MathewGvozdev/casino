@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "profiles")
+@Table(name = "profile")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -22,12 +22,6 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
-
-    @OneToOne
-    @JoinColumn(name = "player_id",
-            unique = true,
-            nullable = false)
-    private Player player;
 
     @Column(name = "document_type",
             nullable = false)
@@ -71,4 +65,10 @@ public class Profile {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @OneToOne
+    @JoinColumn(name = "player_id",
+            unique = true,
+            nullable = false)
+    private Player player;
 }

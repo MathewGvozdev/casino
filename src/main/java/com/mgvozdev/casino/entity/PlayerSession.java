@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "player_sessions")
+@Table(name = "player_session")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,10 +24,6 @@ public class PlayerSession {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
-
-    @ManyToOne
-    @JoinColumn(name = "player_id")
-    private Player player;
 
     @Column(name = "opened_at",
             nullable = false)
@@ -45,6 +41,10 @@ public class PlayerSession {
 
     @Column(name = "avg_bet")
     private Integer avgBet;
+
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private Player player;
 
     @OneToMany(mappedBy = "playerSession")
     private List<Session> sessions = new ArrayList<>();

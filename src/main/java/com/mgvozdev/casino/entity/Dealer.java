@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "dealers")
+@Table(name = "dealer")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(exclude = "tableSessions")
+@ToString(exclude = "tableSessions")
 public class Dealer {
 
     @Id

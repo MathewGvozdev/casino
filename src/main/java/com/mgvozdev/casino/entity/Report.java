@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "reports")
+@Table(name = "report")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -23,22 +23,22 @@ public class Report {
     @Column(name = "id")
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "id",
-            nullable = false)
-    private User user;
-
-    @Column(name = "id",
+    @Column(name = "date",
             nullable = false)
     private LocalDate date;
 
-    @Column(name = "id",
+    @Column(name = "notes",
             nullable = false)
     private String notes;
 
-    @Column(name = "id")
+    @Column(name = "total_drop_in")
     private BigDecimal totalDropIn;
 
-    @Column(name = "id")
+    @Column(name = "total_winnings")
     private BigDecimal totalWinnings;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id",
+            nullable = false)
+    private User user;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@jakarta.persistence.Table(name = "table_sessions")
+@jakarta.persistence.Table(name = "tables_session")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -29,7 +29,7 @@ public class TableSession {
     private Table table;
 
     @ManyToOne
-    @Column(name = "dealer_id",
+    @JoinColumn(name = "dealer_id",
             nullable = false)
     private Dealer dealer;
 

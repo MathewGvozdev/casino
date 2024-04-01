@@ -22,10 +22,10 @@ public class Table {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "id")
+    @Column(name = "game")
     private Game game;
 
-    @Column(name = "id",
+    @Column(name = "number",
             unique = true,
             nullable = false)
     private Integer number;
@@ -59,6 +59,11 @@ public class Table {
 
     @Column(name = "quarter0_25")
     private Integer quarter0_25;
+
+//    @ElementCollection
+//    @MapKeyEnumerated(EnumType.STRING)
+//    @Embeddable
+//    private Map<Chip, BigDecimal> rack = new HashMap<>();
 
     //TODO MapKeyEnumerated -> private Map<Chip, Integer> rack = new HashMap<>();
     /*

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "rewards")
+@Table(name = "reward")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,16 +24,6 @@ public class Reward {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
-
-    @ManyToOne
-    @JoinColumn(name = "player_id",
-            nullable = false)
-    private Player player;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id",
-            nullable = false)
-    private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type",
@@ -55,4 +45,14 @@ public class Reward {
     @Column(name = "status",
             nullable = false)
     private RewardStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "player_id",
+            nullable = false)
+    private Player player;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id",
+            nullable = false)
+    private User user;
 }

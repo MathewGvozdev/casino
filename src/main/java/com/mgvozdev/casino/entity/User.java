@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -14,8 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"userInfo", "role"})
-@ToString(exclude = {"userInfo", "role"})
+@EqualsAndHashCode(exclude = {"userInfo", "roles", "givenRewards", "reports"})
+@ToString(exclude = {"userInfo", "roles", "givenRewards", "reports"})
 public class User {
 
     @Id
@@ -32,9 +30,11 @@ public class User {
             nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @OneToOne(mappedBy = "user",
             cascade = CascadeType.ALL)
@@ -45,10 +45,4 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Report> reports = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "openedBy")
-//    private List<TableSession> openedTableSessions = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "closedBy")
-//    private List<TableSession> closedTableSessions = new ArrayList<>();
 }
