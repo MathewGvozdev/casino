@@ -49,13 +49,13 @@ VALUES (gen_random_uuid(),
         (SELECT id FROM role WHERE title = 'ADMIN'),
         (SELECT id FROM authority WHERE permission = 'UPDATE_ROLE'));
 
-INSERT INTO users(id, username, password, role_id)
-VALUES (gen_random_uuid(), 'alamazza', 'sv1234', (SELECT id FROM role WHERE title = 'SUPERVISOR')),
-       (gen_random_uuid(), 'rgreen', 'sv1111', (SELECT id FROM role WHERE title = 'SUPERVISOR')),
-       (gen_random_uuid(), 'abecker', 'pb1234', (SELECT id FROM role WHERE title = 'PIT_BOSS')),
-       (gen_random_uuid(), 'samtally', 'sm1234', (SELECT id FROM role WHERE title = 'SHIFT_MANAGER')),
-       (gen_random_uuid(), 'nick', 'ho3333', (SELECT id FROM role WHERE title = 'HOST')),
-       (gen_random_uuid(), 'admin', 'admin', (SELECT id FROM role WHERE title = 'ADMIN'));
+INSERT INTO users(id, username, password)
+VALUES (gen_random_uuid(), 'alamazza', 'sv1234'),
+       (gen_random_uuid(), 'rgreen', 'sv1111'),
+       (gen_random_uuid(), 'abecker', 'pb1234'),
+       (gen_random_uuid(), 'samtally', 'sm1234'),
+       (gen_random_uuid(), 'nick', 'ho3333'),
+       (gen_random_uuid(), 'admin', 'admin');
 
 INSERT INTO users_info(id, user_id, first_name, last_name, shift, hired_on, salary)
 VALUES (gen_random_uuid(), (SELECT id FROM users WHERE username = 'alamazza'), 'Anton', 'Lamazza', 'SWING',
@@ -163,7 +163,7 @@ VALUES (gen_random_uuid(),
         (SELECT id FROM player WHERE total_deposit = 12000),
         '2024-03-30 16:00:00', 800, null, null),
        (gen_random_uuid(),
-        (SELECT id FROM player WHERE total_deposit = 600),
+        (SELECT id FROM player WHERE total_deposit = 1200),
         '2024-03-30 16:30:00', 100, null, null);
 
 INSERT INTO tables_session(id,

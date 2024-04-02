@@ -33,5 +33,5 @@ public class Table {
     private Integer number;
 
     @OneToMany(mappedBy = "table")
-    private Set<ChipSet> chips = new HashSet<>();
+    private Set<TableChipSet> chips = new HashSet<>();
 }

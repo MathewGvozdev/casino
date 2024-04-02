@@ -21,8 +21,7 @@ CREATE TABLE users
 (
     id       UUID PRIMARY KEY,
     username VARCHAR(32) UNIQUE NOT NULL,
-    password VARCHAR(64)        NOT NULL,
-    role_id  UUID REFERENCES role (id)
+    password VARCHAR(64)        NOT NULL
 );
 
 CREATE TABLE users_role
@@ -71,12 +70,12 @@ CREATE TABLE profile
 
 CREATE TABLE player_session
 (
-    id         UUID PRIMARY KEY,
-    player_id  UUID REFERENCES player (id),
-    opened_at  TIMESTAMP NOT NULL,
-    buy_in     NUMERIC   NOT NULL,
-    closed_at  TIMESTAMP,
-    avg_bet    INT
+    id        UUID PRIMARY KEY,
+    player_id UUID REFERENCES player (id) NOT NULL ,
+    opened_at TIMESTAMP NOT NULL,
+    buy_in    NUMERIC   NOT NULL,
+    closed_at TIMESTAMP,
+    avg_bet   INT
 );
 
 CREATE TABLE dealer
@@ -89,15 +88,15 @@ CREATE TABLE dealer
 
 CREATE TABLE tables
 (
-    id          UUID PRIMARY KEY,
-    game        VARCHAR(32),
-    number      INT UNIQUE NOT NULL
+    id     UUID PRIMARY KEY,
+    game   VARCHAR(32),
+    number INT UNIQUE NOT NULL
 );
 
 CREATE TABLE tables_session
 (
     id        UUID PRIMARY KEY,
-    table_id  UUID REFERENCES tables (id)  NOT NULL,
+    table_id  UUID REFERENCES tables (id) NOT NULL,
     dealer_id UUID REFERENCES dealer (id) NOT NULL,
     min_bet   INT                         NOT NULL,
     max_bet   INT                         NOT NULL,
@@ -111,14 +110,14 @@ CREATE TABLE session
 (
     id                UUID PRIMARY KEY,
     player_session_id UUID REFERENCES player_session (id) NOT NULL,
-    table_session_id  UUID REFERENCES tables_session (id)  NOT NULL,
+    table_session_id  UUID REFERENCES tables_session (id) NOT NULL,
     started_at        TIMESTAMP                           NOT NULL
 );
 
 CREATE TABLE table_chip_set
 (
     id       UUID PRIMARY KEY,
-    chip     VARCHAR(16) NOT NULL ,
+    chip     VARCHAR(16) NOT NULL,
     amount   INT,
     total    NUMERIC,
     table_id UUID REFERENCES tables (id)
@@ -126,11 +125,11 @@ CREATE TABLE table_chip_set
 
 CREATE TABLE player_session_chip_set
 (
-    id       UUID PRIMARY KEY,
-    chip     VARCHAR(16) NOT NULL ,
-    amount   INT,
-    total    NUMERIC,
-    player_session_id UUID REFERENCES player_session(id)
+    id                UUID PRIMARY KEY,
+    chip              VARCHAR(16) NOT NULL,
+    amount            INT,
+    total             NUMERIC,
+    player_session_id UUID REFERENCES player_session (id)
 );
 
 CREATE TABLE reward

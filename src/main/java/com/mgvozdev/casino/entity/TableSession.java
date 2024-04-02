@@ -54,7 +54,7 @@ public class TableSession {
     private LocalDateTime closedAt;
 
     @ManyToOne
-    @Column(name = "closed_by")
+    @JoinColumn(name = "closed_by")
     private User closedBy;
 
     @OneToMany(mappedBy = "tableSession")

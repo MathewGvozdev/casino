@@ -45,5 +45,5 @@ public class PlayerSession {
     private List<Session> sessions = new ArrayList<>();
 
     @OneToMany(mappedBy = "playerSession")
-    private Set<ChipSet> chips = new HashSet<>();
+    private Set<PlayerSessionChipSet> chips = new HashSet<>();
 }
