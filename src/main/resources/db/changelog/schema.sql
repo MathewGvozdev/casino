@@ -115,13 +115,21 @@ CREATE TABLE session
     started_at        TIMESTAMP                           NOT NULL
 );
 
-CREATE TABLE chip_set
+CREATE TABLE table_chip_set
 (
     id       UUID PRIMARY KEY,
     chip     VARCHAR(16) NOT NULL ,
     amount   INT,
     total    NUMERIC,
-    table_id UUID REFERENCES tables (id),
+    table_id UUID REFERENCES tables (id)
+);
+
+CREATE TABLE player_session_chip_set
+(
+    id       UUID PRIMARY KEY,
+    chip     VARCHAR(16) NOT NULL ,
+    amount   INT,
+    total    NUMERIC,
     player_session_id UUID REFERENCES player_session(id)
 );
 

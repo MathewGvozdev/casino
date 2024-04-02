@@ -7,14 +7,11 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
-@jakarta.persistence.Table(name = "chip_set")
+@MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"table", "playerSession"})
-@ToString(exclude = {"table", "playerSession"})
 public class ChipSet {
 
     @Id
@@ -32,10 +29,4 @@ public class ChipSet {
 
     @Column(name = "total")
     private BigDecimal total;
-
-    @ManyToOne
-    private Table table;
-
-    @ManyToOne
-    private PlayerSession playerSession;
 }

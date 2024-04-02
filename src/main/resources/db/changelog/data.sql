@@ -229,20 +229,22 @@ VALUES (gen_random_uuid(),
         (SELECT id FROM users WHERE username = 'nick'),
         'FREE_MEAL', '2024-03-29 15:30:00', '2024-04-07', '2024-03-29 18:00:00', 'REDEEMED');
 
-INSERT INTO chip_set(id, chip, amount, total, table_id, player_session_id)
+INSERT INTO table_chip_set(id, chip, amount, total, table_id)
 VALUES (gen_random_uuid(),
-        'BLACK', 40, 4000, (SELECT id FROM tables WHERE number = 901), null),
+        'BLACK', 40, 4000, (SELECT id FROM tables WHERE number = 901)),
        (gen_random_uuid(),
-        'GREEN', 80, 2000, (SELECT id FROM tables WHERE number = 901), null),
+        'GREEN', 80, 2000, (SELECT id FROM tables WHERE number = 901)),
        (gen_random_uuid(),
-        'RED', 100, 500, (SELECT id FROM tables WHERE number = 901), null),
+        'RED', 100, 500, (SELECT id FROM tables WHERE number = 901)),
        (gen_random_uuid(),
-        'PINK', 40, 100, (SELECT id FROM tables WHERE number = 901), null),
+        'PINK', 40, 100, (SELECT id FROM tables WHERE number = 901)),
        (gen_random_uuid(),
-        'WHITE', 60, 60, (SELECT id FROM tables WHERE number = 901), null),
+        'WHITE', 60, 60, (SELECT id FROM tables WHERE number = 901));
+
+INSERT INTO player_session_chip_set(id, chip, amount, total, player_session_id)
+VALUES (gen_random_uuid(),
+        'BLACK', 2, 200, (SELECT id FROM player_session WHERE opened_at = '2024-03-30 16:00:00')),
        (gen_random_uuid(),
-        'BLACK', 2, 200, null, (SELECT id FROM player_session WHERE opened_at = '2024-03-30 16:00:00')),
+        'GREEN', 40, 1000, (SELECT id FROM player_session WHERE opened_at = '2024-03-30 16:00:00')),
        (gen_random_uuid(),
-        'GREEN', 40, 1000, null, (SELECT id FROM player_session WHERE opened_at = '2024-03-30 16:00:00')),
-       (gen_random_uuid(),
-        'RED', 25, 125, null, (SELECT id FROM player_session WHERE opened_at = '2024-03-30 16:30:00'));
+        'RED', 25, 125, (SELECT id FROM player_session WHERE opened_at = '2024-03-30 16:30:00'));
