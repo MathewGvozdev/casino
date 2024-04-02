@@ -76,7 +76,6 @@ CREATE TABLE player_session
     opened_at  TIMESTAMP NOT NULL,
     buy_in     NUMERIC   NOT NULL,
     closed_at  TIMESTAMP,
-    cashed_out NUMERIC,
     avg_bet    INT
 );
 
@@ -88,27 +87,17 @@ CREATE TABLE dealer
     status     VARCHAR(16) NOT NULL
 );
 
-CREATE TABLE table
+CREATE TABLE tables
 (
     id          UUID PRIMARY KEY,
     game        VARCHAR(32),
-    number      INT UNIQUE NOT NULL,
-    grey5000    INT,
-    orange1000  INT,
-    purple500   INT,
-    black100    INT,
-    green25     INT,
-    yellow20    INT,
-    red5        INT,
-    pink2_50    NUMERIC,
-    white1      INT,
-    quarter0_25 NUMERIC
+    number      INT UNIQUE NOT NULL
 );
 
-CREATE TABLE table_session
+CREATE TABLE tables_session
 (
     id        UUID PRIMARY KEY,
-    table_id  UUID REFERENCES table (id)  NOT NULL,
+    table_id  UUID REFERENCES tables (id)  NOT NULL,
     dealer_id UUID REFERENCES dealer (id) NOT NULL,
     min_bet   INT                         NOT NULL,
     max_bet   INT                         NOT NULL,
@@ -122,8 +111,18 @@ CREATE TABLE session
 (
     id                UUID PRIMARY KEY,
     player_session_id UUID REFERENCES player_session (id) NOT NULL,
-    table_session_id  UUID REFERENCES table_session (id)  NOT NULL,
+    table_session_id  UUID REFERENCES tables_session (id)  NOT NULL,
     started_at        TIMESTAMP                           NOT NULL
+);
+
+CREATE TABLE chip_set
+(
+    id       UUID PRIMARY KEY,
+    chip     VARCHAR(16) NOT NULL ,
+    amount   INT,
+    total    NUMERIC,
+    table_id UUID REFERENCES tables (id),
+    player_session_id UUID REFERENCES player_session(id)
 );
 
 CREATE TABLE reward

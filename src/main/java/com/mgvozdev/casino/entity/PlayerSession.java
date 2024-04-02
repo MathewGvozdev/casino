@@ -6,9 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "player_session")
@@ -36,9 +34,6 @@ public class PlayerSession {
     @Column(name = "closed_at")
     private LocalDateTime closedAt;
 
-    @Column(name = "cashed_out")
-    private BigDecimal cashedOut;
-
     @Column(name = "avg_bet")
     private Integer avgBet;
 
@@ -48,4 +43,7 @@ public class PlayerSession {
 
     @OneToMany(mappedBy = "playerSession")
     private List<Session> sessions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "playerSession")
+    private Set<ChipSet> chips = new HashSet<>();
 }
