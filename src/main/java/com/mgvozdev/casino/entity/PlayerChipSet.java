@@ -6,15 +6,15 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
-@Table(name = "player_session_chip_set")
+@Table(name = "player_chip_set")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "playerSession")
-@ToString(exclude = "playerSession")
-public class PlayerSessionChipSet extends ChipSet {
+@EqualsAndHashCode(exclude = "player", callSuper = false)
+@ToString(exclude = "player")
+public class PlayerChipSet extends ChipSet {
 
     @ManyToOne
-    private PlayerSession playerSession;
+    private Player player;
 }

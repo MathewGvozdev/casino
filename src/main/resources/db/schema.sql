@@ -42,40 +42,34 @@ CREATE TABLE users_info
     salary     NUMERIC
 );
 
-CREATE TABLE player
+CREATE TABLE profile
 (
     id              UUID PRIMARY KEY,
-    membership_type VARCHAR(8)  NOT NULL,
-    status          VARCHAR(16) NOT NULL,
+    document_type   VARCHAR(16)         NOT NULL,
+    country         CHAR(3)             NOT NULL,
+    document_number VARCHAR(32)         NOT NULL,
+    first_name      VARCHAR(32)         NOT NULL,
+    last_name       VARCHAR(32)         NOT NULL,
+    date_of_birth   DATE                NOT NULL,
+    issue_date      DATE                NOT NULL,
+    expiration_date DATE                NOT NULL,
+    address         VARCHAR(64),
+    document_image  VARCHAR(128) UNIQUE NOT NULL,
+    phone_number    VARCHAR(16),
+    membership_type VARCHAR(8)          NOT NULL,
+    status          VARCHAR(16)         NOT NULL,
     total_deposit   NUMERIC,
     total_winnings  NUMERIC
 );
 
-CREATE TABLE profile
+CREATE TABLE player
 (
-    id              UUID PRIMARY KEY,
-    player_id       UUID REFERENCES player (id) UNIQUE NOT NULL,
-    document_type   VARCHAR(16)                        NOT NULL,
-    country         CHAR(3)                            NOT NULL,
-    document_number VARCHAR(32)                        NOT NULL,
-    first_name      VARCHAR(32)                        NOT NULL,
-    last_name       VARCHAR(32)                        NOT NULL,
-    date_of_birth   DATE                               NOT NULL,
-    issue_date      DATE                               NOT NULL,
-    expiration_date DATE                               NOT NULL,
-    address         VARCHAR(64),
-    document_image  VARCHAR(128) UNIQUE                NOT NULL,
-    phone_number    VARCHAR(16)
-);
-
-CREATE TABLE player_session
-(
-    id        UUID PRIMARY KEY,
-    player_id UUID REFERENCES player (id) NOT NULL ,
-    opened_at TIMESTAMP NOT NULL,
-    buy_in    NUMERIC   NOT NULL,
-    closed_at TIMESTAMP,
-    avg_bet   INT
+    id         UUID PRIMARY KEY,
+    profile_id UUID REFERENCES profile (id) NOT NULL,
+    opened_at  TIMESTAMP                    NOT NULL,
+    buy_in     NUMERIC                      NOT NULL,
+    closed_at  TIMESTAMP,
+    avg_bet    INT
 );
 
 CREATE TABLE dealer
@@ -106,12 +100,12 @@ CREATE TABLE tables_session
     closed_by UUID REFERENCES users (id)
 );
 
-CREATE TABLE session
+CREATE TABLE player_tables_session
 (
-    id                UUID PRIMARY KEY,
-    player_session_id UUID REFERENCES player_session (id) NOT NULL,
-    table_session_id  UUID REFERENCES tables_session (id) NOT NULL,
-    started_at        TIMESTAMP                           NOT NULL
+    id               UUID PRIMARY KEY,
+    player_id        UUID REFERENCES player (id)         NOT NULL,
+    table_session_id UUID REFERENCES tables_session (id) NOT NULL,
+    started_at       TIMESTAMP                           NOT NULL
 );
 
 CREATE TABLE table_chip_set
@@ -123,25 +117,25 @@ CREATE TABLE table_chip_set
     table_id UUID REFERENCES tables (id)
 );
 
-CREATE TABLE player_session_chip_set
+CREATE TABLE player_chip_set
 (
-    id                UUID PRIMARY KEY,
-    chip              VARCHAR(16) NOT NULL,
-    amount            INT,
-    total             NUMERIC,
-    player_session_id UUID REFERENCES player_session (id)
+    id        UUID PRIMARY KEY,
+    chip      VARCHAR(16) NOT NULL,
+    amount    INT,
+    total     NUMERIC,
+    player_id UUID REFERENCES player (id)
 );
 
 CREATE TABLE reward
 (
     id          UUID PRIMARY KEY,
-    player_id   UUID REFERENCES player (id) NOT NULL,
-    user_id     UUID REFERENCES users (id)  NOT NULL,
-    type        VARCHAR(32)                 NOT NULL,
-    given_at    TIMESTAMP                   NOT NULL,
-    expires_at  DATE                        NOT NULL,
+    profile_id  UUID REFERENCES profile (id) NOT NULL,
+    user_id     UUID REFERENCES users (id)   NOT NULL,
+    type        VARCHAR(32)                  NOT NULL,
+    given_at    TIMESTAMP                    NOT NULL,
+    expires_at  DATE                         NOT NULL,
     redeemed_at TIMESTAMP,
-    status      VARCHAR(16)                 NOT NULL
+    status      VARCHAR(16)                  NOT NULL
 );
 
 CREATE TABLE report

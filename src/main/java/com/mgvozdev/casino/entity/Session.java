@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "session")
+@Table(name = "player_tables_session")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -23,9 +23,9 @@ public class Session {
     private UUID id;
 
     @ManyToOne
-    @Column(name = "player_session_id",
+    @Column(name = "player_id",
             nullable = false)
-    private PlayerSession playerSession;
+    private Player player;
 
     @ManyToOne
     @Column(name = "table_session_id",
@@ -36,9 +36,9 @@ public class Session {
             nullable = false)
     private LocalDateTime startedAt;
 
-    public void setPlayerSession(PlayerSession playerSession) {
-        this.playerSession = playerSession;
-        this.playerSession.getSessions().add(this);
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.player.getSessions().add(this);
     }
 
     public void setTableSession(TableSession tableSession) {

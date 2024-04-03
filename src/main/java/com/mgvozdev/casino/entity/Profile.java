@@ -1,11 +1,16 @@
 package com.mgvozdev.casino.entity;
 
 import com.mgvozdev.casino.entity.enums.DocumentType;
+import com.mgvozdev.casino.entity.enums.MembershipType;
+import com.mgvozdev.casino.entity.enums.PlayerStatus;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,8 +19,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "player")
-@ToString(exclude = "player")
+@EqualsAndHashCode(exclude = {"playerSessions", "rewards"})
+@ToString(exclude = {"playerSessions", "rewards"})
 public class Profile {
 
     @Id
@@ -66,9 +71,25 @@ public class Profile {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "player_id",
-            unique = true,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "membership_type",
             nullable = false)
-    private Player player;
+    private MembershipType membershipType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",
+            nullable = false)
+    private PlayerStatus status;
+
+    @Column(name = "total_deposit")
+    private BigDecimal totalDeposit;
+
+    @Column(name = "total_winnings")
+    private BigDecimal totalWinnings;
+
+    @OneToMany(mappedBy = "profile")
+    private List<Player> playerSessions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "profile")
+    private List<Reward> rewards = new ArrayList<>();
 }

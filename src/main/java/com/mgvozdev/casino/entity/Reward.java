@@ -16,8 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"player", "user"})
-@ToString(exclude = {"player", "user"})
+@EqualsAndHashCode(exclude = {"profile", "user"})
+@ToString(exclude = {"profile", "user"})
 public class Reward {
 
     @Id
@@ -47,9 +47,9 @@ public class Reward {
     private RewardStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "player_id",
+    @JoinColumn(name = "profile_id",
             nullable = false)
-    private Player player;
+    private Profile profile;
 
     @ManyToOne
     @JoinColumn(name = "user_id",
