@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode(of = {"id", "startedAt"})
 @ToString(of = {"id", "startedAt"})
-public class Session {
+public class PlayerTableSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,11 +38,11 @@ public class Session {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.player.getSessions().add(this);
+        this.player.getPlayerTableSessions().add(this);
     }
 
     public void setTableSession(TableSession tableSession) {
         this.tableSession = tableSession;
-        this.tableSession.getSessions().add(this);
+        this.tableSession.getPlayerTableSessions().add(this);
     }
 }

@@ -12,6 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class ChipSet {
 
     @Id

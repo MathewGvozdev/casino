@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(exclude = "chips")
+@ToString(exclude = "chips")
 public class Table {
 
     @Id

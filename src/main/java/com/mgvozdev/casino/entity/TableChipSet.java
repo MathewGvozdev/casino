@@ -10,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "table")
-@ToString(exclude = "table")
+@EqualsAndHashCode(exclude = "table", callSuper = true)
+@ToString(exclude = "table", callSuper = true)
 public class TableChipSet extends ChipSet {
 
     @ManyToOne

@@ -12,8 +12,8 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"userInfo", "roles", "givenRewards", "reports"})
-@ToString(exclude = {"userInfo", "roles", "givenRewards", "reports"})
+@EqualsAndHashCode(of = {"id", "username", "password"})
+@ToString(of = {"id", "username", "password"})
 public class User {
 
     @Id

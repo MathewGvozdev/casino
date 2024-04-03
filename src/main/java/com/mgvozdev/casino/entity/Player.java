@@ -16,8 +16,8 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"profile", "sessions", "chips"})
-@ToString(exclude = {"profile", "sessions", "chips"})
+@EqualsAndHashCode(exclude = {"profile", "playerTableSessions", "chips"})
+@ToString(exclude = {"profile", "playerTableSessions", "chips"})
 public class Player {
 
     @Id
@@ -41,11 +41,12 @@ public class Player {
     private Integer avgBet;
 
     @ManyToOne
-    @JoinColumn(name = "profile_id")
+    @JoinColumn(name = "profile_id",
+            nullable = false)
     private Profile profile;
 
     @OneToMany(mappedBy = "player")
-    private List<Session> sessions = new ArrayList<>();
+    private List<PlayerTableSession> playerTableSessions = new ArrayList<>();
 
     @OneToMany(mappedBy = "player")
     private Set<PlayerChipSet> chips = new HashSet<>();

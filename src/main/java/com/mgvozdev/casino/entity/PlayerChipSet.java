@@ -11,8 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "player", callSuper = false)
-@ToString(exclude = "player")
+@EqualsAndHashCode(exclude = "player", callSuper = true)
+@ToString(exclude = "player", callSuper = true)
 public class PlayerChipSet extends ChipSet {
 
     @ManyToOne

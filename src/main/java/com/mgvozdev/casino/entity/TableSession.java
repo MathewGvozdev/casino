@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"table", "dealer", "openedBy", "closedBy", "sessions"})
-@ToString(exclude = {"table", "dealer", "openedBy", "closedBy", "sessions"})
+@EqualsAndHashCode(of = {"id", "minBet", "maxBet", "openedAt", "closedAt"})
+@ToString(of = {"id", "minBet", "maxBet", "openedAt", "closedAt"})
 public class TableSession {
 
     @Id
@@ -58,5 +58,5 @@ public class TableSession {
     private User closedBy;
 
     @OneToMany(mappedBy = "tableSession")
-    private List<Session> sessions = new ArrayList<>();
+    private List<PlayerTableSession> playerTableSessions = new ArrayList<>();
 }
