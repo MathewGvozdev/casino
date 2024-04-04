@@ -5,6 +5,8 @@ import com.mgvozdev.casino.entity.enums.RewardType;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.uuid.UuidGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +24,7 @@ public class Reward {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
 

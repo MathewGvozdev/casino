@@ -1,6 +1,7 @@
 package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -16,5 +17,6 @@ import lombok.*;
 public class PlayerChipSet extends ChipSet {
 
     @ManyToOne
+    @JoinColumn(name = "player_id")
     private Player player;
 }

@@ -3,6 +3,8 @@ package com.mgvozdev.casino.entity;
 import com.mgvozdev.casino.entity.enums.Chip;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.uuid.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -18,6 +20,7 @@ public class ChipSet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
 

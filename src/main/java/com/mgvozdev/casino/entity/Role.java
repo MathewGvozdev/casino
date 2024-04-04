@@ -3,6 +3,8 @@ package com.mgvozdev.casino.entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.uuid.UuidGenerator;
 
 import java.util.*;
 
@@ -18,6 +20,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
 

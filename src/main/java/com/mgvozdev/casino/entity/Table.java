@@ -3,6 +3,8 @@ package com.mgvozdev.casino.entity;
 import com.mgvozdev.casino.entity.enums.Game;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.uuid.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +22,7 @@ public class Table {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
 

@@ -3,6 +3,8 @@ package com.mgvozdev.casino.entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.id.uuid.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,16 +21,17 @@ public class PlayerTableSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
 
     @ManyToOne
-    @Column(name = "player_id",
+    @JoinColumn(name = "player_id",
             nullable = false)
     private Player player;
 
     @ManyToOne
-    @Column(name = "table_session_id",
+    @JoinColumn(name = "table_session_id",
             nullable = false)
     private TableSession tableSession;
 
