@@ -1,10 +1,10 @@
 package com.mgvozdev.casino.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "player_chip_set")
@@ -12,9 +12,14 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "player", callSuper = true)
-@ToString(exclude = "player", callSuper = true)
+@EqualsAndHashCode(of = "id", callSuper = true)
+@ToString(of = "id", callSuper = true)
 public class PlayerChipSet extends ChipSet {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "player_id")

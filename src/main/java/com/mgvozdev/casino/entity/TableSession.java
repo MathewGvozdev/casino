@@ -2,8 +2,6 @@ package com.mgvozdev.casino.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.uuid.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,19 +20,8 @@ public class TableSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
-
-    @ManyToOne
-    @JoinColumn(name = "table_id",
-            nullable = false)
-    private Table table;
-
-    @ManyToOne
-    @JoinColumn(name = "dealer_id",
-            nullable = false)
-    private Dealer dealer;
 
     @Column(name = "min_bet",
             nullable = false)
@@ -48,18 +35,28 @@ public class TableSession {
             nullable = false)
     private LocalDateTime openedAt;
 
+    @Column(name = "closed_at")
+    private LocalDateTime closedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "table_id",
+            nullable = false)
+    private Table table;
+
+    @ManyToOne
+    @JoinColumn(name = "dealer_id",
+            nullable = false)
+    private Dealer dealer;
+
     @ManyToOne
     @JoinColumn(name = "opened_by",
             nullable = false)
     private User openedBy;
 
-    @Column(name = "closed_at")
-    private LocalDateTime closedAt;
-
     @ManyToOne
     @JoinColumn(name = "closed_by")
     private User closedBy;
 
-    @OneToMany(mappedBy = "tableSession")
-    private List<PlayerTableSession> playerTableSessions = new ArrayList<>();
+    @ManyToMany(mappedBy = "tableSessions")
+    private List<Player> players = new ArrayList<>();
 }

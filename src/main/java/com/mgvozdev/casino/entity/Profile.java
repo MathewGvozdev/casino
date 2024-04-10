@@ -1,13 +1,12 @@
 package com.mgvozdev.casino.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mgvozdev.casino.entity.enums.DocumentType;
 import com.mgvozdev.casino.entity.enums.MembershipType;
 import com.mgvozdev.casino.entity.enums.PlayerStatus;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.uuid.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,10 +26,10 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
     @Column(name = "id")
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "document_type",
             nullable = false)
     private DocumentType documentType;
@@ -90,9 +89,11 @@ public class Profile {
     @Column(name = "total_winnings")
     private BigDecimal totalWinnings;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "profile")
     private List<Player> playerSessions = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "profile")
     private List<Reward> rewards = new ArrayList<>();
 }

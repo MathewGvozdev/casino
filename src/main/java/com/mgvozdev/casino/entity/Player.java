@@ -1,10 +1,9 @@
 package com.mgvozdev.casino.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.uuid.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,13 +15,12 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"profile", "playerTableSessions", "chips"})
-@ToString(exclude = {"profile", "playerTableSessions", "chips"})
+@EqualsAndHashCode(exclude = {"profile", "tableSessions", "chips"})
+@ToString(exclude = {"profile", "tableSessions", "chips"})
 public class Player {
 
     @Id
-    @GeneratedValue(generator = "UUID", strategy = GenerationType.UUID)
-    @GenericGenerator(name = "UUID", type = UuidGenerator.class)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
@@ -45,9 +43,14 @@ public class Player {
             nullable = false)
     private Profile profile;
 
-    @OneToMany(mappedBy = "player")
-    private List<PlayerTableSession> playerTableSessions = new ArrayList<>();
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "player_tables_session",
+            joinColumns = @JoinColumn(name = "player_id"),
+            inverseJoinColumns = @JoinColumn(name = "table_session_id"))
+    private List<TableSession> tableSessions = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "player")
     private Set<PlayerChipSet> chips = new HashSet<>();
 }
