@@ -59,7 +59,7 @@ VALUES (gen_random_uuid(), 'alamazza', 'sv1234'),
        (gen_random_uuid(), 'nick', 'ho3333'),
        (gen_random_uuid(), 'admin', 'admin');
 
-INSERT INTO users_info(id, user_id,
+INSERT INTO user_info(id, user_id,
                        first_name, last_name, shift, hired_on, salary)
 VALUES (gen_random_uuid(), (SELECT id FROM users WHERE username = 'alamazza'),
         'Anton', 'Lamazza', 'SWING', '2010-10-24', 33),
@@ -74,7 +74,7 @@ VALUES (gen_random_uuid(), (SELECT id FROM users WHERE username = 'alamazza'),
        (gen_random_uuid(), (SELECT id FROM users WHERE username = 'admin'),
         'Andrew', 'Johnson', 'DAY', '2013-11-20', 36);
 
-INSERT INTO users_role(id,
+INSERT INTO user_role(id,
                        user_id,
                        role_id)
 VALUES (gen_random_uuid(),
@@ -160,7 +160,7 @@ VALUES (gen_random_uuid(), (SELECT id FROM profile WHERE total_deposit = 12000),
        (gen_random_uuid(), (SELECT id FROM profile WHERE total_deposit = 1200),
         '2024-03-30 16:30:00', 100, null, null);
 
-INSERT INTO tables_session(id,
+INSERT INTO table_session(id,
                            table_id, dealer_id,
                            min_bet, max_bet,
                            opened_at, opened_by,
@@ -181,29 +181,29 @@ VALUES (gen_random_uuid(),
         '2024-03-30 12:00:00', (SELECT id FROM users WHERE username = 'rgreen'),
         null, null);
 
-INSERT INTO player_tables_session(id,
+INSERT INTO player_table_session(id,
                                   player_id,
                                   table_session_id,
                                   started_at)
 VALUES (gen_random_uuid(),
         (SELECT id FROM player WHERE opened_at = '2024-03-29 11:30:00'),
-        (SELECT id FROM tables_session WHERE opened_at = '2024-03-29 10:00:00'),
+        (SELECT id FROM table_session WHERE opened_at = '2024-03-29 10:00:00'),
         '2024-03-29 11:30:00'),
        (gen_random_uuid(),
         (SELECT id FROM player WHERE opened_at = '2024-03-29 19:25:00'),
-        (SELECT id FROM tables_session WHERE opened_at = '2024-03-29 10:00:00'),
+        (SELECT id FROM table_session WHERE opened_at = '2024-03-29 10:00:00'),
         '2024-03-29 19:25:00'),
        (gen_random_uuid(),
         (SELECT id FROM player WHERE opened_at = '2024-03-29 19:25:00'),
-        (SELECT id FROM tables_session WHERE opened_at = '2024-03-29 18:00:00'),
+        (SELECT id FROM table_session WHERE opened_at = '2024-03-29 18:00:00'),
         '2024-03-29 21:30:00'),
        (gen_random_uuid(),
         (SELECT id FROM player WHERE opened_at = '2024-03-30 16:00:00'),
-        (SELECT id FROM tables_session WHERE opened_at = '2024-03-30 12:00:00'),
+        (SELECT id FROM table_session WHERE opened_at = '2024-03-30 12:00:00'),
         '2024-03-29 16:00:00'),
        (gen_random_uuid(),
         (SELECT id FROM player WHERE opened_at = '2024-03-30 16:30:00'),
-        (SELECT id FROM tables_session WHERE opened_at = '2024-03-30 12:00:00'),
+        (SELECT id FROM table_session WHERE opened_at = '2024-03-30 12:00:00'),
         '2024-03-29 16:30:00');
 
 INSERT INTO report(id, user_id,

@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS authority CASCADE;
 DROP TABLE IF EXISTS dealer CASCADE;
 DROP TABLE IF EXISTS player CASCADE;
 DROP TABLE IF EXISTS player_chip_set CASCADE;
-DROP TABLE IF EXISTS player_tables_session CASCADE;
+DROP TABLE IF EXISTS player_table_session CASCADE;
 DROP TABLE IF EXISTS profile CASCADE;
 DROP TABLE IF EXISTS report CASCADE;
 DROP TABLE IF EXISTS reward CASCADE;
@@ -10,10 +10,10 @@ DROP TABLE IF EXISTS role CASCADE;
 DROP TABLE IF EXISTS role_authority CASCADE;
 DROP TABLE IF EXISTS table_chip_set CASCADE;
 DROP TABLE IF EXISTS tables CASCADE;
-DROP TABLE IF EXISTS tables_session CASCADE;
+DROP TABLE IF EXISTS table_session CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS users_info CASCADE;
-DROP TABLE IF EXISTS users_role CASCADE;
+DROP TABLE IF EXISTS user_info CASCADE;
+DROP TABLE IF EXISTS user_role CASCADE;
 
 CREATE TABLE role
 (
@@ -41,14 +41,14 @@ CREATE TABLE users
     password VARCHAR(64)        NOT NULL
 );
 
-CREATE TABLE users_role
+CREATE TABLE user_role
 (
     id      UUID PRIMARY KEY,
     user_id UUID REFERENCES users (id),
     role_id UUID REFERENCES role (id)
 );
 
-CREATE TABLE users_info
+CREATE TABLE user_info
 (
     id         UUID PRIMARY KEY,
     user_id    UUID REFERENCES users (id) UNIQUE NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE tables
     number INT UNIQUE NOT NULL
 );
 
-CREATE TABLE tables_session
+CREATE TABLE table_session
 (
     id        UUID PRIMARY KEY,
     table_id  UUID REFERENCES tables (id) NOT NULL,
@@ -117,11 +117,11 @@ CREATE TABLE tables_session
     closed_by UUID REFERENCES users (id)
 );
 
-CREATE TABLE player_tables_session
+CREATE TABLE player_table_session
 (
     id               UUID PRIMARY KEY,
     player_id        UUID REFERENCES player (id)         NOT NULL,
-    table_session_id UUID REFERENCES tables_session (id) NOT NULL,
+    table_session_id UUID REFERENCES table_session (id) NOT NULL,
     started_at       TIMESTAMP                           NOT NULL
 );
 

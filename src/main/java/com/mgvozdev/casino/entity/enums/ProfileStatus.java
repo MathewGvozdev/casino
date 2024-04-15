@@ -1,6 +1,6 @@
 package com.mgvozdev.casino.entity.enums;
 
-public enum PlayerStatus {
+public enum ProfileStatus {
 
     PERMITTED,
     EXCLUDED,

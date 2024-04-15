@@ -3,7 +3,7 @@ package com.mgvozdev.casino.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mgvozdev.casino.entity.enums.DocumentType;
 import com.mgvozdev.casino.entity.enums.MembershipType;
-import com.mgvozdev.casino.entity.enums.PlayerStatus;
+import com.mgvozdev.casino.entity.enums.ProfileStatus;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -81,7 +81,7 @@ public class Profile {
     @Enumerated(EnumType.STRING)
     @Column(name = "status",
             nullable = false)
-    private PlayerStatus status;
+    private ProfileStatus status;
 
     @Column(name = "total_deposit")
     private BigDecimal totalDeposit;
