@@ -26,8 +26,7 @@ public class PlayerService {
 
     @Transactional
     public Player create(Player player) {
-        var savedPlayer = playerRepository.save(player);
-        return savedPlayer;
+        return playerRepository.save(player);
     }
 
     @Transactional

@@ -37,6 +37,7 @@ public class PlayerController {
         return players;
     }
 
+//    @PostMapping
     @GetMapping("/create/{profileId}/{openedAt}/{buyIn}/{closedAt}/{avgBet}")
     @ResponseStatus(HttpStatus.CREATED)
     public Player create(@PathVariable("profileId") UUID profileId,
@@ -58,6 +59,7 @@ public class PlayerController {
         return playerService.create(player);
     }
 
+//    @DeleteMapping
     @GetMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable("id") UUID id) {
