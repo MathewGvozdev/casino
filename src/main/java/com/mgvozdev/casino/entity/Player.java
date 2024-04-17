@@ -45,7 +45,7 @@ public class Player {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "player_tables_session",
+    @JoinTable(name = "player_table_session",
             joinColumns = @JoinColumn(name = "player_id"),
             inverseJoinColumns = @JoinColumn(name = "table_session_id"))
     private List<TableSession> tableSessions = new ArrayList<>();

@@ -1,44 +1,15 @@
 package com.mgvozdev.casino.service;
 
 import com.mgvozdev.casino.entity.User;
-import com.mgvozdev.casino.repository.UserInfoRepository;
-import com.mgvozdev.casino.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
-    private final UserInfoRepository userInfoRepository;
+    Optional<User> findById(UUID id);
 
-    public Optional<User> findById(UUID id) {
-        return userRepository.findById(id);
-    }
+    User create(User user);
 
-    @Transactional
-    public User create(User user) {
-        var userInfo = user.getUserInfo();
-        var savedUser = userRepository.save(user);
-        userInfoRepository.save(userInfo);
-        return savedUser;
-    }
-
-    @Transactional
-    public boolean delete(UUID id) {
-        return userRepository.findById(id)
-                .map(entity -> {
-                    userInfoRepository.delete(entity.getUserInfo());
-                    userRepository.delete(entity);
-                    userInfoRepository.flush();
-                    userRepository.flush();
-                    return true;
-                })
-                .orElse(false);
-    }
+    boolean delete(UUID id);
 }

@@ -1,42 +1,20 @@
 package com.mgvozdev.casino.service;
 
-import com.mgvozdev.casino.entity.Player;
-import com.mgvozdev.casino.repository.PlayerRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.mgvozdev.casino.dto.PlayerCreateEditDto;
+import com.mgvozdev.casino.dto.PlayerReadDto;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-public class PlayerService {
+public interface PlayerService {
 
-    private final PlayerRepository playerRepository;
+    PlayerReadDto findById(UUID id);
 
-    public Optional<Player> findById(UUID id) {
-        return playerRepository.findById(id);
-    }
+    List<PlayerReadDto> findAll();
 
-    public List<Player> findAll() {
-        return playerRepository.findAll();
-    }
+    PlayerReadDto create(PlayerCreateEditDto playerCreateEditDto);
 
-    @Transactional
-    public Player create(Player player) {
-        return playerRepository.save(player);
-    }
+    PlayerReadDto update(UUID id, PlayerCreateEditDto playerCreateEditDto);
 
-    @Transactional
-    public boolean delete(UUID id) {
-        return playerRepository.findById(id)
-                .map(entity -> {
-                    playerRepository.delete(entity);
-                    playerRepository.flush();
-                    return true;
-                })
-                .orElse(false);
-    }
+    boolean delete(UUID id);
 }

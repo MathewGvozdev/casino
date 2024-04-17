@@ -1,16 +1,13 @@
 package com.mgvozdev.casino.controller;
 
-import com.mgvozdev.casino.entity.Player;
-import com.mgvozdev.casino.exception.ErrorMessage;
-import com.mgvozdev.casino.exception.PlayerException;
+import com.mgvozdev.casino.dto.PlayerCreateEditDto;
+import com.mgvozdev.casino.dto.PlayerReadDto;
 import com.mgvozdev.casino.service.PlayerService;
-import com.mgvozdev.casino.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,49 +17,34 @@ import java.util.UUID;
 public class PlayerController {
 
     private final PlayerService playerService;
-    private final ProfileService profileService;
 
     @GetMapping("/{id}")
-    public Player findById(@PathVariable("id") UUID id) {
-        return playerService.findById(id)
-                .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_FOUND));
+    public PlayerReadDto findById(@PathVariable("id") UUID id) {
+        return playerService.findById(id);
     }
 
     @GetMapping
-    public List<Player> findAll() {
-        var players = playerService.findAll();
-        if (players.isEmpty()) {
-            throw new PlayerException(ErrorMessage.NOT_FOUND);
-        }
-        return players;
+    public List<PlayerReadDto> findAll() {
+        return playerService.findAll();
     }
 
-//    @PostMapping
-    @GetMapping("/create/{profileId}/{openedAt}/{buyIn}/{closedAt}/{avgBet}")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Player create(@PathVariable("profileId") UUID profileId,
-                         @PathVariable("openedAt") LocalDateTime openedAt,
-                         @PathVariable("buyIn") BigDecimal buyIn,
-                         @PathVariable("closedAt") LocalDateTime closedAt,
-                         @PathVariable("avgBet") Integer avgBet) {
-        var player = new Player();
-        var profile = profileService.findById(profileId);
-        if (profile.isPresent()) {
-            player.setProfile(profile.get());
-        } else {
-            throw new PlayerException(ErrorMessage.NOT_FOUND);
-        }
-        player.setOpenedAt(openedAt);
-        player.setBuyIn(buyIn);
-        player.setClosedAt(closedAt);
-        player.setAvgBet(avgBet);
-        return playerService.create(player);
+    public PlayerReadDto create(@RequestBody PlayerCreateEditDto playerCreateEditDto) {
+        return playerService.create(playerCreateEditDto);
     }
 
-//    @DeleteMapping
-    @GetMapping("/delete/{id}")
+    @PutMapping("/update/{id}")
+    public PlayerReadDto update(@PathVariable("id") UUID id,
+                                @RequestBody PlayerCreateEditDto playerCreateEditDto) {
+        return playerService.update(id, playerCreateEditDto);
+    }
+
+    @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable("id") UUID id) {
-        return playerService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
+        return playerService.delete(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

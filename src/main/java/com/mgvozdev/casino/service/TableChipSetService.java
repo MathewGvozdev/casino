@@ -1,37 +1,15 @@
 package com.mgvozdev.casino.service;
 
 import com.mgvozdev.casino.entity.TableChipSet;
-import com.mgvozdev.casino.repository.TableChipSetRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-public class TableChipSetService {
+public interface TableChipSetService {
 
-    private final TableChipSetRepository tableChipSetRepository;
+    Optional<TableChipSet> findById(UUID id);
 
-    public Optional<TableChipSet> findById(UUID id) {
-        return tableChipSetRepository.findById(id);
-    }
+    TableChipSet create(TableChipSet tableChipSet);
 
-    @Transactional
-    public TableChipSet create(TableChipSet tableChipSet) {
-        return tableChipSetRepository.save(tableChipSet);
-    }
-
-    @Transactional
-    public boolean delete(UUID id) {
-        return tableChipSetRepository.findById(id)
-                .map(entity -> {
-                    tableChipSetRepository.delete(entity);
-                    tableChipSetRepository.flush();
-                    return true;
-                })
-                .orElse(false);
-    }
+    boolean delete(UUID id);
 }
