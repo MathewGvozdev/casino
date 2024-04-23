@@ -3,22 +3,26 @@ package com.mgvozdev.casino.mapper;
 import com.mgvozdev.casino.dto.PlayerCreateEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
 import com.mgvozdev.casino.entity.Player;
+import com.mgvozdev.casino.entity.Profile;
 import com.mgvozdev.casino.repository.ProfileRepository;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.WARN)
-public interface PlayerMapper {
+public abstract class PlayerMapper {
 
-//    @Mapping(target = "profile",
-//            expression = "java(profileRepository.findBy(dto.documentType(), dto.country(), dto.documentNumber()))")
+    @Autowired
+    protected ProfileRepository profileRepository;
+
     @Mapping(target = "openedAt", source = "openedAt")
     @Mapping(target = "buyIn", source = "buyIn")
     @Mapping(target = "closedAt", source = "closedAt")
     @Mapping(target = "avgBet", source = "avgBet")
-    Player toEntity(PlayerCreateEditDto dto);
+    @Mapping(target = "profile", source = "documentNumber", qualifiedByName = "getProfile")
+    public abstract Player toEntity(PlayerCreateEditDto dto);
 
     @Mapping(target = "documentType", source = "profile.documentType")
     @Mapping(target = "country", source = "profile.country")
@@ -30,15 +34,12 @@ public interface PlayerMapper {
     @Mapping(target = "buyIn", source = "buyIn")
     @Mapping(target = "closedAt", source = "closedAt")
     @Mapping(target = "avgBet", source = "avgBet")
-    PlayerReadDto toDto(Player player);
+    public abstract PlayerReadDto toDto(Player player);
 
-//    @AfterMapping
-//    default void setProfile(@MappingTarget Player player,
-//                          PlayerCreateEditDto dto,
-//                          @Context ProfileRepository profileRepository) {
-//        profileRepository.findBy(dto.documentType(),
-//                        dto.country(),
-//                        dto.documentNumber())
-//                .ifPresent(player::setProfile);
-//}
+    @Named("getProfile")
+    Profile getProfile(String documentNumber) {
+        return Optional.ofNullable(documentNumber)
+                .flatMap(profileRepository::findBy)
+                .orElse(null);
+    }
 }

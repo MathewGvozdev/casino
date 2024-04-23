@@ -1,15 +1,13 @@
 package com.mgvozdev.casino.dto;
 
-import com.mgvozdev.casino.entity.enums.DocumentType;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
-public record PlayerCreateEditDto(DocumentType documentType,
-                                  String country,
-                                  String documentNumber,
+public record PlayerCreateEditDto(String documentNumber,
                                   LocalDateTime openedAt,
                                   BigDecimal buyIn,
                                   LocalDateTime closedAt,
-                                  Integer avgBet) {
+                                  Integer avgBet,
+                                  Set<ChipSetDto> chips) {
 }
