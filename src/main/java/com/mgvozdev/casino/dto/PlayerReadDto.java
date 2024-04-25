@@ -17,7 +17,9 @@ public record PlayerReadDto(DocumentType documentType,
                             BigDecimal buyIn,
                             LocalDateTime closedAt,
                             Integer avgBet,
-                            Set<ChipSetDto> chips) {
+                            BigDecimal total,
+                            Set<ChipSetDto> chips
+                            ) {
 
     public PlayerReadDto withChips(Set<ChipSetDto> chips) {
         return new PlayerReadDto(documentType(),
@@ -30,6 +32,7 @@ public record PlayerReadDto(DocumentType documentType,
                 buyIn(),
                 closedAt(),
                 avgBet(),
+                total(),
                 chips);
     }
 }

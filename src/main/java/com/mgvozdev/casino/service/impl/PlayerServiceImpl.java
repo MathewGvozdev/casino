@@ -81,8 +81,7 @@ public class PlayerServiceImpl implements PlayerService {
                 .map(playerMapper::toEntity)
                 .map(updated -> {
                     playerRepository.findById(id)
-                            .ifPresent(player -> updated.setProfile(player.getProfile())
-                    );
+                            .ifPresent(player -> updated.setProfile(player.getProfile()));
                     return playerRepository.saveAndFlush(updated);
                 });
 

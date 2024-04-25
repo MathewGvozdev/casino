@@ -3,12 +3,15 @@ package com.mgvozdev.casino.mapper;
 import com.mgvozdev.casino.dto.PlayerCreateEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
 import com.mgvozdev.casino.entity.Player;
+import com.mgvozdev.casino.entity.PlayerChipSet;
 import com.mgvozdev.casino.entity.Profile;
 import com.mgvozdev.casino.repository.ProfileRepository;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.Set;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.WARN)
@@ -34,6 +37,7 @@ public abstract class PlayerMapper {
     @Mapping(target = "buyIn", source = "buyIn")
     @Mapping(target = "closedAt", source = "closedAt")
     @Mapping(target = "avgBet", source = "avgBet")
+    @Mapping(target = "total", source = "chips", qualifiedByName = "countTotal")
     public abstract PlayerReadDto toDto(Player player);
 
     @Named("getProfile")
@@ -41,5 +45,14 @@ public abstract class PlayerMapper {
         return Optional.ofNullable(documentNumber)
                 .flatMap(profileRepository::findBy)
                 .orElse(null);
+    }
+
+    @Named("countTotal")
+    BigDecimal countTotal(Set<PlayerChipSet> chips) {
+        var total = new BigDecimal(0);
+        for (PlayerChipSet chipSet : chips) {
+            total = total.add(chipSet.getTotal());
+        }
+        return total;
     }
 }
