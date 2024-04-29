@@ -3,7 +3,9 @@ package com.mgvozdev.casino.service;
 import com.mgvozdev.casino.dto.PlayerCreateDto;
 import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
+import com.mgvozdev.casino.entity.Player;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +14,11 @@ public interface PlayerService {
     PlayerReadDto findById(UUID id);
 
     List<PlayerReadDto> findAll();
+
+    List<PlayerReadDto> findByOpenedAtBetween(LocalDateTime openedAtStart,
+                                       LocalDateTime openedAtEnd);
+
+    List<PlayerReadDto> findByProfileId(UUID profileId);
 
     PlayerReadDto create(PlayerCreateDto playerCreateDto);
 

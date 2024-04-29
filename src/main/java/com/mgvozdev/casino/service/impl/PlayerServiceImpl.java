@@ -3,6 +3,7 @@ package com.mgvozdev.casino.service.impl;
 import com.mgvozdev.casino.dto.PlayerCreateDto;
 import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
+import com.mgvozdev.casino.entity.Player;
 import com.mgvozdev.casino.exception.ErrorMessage;
 import com.mgvozdev.casino.exception.PlayerException;
 import com.mgvozdev.casino.mapper.ChipMapper;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,10 +44,26 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<PlayerReadDto> findAll() {
         var players = playerRepository.findAll();
-        if (players.isEmpty()) {
+        return transferToDtoWithChips(players);
+    }
+
+    @Override
+    public List<PlayerReadDto> findByOpenedAtBetween(LocalDateTime openedAtStart, LocalDateTime openedAtEnd) {
+        var players = playerRepository.findByOpenedAtBetween(openedAtStart, openedAtEnd);
+        return transferToDtoWithChips(players);
+    }
+
+    @Override
+    public List<PlayerReadDto> findByProfileId(UUID profileId) {
+        var playerSessions = playerRepository.findByProfileId(profileId);
+        return transferToDtoWithChips(playerSessions);
+    }
+
+    private List<PlayerReadDto> transferToDtoWithChips(List<Player> playerSessions) {
+        if (playerSessions.isEmpty()) {
             throw new PlayerException(ErrorMessage.NOT_FOUND);
         }
-        return players.stream()
+        return playerSessions.stream()
                 .map((player) -> {
                     var chips = playerChipSetRepository.findByPlayerId(player.getId());
                     var chipDtos = chips.stream()
@@ -63,7 +81,7 @@ public class PlayerServiceImpl implements PlayerService {
                 .map(playerMapper::toEntity)
                 .map(playerRepository::save);
 
-        var chipDtos = playerCreateDto.chips().stream()
+        var chips = playerCreateDto.chips().stream()
                 .map(chipMapper::toEntity)
                 .map(playerChipSet -> {
                     player.ifPresent(playerChipSet::setPlayer);
@@ -72,31 +90,23 @@ public class PlayerServiceImpl implements PlayerService {
                 .map(chipMapper::toDto)
                 .collect(Collectors.toSet());
 
-        if (player.isPresent()) {
-            return playerMapper.toDto(player.get()).withChips(chipDtos);
-        } else {
-            throw new PlayerException(ErrorMessage.NOT_CREATED);
-        }
+        return player.map(entity -> playerMapper.toDto(entity).withChips(chips))
+                .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_CREATED));
     }
 
     @Transactional
     @Override
     public PlayerReadDto update(UUID id, PlayerEditDto playerEditDto) {
-        var existing = playerRepository.findById(id);
-        if (existing.isPresent()) {
+        var playerFromDB = playerRepository.findById(id);
+        if (playerFromDB.isPresent()) {
             var chips = playerChipSetRepository.findByPlayerId(id).stream()
                     .map(chipMapper::toDto)
                     .collect(Collectors.toSet());
 
-            var updated = existing.map(entity -> playerMapper.toEntity(playerEditDto, entity))
+            return playerFromDB.map(entity -> playerMapper.toEntity(playerEditDto, entity))
                     .map(playerRepository::saveAndFlush)
-                    .map(player -> playerMapper.toDto(player).withChips(chips));
-
-            if (updated.isPresent()) {
-                return updated.get();
-            } else {
-                throw new PlayerException(ErrorMessage.NOT_UPDATED);
-            }
+                    .map(updated -> playerMapper.toDto(updated).withChips(chips))
+                    .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_UPDATED));
         } else {
             throw new PlayerException(ErrorMessage.NOT_FOUND);
         }
