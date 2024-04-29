@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +28,19 @@ public class PlayerController {
     @FindAllPlayers
     public List<PlayerReadDto> findAll() {
         return playerService.findAll();
+    }
+
+    @RequestMapping(value = "/{openedAtStart}/{openedAtEnd}",
+            method = RequestMethod.GET)
+    public List<PlayerReadDto> findByOpenedAtBetween(@PathVariable LocalDateTime openedAtStart,
+                                                     @PathVariable LocalDateTime openedAtEnd) {
+        return playerService.findByOpenedAtBetween(openedAtStart, openedAtEnd);
+    }
+
+    @RequestMapping(value = "/sessions/{profileId}",
+            method = RequestMethod.GET)
+    public List<PlayerReadDto> findByProfileId(@PathVariable UUID profileId) {
+        return playerService.findByProfileId(profileId);
     }
 
     @CreatePlayer
