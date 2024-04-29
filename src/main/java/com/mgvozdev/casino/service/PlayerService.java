@@ -1,6 +1,7 @@
 package com.mgvozdev.casino.service;
 
-import com.mgvozdev.casino.dto.PlayerCreateEditDto;
+import com.mgvozdev.casino.dto.PlayerCreateDto;
+import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public interface PlayerService {
 
     List<PlayerReadDto> findAll();
 
-    PlayerReadDto create(PlayerCreateEditDto playerCreateEditDto);
+    PlayerReadDto create(PlayerCreateDto playerCreateDto);
 
-    PlayerReadDto update(UUID id, PlayerCreateEditDto playerCreateEditDto);
+    PlayerReadDto update(UUID id, PlayerEditDto playerEditDto);
 
     boolean delete(UUID id);
 }

@@ -1,6 +1,7 @@
 package com.mgvozdev.casino.service.impl;
 
-import com.mgvozdev.casino.dto.PlayerCreateEditDto;
+import com.mgvozdev.casino.dto.PlayerCreateDto;
+import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
 import com.mgvozdev.casino.exception.ErrorMessage;
 import com.mgvozdev.casino.exception.PlayerException;
@@ -13,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,51 +48,58 @@ public class PlayerServiceImpl implements PlayerService {
         return players.stream()
                 .map((player) -> {
                     var chips = playerChipSetRepository.findByPlayerId(player.getId());
-                    var chipSets = chips.stream()
+                    var chipDtos = chips.stream()
                             .map(chipMapper::toDto)
                             .collect(Collectors.toSet());
-                    return playerMapper.toDto(player).withChips(chipSets);
+                    return playerMapper.toDto(player).withChips(chipDtos);
                 })
                 .toList();
     }
 
     @Transactional
     @Override
-    public PlayerReadDto create(PlayerCreateEditDto playerCreateEditDto) {
-        var player = Optional.of(playerCreateEditDto)
+    public PlayerReadDto create(PlayerCreateDto playerCreateDto) {
+        var player = Optional.of(playerCreateDto)
                 .map(playerMapper::toEntity)
                 .map(playerRepository::save);
 
-        playerCreateEditDto.chips().stream()
+        var chipDtos = playerCreateDto.chips().stream()
                 .map(chipMapper::toEntity)
-                .forEach(playerChipSet -> {
+                .map(playerChipSet -> {
                     player.ifPresent(playerChipSet::setPlayer);
-                    playerChipSetRepository.save(playerChipSet);
-                });
+                    return playerChipSetRepository.save(playerChipSet);
+                })
+                .map(chipMapper::toDto)
+                .collect(Collectors.toSet());
 
-        return player.map(playerMapper::toDto)
-                .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_CREATED));
+        if (player.isPresent()) {
+            return playerMapper.toDto(player.get()).withChips(chipDtos);
+        } else {
+            throw new PlayerException(ErrorMessage.NOT_CREATED);
+        }
     }
 
+    @Transactional
     @Override
-    public PlayerReadDto update(UUID id, PlayerCreateEditDto playerCreateEditDto) {
-        var updatedPlayer = Optional.of(playerCreateEditDto)
-                .map(playerMapper::toEntity)
-                .map(updated -> {
-                    playerRepository.findById(id)
-                            .ifPresent(player -> updated.setProfile(player.getProfile()));
-                    return playerRepository.saveAndFlush(updated);
-                });
+    public PlayerReadDto update(UUID id, PlayerEditDto playerEditDto) {
+        var existing = playerRepository.findById(id);
+        if (existing.isPresent()) {
+            var chips = playerChipSetRepository.findByPlayerId(id).stream()
+                    .map(chipMapper::toDto)
+                    .collect(Collectors.toSet());
 
-        playerCreateEditDto.chips().stream()
-                .map(chipMapper::toEntity)
-                .forEach(playerChipSet -> {
-                    updatedPlayer.ifPresent(playerChipSet::setPlayer);
-                    playerChipSetRepository.saveAndFlush(playerChipSet);
-                });
+            var updated = existing.map(entity -> playerMapper.toEntity(playerEditDto, entity))
+                    .map(playerRepository::saveAndFlush)
+                    .map(player -> playerMapper.toDto(player).withChips(chips));
 
-        return updatedPlayer.map(playerMapper::toDto)
-                .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_UPDATED));
+            if (updated.isPresent()) {
+                return updated.get();
+            } else {
+                throw new PlayerException(ErrorMessage.NOT_UPDATED);
+            }
+        } else {
+            throw new PlayerException(ErrorMessage.NOT_FOUND);
+        }
     }
 
     @Transactional

@@ -5,11 +5,13 @@ plugins {
     id 'io.freefair.lombok' version '6.3.0'
 }
 
+apply from: 'version.gradle'
+
 group = 'com.mgvozdev'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = "${versions.jdk}"
 }
 
 repositories {
@@ -25,13 +27,14 @@ configurations {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springdoc:springdoc-openapi-ui:${versions.springdoc}"
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
 //    implementation 'org.liquibase:liquibase-core'
 
     runtimeOnly 'org.postgresql:postgresql'
 
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
 //    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.security:spring-security-test'
 }
@@ -41,5 +44,5 @@ test {
 }
 
 wrapper {
-    gradleVersion '7.3'
+    gradleVersion "${versions.gradle}"
 }

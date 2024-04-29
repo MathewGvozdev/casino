@@ -14,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "player")
-@ToString(exclude = "player")
+@EqualsAndHashCode(of = {"id", "chip"})
+@ToString(of = {"id", "chip"})
 public class PlayerChipSet {
 
     @Id

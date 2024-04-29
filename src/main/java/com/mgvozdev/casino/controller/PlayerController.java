@@ -1,10 +1,11 @@
 package com.mgvozdev.casino.controller;
 
-import com.mgvozdev.casino.dto.PlayerCreateEditDto;
+import com.mgvozdev.casino.annotation.*;
+import com.mgvozdev.casino.dto.PlayerCreateDto;
+import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
 import com.mgvozdev.casino.service.PlayerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,30 +19,28 @@ public class PlayerController {
 
     private final PlayerService playerService;
 
-    @GetMapping("/{id}")
+    @FindPlayerById
     public PlayerReadDto findById(@PathVariable("id") UUID id) {
         return playerService.findById(id);
     }
 
-    @GetMapping
+    @FindAllPlayers
     public List<PlayerReadDto> findAll() {
         return playerService.findAll();
     }
 
-    @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public PlayerReadDto create(@RequestBody PlayerCreateEditDto playerCreateEditDto) {
-        return playerService.create(playerCreateEditDto);
+    @CreatePlayer
+    public PlayerReadDto create(@RequestBody PlayerCreateDto playerCreateDto) {
+        return playerService.create(playerCreateDto);
     }
 
-    @PutMapping("/update/{id}")
+    @UpdatePlayer
     public PlayerReadDto update(@PathVariable("id") UUID id,
-                                @RequestBody PlayerCreateEditDto playerCreateEditDto) {
-        return playerService.update(id, playerCreateEditDto);
+                                @RequestBody PlayerEditDto playerEditDto) {
+        return playerService.update(id, playerEditDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeletePlayer
     public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
         return playerService.delete(id)
                 ? ResponseEntity.noContent().build()

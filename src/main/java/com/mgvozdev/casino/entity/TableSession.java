@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@jakarta.persistence.Table(name = "tables_session")
+@jakarta.persistence.Table(name = "table_session")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

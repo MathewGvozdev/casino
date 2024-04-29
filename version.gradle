@@ -1,7 +1,11 @@
 ext {
     versions = [
-            'testcontainers': '1.16.3',
-            'querydsl': '5.0.0',
-            'springdoc': '1.6.6'
+            'springboot': '3.2.3',
+            'dependency-management': '1.1.4',
+            'lombok': '6.3.0',
+            'jdk': '17',
+            'springdoc': '1.6.6',
+            'mapstruct': '1.5.5.Final',
+            'gradle': '7.3',
     ]
 }

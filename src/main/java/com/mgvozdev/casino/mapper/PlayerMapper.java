@@ -1,31 +1,53 @@
 package com.mgvozdev.casino.mapper;
 
-import com.mgvozdev.casino.dto.PlayerCreateEditDto;
+import com.mgvozdev.casino.dto.ChipSetDto;
+import com.mgvozdev.casino.dto.PlayerCreateDto;
+import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
 import com.mgvozdev.casino.entity.Player;
 import com.mgvozdev.casino.entity.PlayerChipSet;
 import com.mgvozdev.casino.entity.Profile;
+import com.mgvozdev.casino.repository.PlayerRepository;
 import com.mgvozdev.casino.repository.ProfileRepository;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
-        unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class PlayerMapper {
 
     @Autowired
     protected ProfileRepository profileRepository;
 
-    @Mapping(target = "openedAt", source = "openedAt")
+    @Autowired
+    protected PlayerRepository playerRepository;
+
+    @Autowired
+    protected ChipMapper chipMapper;
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "openedAt", expression = "java(LocalDateTime.now())")
+    @Mapping(target = "buyIn", source = "buyIn")
+    @Mapping(target = "closedAt", ignore = true)
+    @Mapping(target = "avgBet", ignore = true)
+    @Mapping(target = "profile", source = "documentNumber", qualifiedByName = "getProfile")
+    @Mapping(target = "tableSessions", ignore = true)
+    @Mapping(target = "chips", source = "chips", qualifiedByName = "mapChips")
+    public abstract Player toEntity(PlayerCreateDto dto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "openedAt", ignore = true)
     @Mapping(target = "buyIn", source = "buyIn")
     @Mapping(target = "closedAt", source = "closedAt")
     @Mapping(target = "avgBet", source = "avgBet")
-    @Mapping(target = "profile", source = "documentNumber", qualifiedByName = "getProfile")
-    public abstract Player toEntity(PlayerCreateEditDto dto);
+    @Mapping(target = "profile", ignore = true)
+    @Mapping(target = "tableSessions", ignore = true)
+    @Mapping(target = "chips", ignore = true)
+    public abstract Player toEntity(PlayerEditDto dto, @MappingTarget Player player);
 
     @Mapping(target = "documentType", source = "profile.documentType")
     @Mapping(target = "country", source = "profile.country")
@@ -38,7 +60,17 @@ public abstract class PlayerMapper {
     @Mapping(target = "closedAt", source = "closedAt")
     @Mapping(target = "avgBet", source = "avgBet")
     @Mapping(target = "total", source = "chips", qualifiedByName = "countTotal")
+    @Mapping(target = "withChips", ignore = true)
     public abstract PlayerReadDto toDto(Player player);
+
+    @Named("mapChips")
+    Set<PlayerChipSet> mapChips(Set<ChipSetDto> chipSetDtos) {
+        var chips = new HashSet<PlayerChipSet>();
+        for (ChipSetDto chipSetDto : chipSetDtos) {
+            chips.add(chipMapper.toEntity(chipSetDto));
+        }
+        return chips;
+    }
 
     @Named("getProfile")
     Profile getProfile(String documentNumber) {
