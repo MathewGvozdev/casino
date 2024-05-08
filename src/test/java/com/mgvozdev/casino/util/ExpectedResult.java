@@ -1,6 +1,5 @@
 package com.mgvozdev.casino.util;
 
-import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.dto.PlayerCreateDto;
 import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
@@ -25,18 +24,13 @@ public class ExpectedResult {
         var chip = Chip.GREEN;
         var amount = 10;
         var documentNumber = "46728918";
-        Set<ChipSetDto> chips = new HashSet<>();
         var total = BigDecimal.valueOf(chip.getValue())
                 .multiply(BigDecimal.valueOf(amount));
-        chips.add(new ChipSetDto(chip, amount, total));
 
-        return new PlayerCreateDto(documentNumber, total, chips);
+        return new PlayerCreateDto(documentNumber, total);
     }
 
     public static PlayerReadDto getPlayerReadDto() {
-        Set<ChipSetDto> oliviaChips = new HashSet<>();
-        oliviaChips.add(new ChipSetDto(Chip.BLACK, 2, new BigDecimal(200)));
-        oliviaChips.add(new ChipSetDto(Chip.GREEN, 40, new BigDecimal(1000)));
         return new PlayerReadDto(DocumentType.DRIVER_LICENSE,
                 "USA",
                 "18401294",
@@ -47,8 +41,7 @@ public class ExpectedResult {
                 new BigDecimal(800),
                 null,
                 null,
-                new BigDecimal(1200),
-                oliviaChips);
+                new BigDecimal(1200));
     }
 
     public static List<PlayerReadDto> getListOfPlayerReadDtos() {
@@ -64,8 +57,7 @@ public class ExpectedResult {
                 new BigDecimal(1000),
                 LocalDateTime.of(2024, 3, 29, 16, 0, 0),
                 50,
-                new BigDecimal(0),
-                Collections.EMPTY_SET));
+                new BigDecimal(0)));
         players.add(new PlayerReadDto(DocumentType.DRIVER_LICENSE,
                 "USA",
                 "98139401",
@@ -76,11 +68,7 @@ public class ExpectedResult {
                 new BigDecimal(5000),
                 LocalDateTime.of(2024, 3, 30, 2, 10, 0),
                 150,
-                new BigDecimal(0),
-                Collections.EMPTY_SET));
-        Set<ChipSetDto> oliviaChips = new HashSet<>();
-        oliviaChips.add(new ChipSetDto(Chip.BLACK, 2, new BigDecimal(200)));
-        oliviaChips.add(new ChipSetDto(Chip.GREEN, 40, new BigDecimal(1000)));
+                new BigDecimal(0)));
         players.add(new PlayerReadDto(DocumentType.DRIVER_LICENSE,
                 "USA",
                 "18401294",
@@ -91,10 +79,7 @@ public class ExpectedResult {
                 new BigDecimal(800),
                 null,
                 null,
-                new BigDecimal(1200),
-                oliviaChips));
-        Set<ChipSetDto> johnChips = new HashSet<>();
-        johnChips.add(new ChipSetDto(Chip.RED, 25, new BigDecimal(125)));
+                new BigDecimal(1200)));
         players.add(new PlayerReadDto(DocumentType.ID_CARD,
                 "USA",
                 "46728918",
@@ -105,8 +90,7 @@ public class ExpectedResult {
                 new BigDecimal(100),
                 null,
                 null,
-                new BigDecimal(125),
-                johnChips));
+                new BigDecimal(125)));
         return players;
     }
 }

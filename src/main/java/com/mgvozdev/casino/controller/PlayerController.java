@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Validated
 @RestController
 @RequestMapping("/players")
 @RequiredArgsConstructor
@@ -46,18 +45,18 @@ public class PlayerController {
         return playerService.findByProfileId(profileId);
     }
 
-    @CreatePlayer(path = "/create")
+    @CreatePlayer
     public PlayerReadDto create(@Validated @RequestBody PlayerCreateDto playerCreateDto) {
         return playerService.create(playerCreateDto);
     }
 
-    @UpdatePlayer(path = "/update/{id}")
+    @UpdatePlayer(path = "/{id}")
     public PlayerReadDto update(@UUIDChecker @PathVariable("id") UUID id,
                                 @Validated @RequestBody PlayerEditDto playerEditDto) {
         return playerService.update(id, playerEditDto);
     }
 
-    @DeletePlayer(path = "/delete/{id}")
+    @DeletePlayer(path = "/{id}")
     public ResponseEntity<?> delete(@UUIDChecker @PathVariable("id") UUID id) {
         return playerService.delete(id)
                 ? ResponseEntity.noContent().build()

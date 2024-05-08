@@ -1,6 +1,5 @@
 package com.mgvozdev.casino.mapper;
 
-import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.dto.PlayerCreateDto;
 import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
@@ -13,7 +12,6 @@ import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,7 +34,7 @@ public abstract class PlayerMapper {
     @Mapping(target = "avgBet", ignore = true)
     @Mapping(target = "profile", source = "documentNumber", qualifiedByName = "getProfile")
     @Mapping(target = "tableSessions", ignore = true)
-    @Mapping(target = "chips", source = "chips", qualifiedByName = "mapChips")
+    @Mapping(target = "chips", ignore = true)
     public abstract Player toEntity(PlayerCreateDto dto);
 
     @Mapping(target = "id", ignore = true)
@@ -60,17 +58,7 @@ public abstract class PlayerMapper {
     @Mapping(target = "closedAt", source = "closedAt")
     @Mapping(target = "avgBet", source = "avgBet")
     @Mapping(target = "total", source = "chips", qualifiedByName = "countTotal")
-    @Mapping(target = "withChips", ignore = true)
     public abstract PlayerReadDto toDto(Player player);
-
-    @Named("mapChips")
-    Set<PlayerChipSet> mapChips(Set<ChipSetDto> chipSetDtos) {
-        var chips = new HashSet<PlayerChipSet>();
-        for (ChipSetDto chipSetDto : chipSetDtos) {
-            chips.add(chipMapper.toEntity(chipSetDto));
-        }
-        return chips;
-    }
 
     @Named("getProfile")
     Profile getProfile(String documentNumber) {

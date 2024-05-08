@@ -74,7 +74,7 @@ public class PlayerControllerTest {
         var playerCreateDto = ExpectedResult.getPlayerCreateDto();
 
         var json = objectMapper.writeValueAsString(playerCreateDto);
-        var mvcResult = mockMvc.perform(post("/players/create")
+        var mvcResult = mockMvc.perform(post("/players")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andReturn();
@@ -85,7 +85,6 @@ public class PlayerControllerTest {
         assertEquals(201, mvcResult.getResponse().getStatus());
         assertEquals(playerCreateDto.documentNumber(), actualResult.documentNumber());
         assertEquals(playerCreateDto.buyIn(), actualResult.buyIn());
-        assertEquals(playerCreateDto.chips(), actualResult.chips());
     }
 
     @Test
@@ -94,7 +93,7 @@ public class PlayerControllerTest {
         var uuid = "d9ba4962-aa83-40b1-a027-794d5531e586";
 
         var json = objectMapper.writeValueAsString(playerEditDto);
-        var mvcResult = mockMvc.perform(put("/players/update/{id}", uuid)
+        var mvcResult = mockMvc.perform(put("/players/{id}", uuid)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().is2xxSuccessful())
@@ -112,7 +111,7 @@ public class PlayerControllerTest {
     public void deletePlayerPositiveTest() throws Exception {
         var uuid = "d9ba4962-aa83-40b1-a027-794d5531e586";
 
-        mockMvc.perform(delete("/players/delete/{id}", uuid))
+        mockMvc.perform(delete("/players/{id}", uuid))
                 .andExpect(status().isNoContent());
     }
 }

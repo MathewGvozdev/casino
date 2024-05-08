@@ -18,6 +18,13 @@ public interface ChipMapper {
     @Mapping(target = "player", ignore = true)
     PlayerChipSet toEntity(ChipSetDto dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "chip", source = "chip")
+    @Mapping(target = "amount", expression = "java(countAmount(dto.chip(), dto.total()))")
+    @Mapping(target = "total", source = "total")
+    @Mapping(target = "player", ignore = true)
+    PlayerChipSet toEntity(ChipSetDto dto, @MappingTarget PlayerChipSet playerChipSet);
+
     @Mapping(target = "chip", source = "chip")
     @Mapping(target = "amount", source = "amount")
     @Mapping(target = "total", source = "total")

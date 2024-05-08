@@ -5,7 +5,6 @@ import com.mgvozdev.casino.entity.enums.MembershipType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public record PlayerReadDto(DocumentType documentType,
                             String country,
@@ -17,22 +16,5 @@ public record PlayerReadDto(DocumentType documentType,
                             BigDecimal buyIn,
                             LocalDateTime closedAt,
                             Integer avgBet,
-                            BigDecimal total,
-                            Set<ChipSetDto> chips
-                            ) {
-
-    public PlayerReadDto withChips(Set<ChipSetDto> chips) {
-        return new PlayerReadDto(documentType(),
-                country(),
-                documentNumber(),
-                firstName(),
-                lastName(),
-                membershipType(),
-                openedAt(),
-                buyIn(),
-                closedAt(),
-                avgBet(),
-                total(),
-                chips);
-    }
+                            BigDecimal total) {
 }

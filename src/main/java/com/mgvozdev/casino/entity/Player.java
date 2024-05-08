@@ -51,7 +51,7 @@ public class Player {
     private List<TableSession> tableSessions = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = CascadeType.REMOVE)
     private Set<PlayerChipSet> chips = new HashSet<>();
 }
 
