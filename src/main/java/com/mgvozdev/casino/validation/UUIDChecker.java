@@ -1,5 +1,6 @@
 package com.mgvozdev.casino.validation;
 
+import com.mgvozdev.casino.exception.ErrorMessage;
 import com.mgvozdev.casino.validation.impl.UUIDValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -14,7 +15,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UUIDChecker {
 
-    String message() default "UUID format isn't correct";
+    String message() default ErrorMessage.INVALID_UUID;
 
     Class<?>[] groups() default { };
 
