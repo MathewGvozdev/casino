@@ -2,6 +2,7 @@ package com.mgvozdev.casino.annotation;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +15,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@RequestMapping(value = "/delete/{id}",
-        method = RequestMethod.DELETE)
+@RequestMapping(method = RequestMethod.DELETE)
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @Operation(summary = "player deleting by his UUID",
         description = "the method returns ResponseEntity with the result of operation",
@@ -26,4 +26,7 @@ import java.lang.annotation.Target;
         }
 )
 public @interface DeletePlayer {
+
+    @AliasFor(annotation = RequestMapping.class, attribute = "path")
+    String[] path() default {};
 }

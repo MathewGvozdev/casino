@@ -20,7 +20,7 @@ public class PlayerController {
 
     private final PlayerService playerService;
 
-    @FindPlayerById
+    @FindPlayerById(path = "/{id}")
     public PlayerReadDto findById(@PathVariable("id") UUID id) {
         return playerService.findById(id);
     }
@@ -43,18 +43,18 @@ public class PlayerController {
         return playerService.findByProfileId(profileId);
     }
 
-    @CreatePlayer
+    @CreatePlayer(path = "/create")
     public PlayerReadDto create(@RequestBody PlayerCreateDto playerCreateDto) {
         return playerService.create(playerCreateDto);
     }
 
-    @UpdatePlayer
+    @UpdatePlayer(path = "/update/{id}")
     public PlayerReadDto update(@PathVariable("id") UUID id,
                                 @RequestBody PlayerEditDto playerEditDto) {
         return playerService.update(id, playerEditDto);
     }
 
-    @DeletePlayer
+    @DeletePlayer(path = "/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
         return playerService.delete(id)
                 ? ResponseEntity.noContent().build()

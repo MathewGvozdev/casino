@@ -117,6 +117,8 @@ public class PlayerServiceImpl implements PlayerService {
     public boolean delete(UUID id) {
         return playerRepository.findById(id)
                 .map(entity -> {
+                    var chipSets = playerChipSetRepository.findByPlayerId(id);
+                    playerChipSetRepository.deleteAll(chipSets);
                     playerRepository.delete(entity);
                     playerRepository.flush();
                     return true;

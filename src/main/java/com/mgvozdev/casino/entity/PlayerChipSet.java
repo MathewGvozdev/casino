@@ -34,7 +34,7 @@ public class PlayerChipSet {
     @Column(name = "total")
     protected BigDecimal total;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "player_id")
     private Player player;
 }

@@ -11,11 +11,11 @@ VALUES ('238723cf-4497-4a51-85f1-fd9a5807d074', 'ADD_USER'),
        ('1f8595d8-e97f-4c6f-802b-de27e02a1802', 'READ_REPORT');
 
 INSERT INTO role(id, title)
-VALUES ('c6412eae-acb5-4467-8183-1bc528a7b925', 'ROLE_SUPERVISOR'),
-       ('9de36d70-83af-44ba-854b-e46e9171b2ba', 'ROLE_PIT_BOSS'),
-       ('06aaf8f5-13c3-48b3-93cc-d6075ebdd3c7', 'ROLE_SHIFT_MANAGER'),
-       ('cc7e2bf9-70fe-4738-b7b8-f8b95338231c', 'ROLE_HOST'),
-       ('258ff0f8-77ac-47b0-a002-55a03fa8205b', 'ROLE_ADMIN');
+VALUES ('c6412eae-acb5-4467-8183-1bc528a7b925', 'SUPERVISOR'),
+       ('9de36d70-83af-44ba-854b-e46e9171b2ba', 'PIT_BOSS'),
+       ('06aaf8f5-13c3-48b3-93cc-d6075ebdd3c7', 'SHIFT_MANAGER'),
+       ('cc7e2bf9-70fe-4738-b7b8-f8b95338231c', 'HOST'),
+       ('258ff0f8-77ac-47b0-a002-55a03fa8205b', 'ADMIN');
 
 INSERT INTO role_authority(id,
                            role_id,
@@ -60,7 +60,7 @@ VALUES ('616deeeb-b47f-4550-95f7-cb31dabd14ea', 'alamazza', 'sv1234'),
        ('b0b2dc10-b807-462b-932a-a6fc2499abde', 'admin', 'admin');
 
 INSERT INTO user_info(id, user_id,
-                      first_name, last_name, shift, hired_on, salary)
+                       first_name, last_name, shift, hired_on, salary)
 VALUES ('1c377d65-f00a-4258-86ef-3dcea7c9a353', (SELECT id FROM users WHERE username = 'alamazza'),
         'Anton', 'Lamazza', 'SWING', '2010-10-24', 33),
        ('0ac7fcae-0a95-4a6c-9a21-f02c495caf03', (SELECT id FROM users WHERE username = 'rgreen'),
@@ -75,8 +75,8 @@ VALUES ('1c377d65-f00a-4258-86ef-3dcea7c9a353', (SELECT id FROM users WHERE user
         'Andrew', 'Johnson', 'DAY', '2013-11-20', 36);
 
 INSERT INTO user_role(id,
-                      user_id,
-                      role_id)
+                       user_id,
+                       role_id)
 VALUES ('b2b53e66-50aa-47d7-a2d9-2364de00d7f4',
         (SELECT id FROM users WHERE username = 'alamazza'),
         (SELECT id FROM role WHERE title = 'SUPERVISOR')),
@@ -161,10 +161,10 @@ VALUES ('4c36dfef-9a2f-414e-a2d8-1fb33a25c57e', (SELECT id FROM profile WHERE to
         '2024-03-30 16:30:00', 100, null, null);
 
 INSERT INTO table_session(id,
-                          table_id, dealer_id,
-                          min_bet, max_bet,
-                          opened_at, opened_by,
-                          closed_at, closed_by)
+                           table_id, dealer_id,
+                           min_bet, max_bet,
+                           opened_at, opened_by,
+                           closed_at, closed_by)
 VALUES ('d237dbdc-0da1-437b-adcb-270d47e0241e',
         (SELECT id FROM tables WHERE number = 901), (SELECT id FROM dealer WHERE first_name = 'Charles'),
         25, 500,
@@ -182,9 +182,9 @@ VALUES ('d237dbdc-0da1-437b-adcb-270d47e0241e',
         null, null);
 
 INSERT INTO player_table_session(id,
-                                 player_id,
-                                 table_session_id,
-                                 started_at)
+                                  player_id,
+                                  table_session_id,
+                                  started_at)
 VALUES ('dec32eed-5858-4a58-83d9-75107d931f26',
         (SELECT id FROM player WHERE opened_at = '2024-03-29 11:30:00'),
         (SELECT id FROM table_session WHERE opened_at = '2024-03-29 10:00:00'),

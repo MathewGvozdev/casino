@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,8 +19,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@RequestMapping(value = "/create",
-        method = RequestMethod.POST)
+@RequestMapping(method = RequestMethod.POST)
 @ResponseStatus(HttpStatus.CREATED)
 @Operation(summary = "creation of a new player",
         description = "if player is created, the method returns its created DTO, otherwise throws exception NOT CREATED",
@@ -38,4 +38,7 @@ import java.lang.annotation.Target;
         }
 )
 public @interface CreatePlayer {
+
+    @AliasFor(annotation = RequestMapping.class, attribute = "path")
+    String[] path() default {};
 }
