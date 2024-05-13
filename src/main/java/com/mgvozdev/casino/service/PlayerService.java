@@ -17,8 +17,6 @@ public interface PlayerService {
     List<PlayerReadDto> findByOpenedAtBetween(LocalDateTime openedAtStart,
                                        LocalDateTime openedAtEnd);
 
-    List<PlayerReadDto> findByProfileId(UUID profileId);
-
     PlayerReadDto create(PlayerCreateDto playerCreateDto);
 
     PlayerReadDto update(UUID id, PlayerEditDto playerEditDto);

@@ -33,22 +33,16 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<PlayerReadDto> findAll() {
         var players = playerRepository.findAll();
-        return transferToDtoWithChips(players);
+        return mapToDtoElseThrowException(players);
     }
 
     @Override
     public List<PlayerReadDto> findByOpenedAtBetween(LocalDateTime openedAtStart, LocalDateTime openedAtEnd) {
         var players = playerRepository.findByOpenedAtBetween(openedAtStart, openedAtEnd);
-        return transferToDtoWithChips(players);
+        return mapToDtoElseThrowException(players);
     }
 
-    @Override
-    public List<PlayerReadDto> findByProfileId(UUID profileId) {
-        var playerSessions = playerRepository.findByProfileId(profileId);
-        return transferToDtoWithChips(playerSessions);
-    }
-
-    private List<PlayerReadDto> transferToDtoWithChips(List<Player> playerSessions) {
+    private List<PlayerReadDto> mapToDtoElseThrowException(List<Player> playerSessions) {
         if (playerSessions.isEmpty()) {
             throw new PlayerException(ErrorMessage.NOT_FOUND);
         }
@@ -62,7 +56,8 @@ public class PlayerServiceImpl implements PlayerService {
     public PlayerReadDto create(PlayerCreateDto playerCreateDto) {
         return Optional.of(playerCreateDto)
                 .map(playerMapper::toEntity)
-                .map(playerRepository::save).map(playerMapper::toDto)
+                .map(playerRepository::save)
+                .map(playerMapper::toDto)
                 .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_CREATED));
     }
 

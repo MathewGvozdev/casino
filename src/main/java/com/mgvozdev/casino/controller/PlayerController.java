@@ -39,12 +39,6 @@ public class PlayerController {
         return playerService.findByOpenedAtBetween(openedAtStart, openedAtEnd);
     }
 
-    @RequestMapping(value = "/sessions/{profileId}",
-            method = RequestMethod.GET)
-    public List<PlayerReadDto> findByProfileId(@UUIDChecker @PathVariable UUID profileId) {
-        return playerService.findByProfileId(profileId);
-    }
-
     @CreatePlayer
     public PlayerReadDto create(@Validated @RequestBody PlayerCreateDto playerCreateDto) {
         return playerService.create(playerCreateDto);
