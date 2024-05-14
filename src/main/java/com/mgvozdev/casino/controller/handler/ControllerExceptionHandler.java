@@ -13,20 +13,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(PlayerException.class)
-    public ResponseEntity<Exception> handlePlayerException(Exception exception) {
+    public ResponseEntity<String> handlePlayerException(Exception exception) {
         if (exception.getMessage().equals(ErrorMessage.NOT_FOUND)) {
-            return new ResponseEntity<>(exception, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @ExceptionHandler(ChipException.class)
-    public ResponseEntity<Exception> handleChipException(Exception exception) {
+    public ResponseEntity<String> handleChipException(Exception exception) {
         if (exception.getMessage().equals(ErrorMessage.NOT_FOUND)) {
-            return new ResponseEntity<>(exception, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
