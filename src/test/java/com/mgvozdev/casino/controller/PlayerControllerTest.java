@@ -34,20 +34,40 @@ public class PlayerControllerTest {
 
     @Test
     void findAll() throws Exception {
-        var expectedList = ExpectedResult.getListOfPlayerReadDtos();
+        var urlTemplateForAllPlayers = "/players";
+        var urlTemplateForPlayersWithParams = "/players?openedFrom=2024-03-29T00:00:00&openedTill=2024-03-30T00:00:00";
 
+        testForAllPlayers(urlTemplateForAllPlayers);
+        testForPlayersWithRequestParams(urlTemplateForPlayersWithParams);
+    }
+
+    private void testForAllPlayers(String urlTemplateForAllPlayers) throws Exception {
+        var expectedList = ExpectedResult.getListOfPlayerReadDtos();
         var json = objectMapper.writeValueAsString(expectedList);
-        var mvcResult = mockMvc.perform(get("/players")
+        var mvcResult = mockMvc.perform(get(urlTemplateForAllPlayers)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
-
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse,
                 new TypeReference<List<PlayerReadDto>>() {
-        });
+                });
+        assertEquals(expectedList, actualResult);
+    }
 
+    private void testForPlayersWithRequestParams(String urlTemplateForPlayersWithParams) throws Exception {
+        var expectedList = ExpectedResult.getListOfPlayerReadDtos().subList(0, 2);
+        var json = objectMapper.writeValueAsString(expectedList);
+        var mvcResult = mockMvc.perform(get(urlTemplateForPlayersWithParams)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+        var jsonResponse = mvcResult.getResponse().getContentAsString();
+        var actualResult = objectMapper.readValue(jsonResponse,
+                new TypeReference<List<PlayerReadDto>>() {
+                });
         assertEquals(expectedList, actualResult);
     }
 
@@ -110,8 +130,12 @@ public class PlayerControllerTest {
     @Test
     public void deletePlayerPositiveTest() throws Exception {
         var uuid = "d9ba4962-aa83-40b1-a027-794d5531e586";
+        var notExistingUuid = "11111111-aaaa-bbbb-cccc-000000000000";
 
         mockMvc.perform(delete("/players/{id}", uuid))
                 .andExpect(status().isNoContent());
+
+        mockMvc.perform(delete("/players/{id}", notExistingUuid))
+                .andExpect(status().isNotFound());
     }
 }
