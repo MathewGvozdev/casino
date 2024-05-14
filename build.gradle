@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'io.freefair.lombok' version '6.3.0'
+    id 'jacoco'
 }
 
 apply from: 'version.gradle'
@@ -28,20 +29,52 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.postgresql:postgresql'
-    implementation "org.springdoc:springdoc-openapi-ui:${versions.springdoc}"
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}"
+    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
 //    implementation 'org.liquibase:liquibase-core'
 
-    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+
     testImplementation "com.h2database:h2:${versions.h2}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.security:spring-security-test'
 }
 
+jacoco {
+    toolVersion = "${versions.jacoco}"
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'com/mgvozdev/casino/annotation/**',
+                    'com/mgvozdev/casino/dto/**',
+                    'com/mgvozdev/casino/entity/**',
+                    'com/mgvozdev/casino/exception/**',
+                    'com/mgvozdev/casino/mapper/**',
+                    'com/mgvozdev/casino/repository/**',
+                    'com/mgvozdev/casino/validation/**',
+                    'com/mgvozdev/casino/controller/handler/**',
+                    'com/mgvozdev/casino/CasinoApplication.class'
+            ])
+        }))
+    }
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 wrapper {

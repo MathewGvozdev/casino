@@ -28,15 +28,13 @@ public class PlayerController {
     }
 
     @FindAllPlayers
-    public List<PlayerReadDto> findAll() {
-        return playerService.findAll();
-    }
-
-    @RequestMapping(value = "/{openedAtStart}/{openedAtEnd}",
-            method = RequestMethod.GET)
-    public List<PlayerReadDto> findByOpenedAtBetween(@PathVariable LocalDateTime openedAtStart,
-                                                     @PathVariable LocalDateTime openedAtEnd) {
-        return playerService.findByOpenedAtBetween(openedAtStart, openedAtEnd);
+    public List<PlayerReadDto> findAll(@RequestParam(required = false) LocalDateTime openedFrom,
+                                       @RequestParam(required = false) LocalDateTime openedTill) {
+        if (openedFrom != null && openedTill != null) {
+            return playerService.findByOpenedAtBetween(openedFrom, openedTill);
+        } else {
+            return playerService.findAll();
+        }
     }
 
     @CreatePlayer

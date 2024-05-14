@@ -4,9 +4,10 @@ ext {
             'dependency-management': '1.1.4',
             'lombok': '6.3.0',
             'jdk': '17',
-            'springdoc': '1.6.6',
+            'springdoc': '2.5.0',
             'mapstruct': '1.5.5.Final',
             'gradle': '7.3',
-            'h2': '2.2.224'
+            'h2': '2.2.224',
+            'jacoco': '0.8.8'
     ]
 }
