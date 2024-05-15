@@ -2,6 +2,7 @@ package com.mgvozdev.casino.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mgvozdev.casino.annotation.IntegrationTest;
 import com.mgvozdev.casino.dto.PlayerCreateDto;
 import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
@@ -10,9 +11,7 @@ import com.mgvozdev.casino.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -23,10 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@IntegrationTest
 @AutoConfigureMockMvc
-@Sql("classpath:/db/test-schema.sql")
-@Sql("classpath:/db/test-data.sql")
 public class PlayerControllerTest {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -42,11 +39,10 @@ public class PlayerControllerTest {
 
     @Test
     void findAll_positive_returnListOfPlayers() throws Exception {
-        var url = "/players";
         var expectedList = playerService.findAll();
         var json = objectMapper.writeValueAsString(expectedList);
 
-        var mvcResult = mockMvc.perform(get(url)
+        var mvcResult = mockMvc.perform(get("/players")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().is2xxSuccessful())
@@ -62,7 +58,7 @@ public class PlayerControllerTest {
     @Test
     void findAllByParams_positive_returnListOfPlayers() throws Exception {
         var url = "/players?openedFrom=2024-03-29T00:00:00&openedTill=2024-03-30T00:00:00";
-        var expectedList = playerService.findAll().subList(0,2);
+        var expectedList = playerService.findAll().subList(0, 2);
         var json = objectMapper.writeValueAsString(expectedList);
 
         var mvcResult = mockMvc.perform(get(url)
@@ -169,10 +165,10 @@ public class PlayerControllerTest {
     @Test
     public void update_negativeWrongValuesGiven_throwsPlayerException() throws Exception {
         var uuid = "d9ba4962-aa83-40b1-a027-794d5531e586";
-        var wrongBuyInDto = new PlayerEditDto(new BigDecimal(-500), LocalDateTime.now(), 50);
-        var wrongAvgBetDto = new PlayerEditDto(new BigDecimal(500), LocalDateTime.now(), -20);
-        var wrongBuyInJson = objectMapper.writeValueAsString(wrongBuyInDto);
-        var nullAvgBetJson = objectMapper.writeValueAsString(wrongAvgBetDto);
+        var dtoWithWrongBuyIn = new PlayerEditDto(new BigDecimal(-500), LocalDateTime.now(), 50);
+        var dtoWithWrongAvgBet = new PlayerEditDto(new BigDecimal(500), LocalDateTime.now(), -20);
+        var wrongBuyInJson = objectMapper.writeValueAsString(dtoWithWrongBuyIn);
+        var nullAvgBetJson = objectMapper.writeValueAsString(dtoWithWrongAvgBet);
 
         mockMvc.perform(put("/players/{id}", uuid)
                         .contentType(MediaType.APPLICATION_JSON)

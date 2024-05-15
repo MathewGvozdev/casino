@@ -30,7 +30,7 @@ public class PlayerController {
         return playerService.findById(id);
     }
 
-    @FindAllPlayers
+    @FindPlayers
     public List<PlayerReadDto> findAll(@RequestParam(required = false) LocalDateTime openedFrom,
                                        @RequestParam(required = false) LocalDateTime openedTill) {
         if (openedFrom != null && openedTill != null) {

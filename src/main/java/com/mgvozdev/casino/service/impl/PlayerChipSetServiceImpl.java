@@ -3,6 +3,7 @@ package com.mgvozdev.casino.service.impl;
 import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.exception.ChipException;
 import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.exception.PlayerException;
 import com.mgvozdev.casino.mapper.ChipMapper;
 import com.mgvozdev.casino.repository.PlayerChipSetRepository;
 import com.mgvozdev.casino.repository.PlayerRepository;
@@ -52,7 +53,11 @@ public class PlayerChipSetServiceImpl implements PlayerChipSetService {
                 .map(chipMapper::toEntity)
                 .map(entity -> {
                     var player = playerRepository.findById(playerId);
-                    player.ifPresent(entity::setPlayer);
+                    player.ifPresentOrElse(
+                            entity::setPlayer,
+                            () -> {
+                                throw new PlayerException(ErrorMessage.NOT_FOUND);
+                            });
                     return playerChipSetRepository.save(entity);
                 })
                 .map(chipMapper::toDto)
@@ -62,6 +67,9 @@ public class PlayerChipSetServiceImpl implements PlayerChipSetService {
     @Override
     public boolean deleteAll(UUID playerId) {
         var chips = playerChipSetRepository.findByPlayerId(playerId);
+        if (chips.isEmpty()) {
+            throw new PlayerException(ErrorMessage.NOT_FOUND);
+        }
         try {
             playerChipSetRepository.deleteAll(chips);
             playerChipSetRepository.flush();

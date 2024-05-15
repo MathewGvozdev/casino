@@ -15,17 +15,17 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@RequestMapping(method = RequestMethod.GET)
-@ResponseStatus(HttpStatus.OK)
-@Operation(summary = "player search by his UUID",
-        description = "if player is found, the method returns player DTO, otherwise throws exception NOT FOUND",
-        tags = "players",
+@RequestMapping(method = RequestMethod.DELETE)
+@ResponseStatus(HttpStatus.NO_CONTENT)
+@Operation(summary = "deleting chips by player UUID",
+        description = "the method returns ResponseEntity with the result of operation",
+        tags = "chips",
         responses = {
-                @ApiResponse(responseCode = "200", description = "found"),
-                @ApiResponse(responseCode = "400", description = "not found")
+                @ApiResponse(responseCode = "204", description = "deleted, no content"),
+                @ApiResponse(responseCode = "404", description = "not found")
         }
 )
-public @interface FindPlayerById {
+public @interface DeleteChipsForPlayer {
 
     @AliasFor(annotation = RequestMapping.class, attribute = "path")
     String[] path() default {};
