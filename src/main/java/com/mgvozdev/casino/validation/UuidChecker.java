@@ -1,7 +1,7 @@
 package com.mgvozdev.casino.validation;
 
 import com.mgvozdev.casino.exception.ErrorMessage;
-import com.mgvozdev.casino.validation.impl.UUIDValidator;
+import com.mgvozdev.casino.validation.impl.UuidValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -10,10 +10,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UUIDValidator.class)
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UUIDChecker {
+@Constraint(validatedBy = UuidValidator.class)
+public @interface UuidChecker {
 
     String message() default ErrorMessage.INVALID_UUID;
 

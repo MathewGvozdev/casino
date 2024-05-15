@@ -45,7 +45,7 @@ public class PlayerControllerTest {
         var mvcResult = mockMvc.perform(get("/players")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().isOk())
                 .andReturn();
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse,
@@ -64,7 +64,7 @@ public class PlayerControllerTest {
         var mvcResult = mockMvc.perform(get(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().isOk())
                 .andReturn();
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse,
@@ -83,7 +83,7 @@ public class PlayerControllerTest {
         var mvcResult = mockMvc.perform(get("/players/{id}", uuid)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().isOk())
                 .andReturn();
 
         var jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -98,11 +98,11 @@ public class PlayerControllerTest {
 
         mockMvc.perform(get("/players/{id}", notExistingUuid)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    public void create_positive_ReturnNewPlayer() throws Exception {
+    public void create_positive_returnNewPlayer() throws Exception {
         var playerCreateDto = TestUtils.getPlayerCreateDto();
         var json = objectMapper.writeValueAsString(playerCreateDto);
 
@@ -127,7 +127,7 @@ public class PlayerControllerTest {
         mockMvc.perform(post("/players")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class PlayerControllerTest {
         var mvcResult = mockMvc.perform(put("/players/{id}", uuid)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().isOk())
                 .andReturn();
 
         var jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -173,11 +173,11 @@ public class PlayerControllerTest {
         mockMvc.perform(put("/players/{id}", uuid)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(wrongBuyInJson))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest());
         mockMvc.perform(put("/players/{id}", uuid)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(nullAvgBetJson))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test

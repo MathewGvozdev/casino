@@ -5,7 +5,8 @@ import com.mgvozdev.casino.annotation.DeleteChipsForPlayer;
 import com.mgvozdev.casino.annotation.UpdateChipSetForPlayer;
 import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.service.PlayerChipSetService;
-import com.mgvozdev.casino.validation.UUIDChecker;
+import com.mgvozdev.casino.validation.ChipsChecker;
+import com.mgvozdev.casino.validation.UuidChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ public class ChipController {
 
     @AddChipsForPlayer(path = "/players/{id}/chips")
     public Set<ChipSetDto> addChipsForPlayer(@PathVariable("id") UUID id,
-                                             @Validated @RequestBody Set<ChipSetDto> chips) {
+                                             @ChipsChecker @RequestBody Set<ChipSetDto> chips) {
         return playerChipSetService.create(id, chips);
     }
 
@@ -40,7 +41,7 @@ public class ChipController {
     }
 
     @DeleteChipsForPlayer(path = "/players/{id}/chips")
-    public ResponseEntity<?> deleteAllPlayerChips(@UUIDChecker @PathVariable("id") UUID id) {
+    public ResponseEntity<?> deleteAllPlayerChips(@UuidChecker @PathVariable("id") UUID id) {
         return playerChipSetService.deleteAll(id)
                 ? noContent().build()
                 : notFound().build();

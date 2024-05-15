@@ -68,18 +68,17 @@ public class ChipControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    //TODO 15.05.2024: test fails, values in set are not validated
-//    @Test
-//    public void addChipsForPlayer_negativeWrongValuesGiven_throwsPlayerException() throws Exception {
-//        var playerId = UUID.fromString("a9f6c8cf-fec4-4ffc-99d6-13e6bc1e9b5f");
-//        var chips = TestUtils.getSetOfChipsForNegative();
-//        var json = objectMapper.writeValueAsString(chips);
-//
-//        mockMvc.perform(post("/players/{id}/chips", playerId)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(json))
-//                .andExpect(status().is4xxClientError());
-//    }
+    @Test
+    public void addChipsForPlayer_negativeWrongValuesGiven_throwsPlayerException() throws Exception {
+        var playerId = UUID.fromString("a9f6c8cf-fec4-4ffc-99d6-13e6bc1e9b5f");
+        var chips = TestUtils.getSetOfChipsForNegative();
+        var json = objectMapper.writeValueAsString(chips);
+
+        mockMvc.perform(post("/players/{id}/chips", playerId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().is4xxClientError());
+    }
 
     @Test
     public void updateChipSetForPlayer_positive_returnPlayerChips() throws Exception {
@@ -90,7 +89,7 @@ public class ChipControllerTest {
         var mvcResult = mockMvc.perform(put("/players/{id}/chips", playerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().isOk())
                 .andReturn();
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse,
@@ -122,7 +121,7 @@ public class ChipControllerTest {
         mockMvc.perform(put("/players/{id}/chips", playerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test

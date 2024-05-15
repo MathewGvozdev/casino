@@ -70,12 +70,10 @@ public class PlayerChipSetServiceImpl implements PlayerChipSetService {
         if (chips.isEmpty()) {
             throw new PlayerException(ErrorMessage.NOT_FOUND);
         }
-        try {
-            playerChipSetRepository.deleteAll(chips);
-            playerChipSetRepository.flush();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        chips.forEach(entity -> {
+                            playerChipSetRepository.delete(entity);
+                            playerChipSetRepository.flush();
+                        });
+        return playerChipSetRepository.findByPlayerId(playerId).isEmpty();
     }
 }
