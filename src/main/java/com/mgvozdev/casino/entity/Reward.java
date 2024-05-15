@@ -46,12 +46,12 @@ public class Reward {
             nullable = false)
     private RewardStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id",
             nullable = false)
     private Profile profile;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",
             nullable = false)
     private User user;

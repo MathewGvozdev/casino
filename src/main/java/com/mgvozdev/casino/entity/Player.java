@@ -1,6 +1,5 @@
 package com.mgvozdev.casino.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -43,14 +42,12 @@ public class Player {
             nullable = false)
     private Profile profile;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "player_table_session",
             joinColumns = @JoinColumn(name = "player_id"),
             inverseJoinColumns = @JoinColumn(name = "table_session_id"))
     private List<TableSession> tableSessions = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "player", cascade = CascadeType.REMOVE)
     private Set<PlayerChipSet> chips = new HashSet<>();
 }

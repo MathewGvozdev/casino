@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
 
@@ -32,26 +33,18 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public List<PlayerReadDto> findAll() {
-        var players = playerRepository.findAll();
-        return mapToDtoElseThrowException(players);
-    }
-
-    @Override
-    public List<PlayerReadDto> findByOpenedAtBetween(LocalDateTime openedAtStart, LocalDateTime openedAtEnd) {
-        var players = playerRepository.findByOpenedAtBetween(openedAtStart, openedAtEnd);
-        return mapToDtoElseThrowException(players);
-    }
-
-    private List<PlayerReadDto> mapToDtoElseThrowException(List<Player> playerSessions) {
-        if (playerSessions.isEmpty()) {
-            throw new PlayerException(ErrorMessage.NOT_FOUND);
-        }
-        return playerSessions.stream()
+        return playerRepository.findAll().stream()
                 .map(playerMapper::toDto)
                 .toList();
     }
 
-    @Transactional
+    @Override
+    public List<PlayerReadDto> findByOpenedAtBetween(LocalDateTime openedAtStart, LocalDateTime openedAtEnd) {
+        return playerRepository.findByOpenedAtBetween(openedAtStart, openedAtEnd).stream()
+                .map(playerMapper::toDto)
+                .toList();
+    }
+
     @Override
     public PlayerReadDto create(PlayerCreateDto playerCreateDto) {
         return Optional.of(playerCreateDto)
@@ -61,7 +54,6 @@ public class PlayerServiceImpl implements PlayerService {
                 .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_CREATED));
     }
 
-    @Transactional
     @Override
     public PlayerReadDto update(UUID id, PlayerEditDto playerEditDto) {
         var playerFromDB = playerRepository.findById(id);
@@ -75,7 +67,6 @@ public class PlayerServiceImpl implements PlayerService {
         }
     }
 
-    @Transactional
     @Override
     public boolean delete(UUID id) {
         return playerRepository.findById(id)

@@ -33,7 +33,7 @@ public class TableChipSet {
     @Column(name = "total")
     protected BigDecimal total;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "table_id",
             nullable = false)
     private Table table;

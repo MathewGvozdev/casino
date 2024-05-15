@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.http.ResponseEntity.noContent;
+import static org.springframework.http.ResponseEntity.notFound;
+
 @RestController
 @RequestMapping("/players")
 @RequiredArgsConstructor
@@ -51,7 +54,7 @@ public class PlayerController {
     @DeletePlayer(path = "/{id}")
     public ResponseEntity<?> delete(@UUIDChecker @PathVariable("id") UUID id) {
         return playerService.delete(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+                ? noContent().build()
+                : notFound().build();
     }
 }

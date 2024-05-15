@@ -37,7 +37,7 @@ public class Report {
     @Column(name = "total_winnings")
     private BigDecimal totalWinnings;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",
             nullable = false)
     private User user;

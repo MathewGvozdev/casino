@@ -1,6 +1,5 @@
 package com.mgvozdev.casino.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mgvozdev.casino.entity.enums.DocumentType;
 import com.mgvozdev.casino.entity.enums.MembershipType;
 import com.mgvozdev.casino.entity.enums.ProfileStatus;
@@ -89,11 +88,9 @@ public class Profile {
     @Column(name = "total_winnings")
     private BigDecimal totalWinnings;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "profile")
     private List<Player> playerSessions = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "profile")
     private List<Reward> rewards = new ArrayList<>();
 }

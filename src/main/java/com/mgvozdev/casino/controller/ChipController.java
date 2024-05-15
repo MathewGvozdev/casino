@@ -10,17 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.springframework.http.ResponseEntity.noContent;
+import static org.springframework.http.ResponseEntity.notFound;
+
 @RestController
 @RequiredArgsConstructor
 public class ChipController {
 
     private final PlayerChipSetService playerChipSetService;
 //    private final TableChipSetService tableChipSetService;
-
-    @RequestMapping("/players/{id}/chips")
-    public Set<ChipSetDto> findById(@UUIDChecker @PathVariable("id") UUID id) {
-        return playerChipSetService.findPlayerChips(id);
-    }
 
     @PostMapping("/players/{id}/chips")
     public Set<ChipSetDto> create(@PathVariable("id") UUID id,
@@ -38,7 +36,7 @@ public class ChipController {
     @DeleteMapping("players/{id}/chips")
     public ResponseEntity<?> delete(@UUIDChecker @PathVariable("id") UUID id) {
         return playerChipSetService.deleteAll(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+                ? noContent().build()
+                : notFound().build();
     }
 }

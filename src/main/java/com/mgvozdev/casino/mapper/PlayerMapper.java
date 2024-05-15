@@ -1,11 +1,14 @@
 package com.mgvozdev.casino.mapper;
 
+import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.dto.PlayerCreateDto;
 import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
 import com.mgvozdev.casino.entity.Player;
 import com.mgvozdev.casino.entity.PlayerChipSet;
 import com.mgvozdev.casino.entity.Profile;
+import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.exception.PlayerException;
 import com.mgvozdev.casino.repository.PlayerRepository;
 import com.mgvozdev.casino.repository.ProfileRepository;
 import org.mapstruct.*;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class PlayerMapper {
@@ -58,13 +62,14 @@ public abstract class PlayerMapper {
     @Mapping(target = "closedAt", source = "closedAt")
     @Mapping(target = "avgBet", source = "avgBet")
     @Mapping(target = "total", source = "chips", qualifiedByName = "countTotal")
+    @Mapping(target = "chips", source = "chips", qualifiedByName = "mapChips")
     public abstract PlayerReadDto toDto(Player player);
 
     @Named("getProfile")
     Profile getProfile(String documentNumber) {
         return Optional.ofNullable(documentNumber)
                 .flatMap(profileRepository::findBy)
-                .orElse(null);
+                .orElseThrow(() -> new PlayerException(ErrorMessage.NOT_FOUND));
     }
 
     @Named("countTotal")
@@ -75,4 +80,11 @@ public abstract class PlayerMapper {
         }
         return total;
     }
+    @Named("mapChips")
+    Set<ChipSetDto> mapChips(Set<PlayerChipSet> chips) {
+        return chips.stream()
+                .map(chipMapper::toDto)
+                .collect(Collectors.toSet());
+    }
+
 }

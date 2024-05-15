@@ -1,5 +1,10 @@
 package com.mgvozdev.casino.entity.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum Chip {
 
     GREY(5000.0),
@@ -14,12 +19,4 @@ public enum Chip {
     QUARTER(0.25);
 
     private final Double value;
-
-    Chip(Double value) {
-        this.value = value;
-    }
-
-    public Double getValue() {
-        return value;
-    }
 }

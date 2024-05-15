@@ -38,22 +38,22 @@ public class TableSession {
     @Column(name = "closed_at")
     private LocalDateTime closedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "table_id",
             nullable = false)
     private Table table;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealer_id",
             nullable = false)
     private Dealer dealer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "opened_by",
             nullable = false)
     private User openedBy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "closed_by")
     private User closedBy;
 

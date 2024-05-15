@@ -42,7 +42,7 @@ public class UserInfo {
     @Column(name = "salary")
     private BigDecimal salary;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",
             unique = true,
             nullable = false)
