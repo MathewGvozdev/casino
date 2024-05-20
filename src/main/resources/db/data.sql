@@ -121,7 +121,7 @@ VALUES ('b2b53e66-50aa-47d7-a2d9-2364de00d7f4',
         (SELECT id FROM role WHERE title = 'ADMIN'));
 
 INSERT INTO profile (id, document_type, country, document_number, first_name, last_name, date_of_birth,
-                     issue_date, expiration_date, address, document_image, phone_number,
+                     issue_date, expiration_date, address, phone_number,
                      membership_type, status, total_deposit, total_winnings)
 VALUES ('a6a43441-ac01-4de7-911e-94d7c6cb6fbd', 'ID_CARD', 'USA', '46728918', 'John', 'White', '1985-04-28',
         '2022-03-15', '2027-03-15', '35 Oak Road, PA, Philadelphia, 19114', '+1 224 890 6711',

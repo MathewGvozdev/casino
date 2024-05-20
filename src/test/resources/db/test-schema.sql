@@ -71,7 +71,6 @@ CREATE TABLE profile
     issue_date      DATE                NOT NULL,
     expiration_date DATE                NOT NULL,
     address         VARCHAR(64),
-    document_image  VARCHAR(128) UNIQUE NOT NULL,
     phone_number    VARCHAR(16),
     membership_type VARCHAR(8)          NOT NULL,
     status          VARCHAR(16)         NOT NULL,

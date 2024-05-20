@@ -21,7 +21,6 @@ public abstract class UserInfoMapper {
     @Mapping(target = "user", source = "username", qualifiedByName = "mapUser")
     public abstract UserInfo toEntity(UserCreateDto userCreateDto);
 
-    @Mapping(target = "user", source = "username", qualifiedByName = "mapUser")
     public abstract UserInfo toEntity(UserInfoEditDto userInfoEditDto, @MappingTarget UserInfo user);
 
     @Mapping(target = "username", source = "user.username")
