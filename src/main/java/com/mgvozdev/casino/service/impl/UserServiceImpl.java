@@ -4,6 +4,7 @@ import com.mgvozdev.casino.dto.UserCreateDto;
 import com.mgvozdev.casino.dto.UserEditDto;
 import com.mgvozdev.casino.dto.UserInfoEditDto;
 import com.mgvozdev.casino.dto.UserReadDto;
+import com.mgvozdev.casino.entity.UserInfo;
 import com.mgvozdev.casino.exception.ErrorMessage;
 import com.mgvozdev.casino.exception.UserException;
 import com.mgvozdev.casino.mapper.UserInfoMapper;
@@ -49,15 +50,15 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toEntity)
                 .map(userRepository::save)
                 .map(entity -> {
-                    saveUserInfo(userCreateDto);
-                    return userMapper.toDto(entity);
+                    var userInfo = saveUserInfo(userCreateDto);
+                    return userInfoMapper.toDto(userInfo);
                 })
                 .orElseThrow(() -> new UserException(ErrorMessage.NOT_CREATED));
     }
 
-    private void saveUserInfo(UserCreateDto userCreateDto) {
+    private UserInfo saveUserInfo(UserCreateDto userCreateDto) {
         var userInfo = userInfoMapper.toEntity(userCreateDto);
-        userInfoRepository.save(userInfo);
+        return userInfoRepository.save(userInfo);
     }
 
     @Override
