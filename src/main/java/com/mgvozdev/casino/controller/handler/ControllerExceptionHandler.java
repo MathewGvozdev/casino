@@ -1,8 +1,6 @@
 package com.mgvozdev.casino.controller.handler;
 
-import com.mgvozdev.casino.exception.ChipException;
-import com.mgvozdev.casino.exception.ErrorMessage;
-import com.mgvozdev.casino.exception.PlayerException;
+import com.mgvozdev.casino.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +21,24 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ChipException.class)
     public ResponseEntity<String> handleChipException(Exception exception) {
+        if (exception.getMessage().equals(ErrorMessage.NOT_FOUND)) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ExceptionHandler(ProfileException.class)
+    public ResponseEntity<String> handleProfileException(Exception exception) {
+        if (exception.getMessage().equals(ErrorMessage.NOT_FOUND)) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<String> handleUserException(Exception exception) {
         if (exception.getMessage().equals(ErrorMessage.NOT_FOUND)) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         } else {

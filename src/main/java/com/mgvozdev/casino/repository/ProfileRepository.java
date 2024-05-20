@@ -21,9 +21,13 @@ public interface ProfileRepository extends JpaRepository<Profile, UUID> {
            "where p.documentNumber = :documentNumber")
     Optional<Profile> findBy(String documentNumber);
 
+    @Query("select p from Profile p " +
+           "where p.membershipType = :membershipType")
+    List<Profile> findBy(MembershipType membershipType);
+
+    @Query("select p from Profile p " +
+           "where p.status = :profileStatus")
+    List<Profile> findBy(ProfileStatus profileStatus);
+
     List<Profile> findByTotalDepositGreaterThan(BigDecimal deposit);
-
-    List<Profile> findByMembershipType(MembershipType type);
-
-    List<Profile> findByStatus(ProfileStatus status);
 }

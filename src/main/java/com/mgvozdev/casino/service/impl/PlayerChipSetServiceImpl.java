@@ -10,12 +10,14 @@ import com.mgvozdev.casino.repository.PlayerRepository;
 import com.mgvozdev.casino.service.PlayerChipSetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PlayerChipSetServiceImpl implements PlayerChipSetService {
 

@@ -8,26 +8,16 @@ import org.mapstruct.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ChipMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "chip", source = "chip")
     @Mapping(target = "amount", expression = "java(countAmount(dto.chip(), dto.total()))")
-    @Mapping(target = "total", source = "total")
-    @Mapping(target = "player", ignore = true)
     PlayerChipSet toEntity(ChipSetDto dto);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "chip", source = "chip")
     @Mapping(target = "amount", expression = "java(countAmount(dto.chip(), dto.total()))")
-    @Mapping(target = "total", source = "total")
-    @Mapping(target = "player", ignore = true)
     PlayerChipSet toEntity(ChipSetDto dto, @MappingTarget PlayerChipSet playerChipSet);
 
-    @Mapping(target = "chip", source = "chip")
-    @Mapping(target = "amount", source = "amount")
-    @Mapping(target = "total", source = "total")
     ChipSetDto toDto(PlayerChipSet playerChipSet);
 
     default Integer countAmount(Chip chip, BigDecimal total) {

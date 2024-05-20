@@ -64,11 +64,6 @@ public class Profile {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "document_image",
-            unique = true,
-            nullable = false)
-    private String documentImage;
-
     @Column(name = "phone_number")
     private String phoneNumber;
 

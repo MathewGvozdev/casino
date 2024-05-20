@@ -124,18 +124,18 @@ INSERT INTO profile (id, document_type, country, document_number, first_name, la
                      issue_date, expiration_date, address, document_image, phone_number,
                      membership_type, status, total_deposit, total_winnings)
 VALUES ('a6a43441-ac01-4de7-911e-94d7c6cb6fbd', 'ID_CARD', 'USA', '46728918', 'John', 'White', '1985-04-28',
-        '2022-03-15', '2027-03-15', '35 Oak Road, PA, Philadelphia, 19114', '/path/to/image/photo1.jpg', '+1 224 890 6711',
+        '2022-03-15', '2027-03-15', '35 Oak Road, PA, Philadelphia, 19114', '+1 224 890 6711',
         'BRONZE', 'PERMITTED', 1200, 600),
        ('c5120555-5e7d-4500-b710-c9c7f2a5f4c5', 'DRIVER_LICENSE', 'USA', '18401294', 'Olivia', 'Sin', '1990-10-11', '2023-12-04', '2028-12-04',
-        '103 Springfield St, NJ, Cherry Hill, 08124', '/path/to/image/photo2.jpg', '+1 320 087 4534', 'SILVER', 'PERMITTED', 12000, 10000),
+        '103 Springfield St, NJ, Cherry Hill, 08124', '+1 320 087 4534', 'SILVER', 'PERMITTED', 12000, 10000),
        ('61344bca-9608-4ab7-9385-43af2848f506', 'PASSPORT', 'MXC', '89019381', 'Ricardo', 'Ramirez', '1976-08-01',
-        '2015-10-10', '2025-10-10', '1089 Spring Garden, PA, Philadelphia, 19135', '/path/to/image/photo3.jpg', '+1 871 210 3344',
+        '2015-10-10', '2025-10-10', '1089 Spring Garden, PA, Philadelphia, 19135', '+1 871 210 3344',
         'SILVER', 'BANNED', 500, 11200),
        ('64158c86-bcd8-4267-bb00-16f9fe82051e', 'DRIVER_LICENSE', 'USA', '98139401', 'Henry', 'Styles', '1981-01-07',
-        '2020-04-22', '2025-04-22', '657 3rd Ave , NY, New York, 10016', '/path/to/image/photo4.jpg', '+1 651 222 7641',
+        '2020-04-22', '2025-04-22', '657 3rd Ave , NY, New York, 10016', '+1 651 222 7641',
         'GOLD', 'PERMITTED', 56000, 32000),
        ('72f17432-54ed-4a85-a62d-b95cba05cf00', 'DRIVER_LICENSE', 'USA', '46791002', 'Lang', 'Lee', '1965-09-03',
-        '2021-05-30', '2026-05-30', '902 Arch St, PA, Philadelphia, 19107', '/path/to/image/photo5.jpg', '+1 450 411 3090',
+        '2021-05-30', '2026-05-30', '902 Arch St, PA, Philadelphia, 19107', '+1 450 411 3090',
         'BLACK', 'PERMITTED', 185000, 170000);
 
 INSERT INTO dealer(id, first_name, last_name, status)

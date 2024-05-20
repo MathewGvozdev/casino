@@ -16,7 +16,7 @@ public class TestUtils {
         var buyIn = new BigDecimal(5500);
         var date = LocalDateTime.of(2024, 3, 30, 15, 50, 0);
         var avgBet = 200;
-        return new PlayerEditDto(buyIn, date, 10);
+        return new PlayerEditDto(buyIn, date, avgBet);
     }
 
     public static PlayerCreateDto getPlayerCreateDto() {
