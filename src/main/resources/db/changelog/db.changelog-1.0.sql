@@ -1,54 +1,45 @@
-DROP TABLE IF EXISTS authority CASCADE;
-DROP TABLE IF EXISTS dealer CASCADE;
-DROP TABLE IF EXISTS player CASCADE;
-DROP TABLE IF EXISTS player_chip_set CASCADE;
-DROP TABLE IF EXISTS player_table_session CASCADE;
-DROP TABLE IF EXISTS profile CASCADE;
-DROP TABLE IF EXISTS report CASCADE;
-DROP TABLE IF EXISTS reward CASCADE;
-DROP TABLE IF EXISTS role CASCADE;
-DROP TABLE IF EXISTS role_authority CASCADE;
-DROP TABLE IF EXISTS table_chip_set CASCADE;
-DROP TABLE IF EXISTS tables CASCADE;
-DROP TABLE IF EXISTS table_session CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS user_info CASCADE;
-DROP TABLE IF EXISTS user_role CASCADE;
+--liquibase formatted sql
 
-CREATE TABLE role
+--changeset mgvozdev:1
+CREATE TABLE IF NOT EXISTS role
 (
     id    UUID PRIMARY KEY,
     title VARCHAR(32) UNIQUE NOT NULL
 );
 
-CREATE TABLE authority
+--changeset mgvozdev:2
+CREATE TABLE IF NOT EXISTS authority
 (
     id         UUID PRIMARY KEY,
     permission VARCHAR(64) UNIQUE NOT NULL
 );
 
-CREATE TABLE role_authority
+--changeset mgvozdev:3
+CREATE TABLE IF NOT EXISTS role_authority
 (
     id           UUID PRIMARY KEY,
     role_id      UUID REFERENCES role (id),
     authority_id UUID REFERENCES authority (id)
 );
 
-CREATE TABLE users
+--changeset mgvozdev:4
+CREATE TABLE IF NOT EXISTS users
 (
     id       UUID PRIMARY KEY,
     username VARCHAR(32) UNIQUE NOT NULL,
     password VARCHAR(64)        NOT NULL
 );
 
-CREATE TABLE user_role
+--changeset mgvozdev:5
+CREATE TABLE IF NOT EXISTS user_role
 (
     id      UUID PRIMARY KEY,
     user_id UUID REFERENCES users (id),
     role_id UUID REFERENCES role (id)
 );
 
-CREATE TABLE user_info
+--changeset mgvozdev:6
+CREATE TABLE IF NOT EXISTS user_info
 (
     id         UUID PRIMARY KEY,
     user_id    UUID REFERENCES users (id) UNIQUE NOT NULL,
@@ -59,7 +50,8 @@ CREATE TABLE user_info
     salary     NUMERIC
 );
 
-CREATE TABLE profile
+--changeset mgvozdev:7
+CREATE TABLE IF NOT EXISTS profile
 (
     id              UUID PRIMARY KEY,
     document_type   VARCHAR(16)         NOT NULL,
@@ -78,7 +70,8 @@ CREATE TABLE profile
     total_winnings  NUMERIC
 );
 
-CREATE TABLE player
+--changeset mgvozdev:8
+CREATE TABLE IF NOT EXISTS player
 (
     id         UUID PRIMARY KEY,
     profile_id UUID REFERENCES profile (id) NOT NULL,
@@ -88,7 +81,8 @@ CREATE TABLE player
     avg_bet    INT
 );
 
-CREATE TABLE dealer
+--changeset mgvozdev:9
+CREATE TABLE IF NOT EXISTS dealer
 (
     id         UUID PRIMARY KEY,
     first_name VARCHAR(32) NOT NULL,
@@ -96,14 +90,16 @@ CREATE TABLE dealer
     status     VARCHAR(16) NOT NULL
 );
 
-CREATE TABLE tables
+--changeset mgvozdev:10
+CREATE TABLE IF NOT EXISTS tables
 (
     id     UUID PRIMARY KEY,
     game   VARCHAR(32),
     number INT UNIQUE NOT NULL
 );
 
-CREATE TABLE table_session
+--changeset mgvozdev:11
+CREATE TABLE IF NOT EXISTS table_session
 (
     id        UUID PRIMARY KEY,
     table_id  UUID REFERENCES tables (id) NOT NULL,
@@ -116,7 +112,8 @@ CREATE TABLE table_session
     closed_by UUID REFERENCES users (id)
 );
 
-CREATE TABLE player_table_session
+--changeset mgvozdev:12
+CREATE TABLE IF NOT EXISTS player_table_session
 (
     id               UUID PRIMARY KEY,
     player_id        UUID REFERENCES player (id)         NOT NULL,
@@ -124,7 +121,8 @@ CREATE TABLE player_table_session
     started_at       TIMESTAMP                           NOT NULL
 );
 
-CREATE TABLE table_chip_set
+--changeset mgvozdev:13
+CREATE TABLE IF NOT EXISTS table_chip_set
 (
     id       UUID PRIMARY KEY,
     chip     VARCHAR(16) NOT NULL,
@@ -133,7 +131,8 @@ CREATE TABLE table_chip_set
     table_id UUID REFERENCES tables (id)
 );
 
-CREATE TABLE player_chip_set
+--changeset mgvozdev:14
+CREATE TABLE IF NOT EXISTS player_chip_set
 (
     id        UUID PRIMARY KEY,
     chip      VARCHAR(16) NOT NULL,
@@ -142,7 +141,8 @@ CREATE TABLE player_chip_set
     player_id UUID REFERENCES player (id)
 );
 
-CREATE TABLE reward
+--changeset mgvozdev:15
+CREATE TABLE IF NOT EXISTS reward
 (
     id          UUID PRIMARY KEY,
     profile_id  UUID REFERENCES profile (id) NOT NULL,
@@ -154,7 +154,8 @@ CREATE TABLE reward
     status      VARCHAR(16)                  NOT NULL
 );
 
-CREATE TABLE report
+--changeset mgvozdev:16
+CREATE TABLE IF NOT EXISTS report
 (
     id             UUID PRIMARY KEY,
     user_id        UUID REFERENCES users (id) NOT NULL,
@@ -163,4 +164,3 @@ CREATE TABLE report
     total_drop_in  NUMERIC,
     total_winnings NUMERIC
 );
-

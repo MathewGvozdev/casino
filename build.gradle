@@ -33,7 +33,7 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}"
     implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    implementation 'org.liquibase:liquibase-core'
+    implementation 'org.liquibase:liquibase-core'
 
     annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
 

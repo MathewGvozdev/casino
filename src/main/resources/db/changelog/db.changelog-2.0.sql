@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset mgvozdev:1
 INSERT INTO authority(id, permission)
 VALUES ('238723cf-4497-4a51-85f1-fd9a5807d074', 'ADD_USER'),
        ('446d9765-d4b5-4a6a-99a9-7b3dbd411ea5', 'DELETE_USER'),
@@ -10,6 +13,7 @@ VALUES ('238723cf-4497-4a51-85f1-fd9a5807d074', 'ADD_USER'),
        ('2927c78e-e8b9-41cb-a712-ab72d05a5491', 'GIVE_REWARD'),
        ('1f8595d8-e97f-4c6f-802b-de27e02a1802', 'READ_REPORT');
 
+--changeset mgvozdev:2
 INSERT INTO role(id, title)
 VALUES ('c6412eae-acb5-4467-8183-1bc528a7b925', 'ROLE_SUPERVISOR'),
        ('9de36d70-83af-44ba-854b-e46e9171b2ba', 'ROLE_PIT_BOSS'),
@@ -17,6 +21,7 @@ VALUES ('c6412eae-acb5-4467-8183-1bc528a7b925', 'ROLE_SUPERVISOR'),
        ('cc7e2bf9-70fe-4738-b7b8-f8b95338231c', 'ROLE_HOST'),
        ('258ff0f8-77ac-47b0-a002-55a03fa8205b', 'ROLE_ADMIN');
 
+--changeset mgvozdev:3
 INSERT INTO role_authority(id,
                            role_id,
                            authority_id)
@@ -51,6 +56,7 @@ VALUES ('ba162cbb-9454-4ad0-b407-baa0c993b342',
         (SELECT id FROM role WHERE title = 'ADMIN'),
         (SELECT id FROM authority WHERE permission = 'UPDATE_ROLE'));
 
+--changeset mgvozdev:4
 INSERT INTO users(id, username, password)
 VALUES ('616deeeb-b47f-4550-95f7-cb31dabd14ea', 'alamazza', 'sv1234'),
        ('5ba92800-9645-4d21-ab44-f78cb6ca5e58', 'rgreen', 'sv1111'),
@@ -59,6 +65,7 @@ VALUES ('616deeeb-b47f-4550-95f7-cb31dabd14ea', 'alamazza', 'sv1234'),
        ('a9d86390-3940-4ed3-9182-1c1090386a4a', 'nick', 'ho3333'),
        ('b0b2dc10-b807-462b-932a-a6fc2499abde', 'admin', 'admin');
 
+--changeset mgvozdev:5
 INSERT INTO user_info(id, user_id,
                       first_name, last_name, shift, hired_on, salary)
 VALUES ('1c377d65-f00a-4258-86ef-3dcea7c9a353', (SELECT id FROM users WHERE username = 'alamazza'),
@@ -74,6 +81,7 @@ VALUES ('1c377d65-f00a-4258-86ef-3dcea7c9a353', (SELECT id FROM users WHERE user
        ('c9ead3bf-8136-46ff-ae7c-d3dc97e88533', (SELECT id FROM users WHERE username = 'admin'),
         'Andrew', 'Johnson', 'DAY', '2013-11-20', 36);
 
+--changeset mgvozdev:6
 INSERT INTO user_role(id,
                       user_id,
                       role_id)
@@ -120,6 +128,7 @@ VALUES ('b2b53e66-50aa-47d7-a2d9-2364de00d7f4',
         (SELECT id FROM users WHERE username = 'admin'),
         (SELECT id FROM role WHERE title = 'ADMIN'));
 
+--changeset mgvozdev:7
 INSERT INTO profile (id, document_type, country, document_number, first_name, last_name, date_of_birth,
                      issue_date, expiration_date, address, phone_number,
                      membership_type, status, total_deposit, total_winnings)
@@ -138,17 +147,20 @@ VALUES ('a6a43441-ac01-4de7-911e-94d7c6cb6fbd', 'ID_CARD', 'USA', '46728918', 'J
         '2021-05-30', '2026-05-30', '902 Arch St, PA, Philadelphia, 19107', '+1 450 411 3090',
         'BLACK', 'PERMITTED', 185000, 170000);
 
+--changeset mgvozdev:8
 INSERT INTO dealer(id, first_name, last_name, status)
 VALUES ('8b7c9463-e1c0-4b24-b5b0-78c63eda4ea5', 'Charles', 'Nolan', 'AVAILABLE'),
        ('559f360f-2102-4143-ac6d-24fe072df6b6', 'Joseph', 'Mooney', 'AVAILABLE'),
        ('615238c8-fcd7-4b17-a646-5abf37111291', 'Anthony', 'Gilardino', 'AVAILABLE');
 
+--changeset mgvozdev:9
 INSERT INTO tables(id, game, number)
 VALUES ('46843dcb-3f0f-44cf-ae24-684b8ccbda26', 'BLACKJACK', 901),
        ('df2596d4-09a1-4842-8adc-803f6f314a62', 'BLACKJACK', 902),
        ('3ebbbdae-7205-487d-84be-d63488aa2336', 'ROULETTE', 701),
        ('94d78aa4-dda1-4e45-b3a2-d9bdd1a6d4a1', 'BACCARAT', 302);
 
+--changeset mgvozdev:10
 INSERT INTO player(id, profile_id,
                    opened_at, buy_in, closed_at, avg_bet)
 VALUES ('4c36dfef-9a2f-414e-a2d8-1fb33a25c57e', (SELECT id FROM profile WHERE total_deposit = 12000),
@@ -160,6 +172,7 @@ VALUES ('4c36dfef-9a2f-414e-a2d8-1fb33a25c57e', (SELECT id FROM profile WHERE to
        ('dfafbb82-414b-4dc5-872e-f9dc63b1ee42', (SELECT id FROM profile WHERE total_deposit = 1200),
         '2024-03-30 16:30:00', 100, null, null);
 
+--changeset mgvozdev:11
 INSERT INTO table_session(id,
                           table_id, dealer_id,
                           min_bet, max_bet,
@@ -181,6 +194,7 @@ VALUES ('d237dbdc-0da1-437b-adcb-270d47e0241e',
         '2024-03-30 12:00:00', (SELECT id FROM users WHERE username = 'rgreen'),
         null, null);
 
+--changeset mgvozdev:12
 INSERT INTO player_table_session(id,
                                  player_id,
                                  table_session_id,
@@ -206,6 +220,7 @@ VALUES ('dec32eed-5858-4a58-83d9-75107d931f26',
         (SELECT id FROM table_session WHERE opened_at = '2024-03-30 12:00:00'),
         '2024-03-29 16:30:00');
 
+--changeset mgvozdev:13
 INSERT INTO report(id, user_id,
                    date, notes,
                    total_drop_in, total_winnings)
@@ -216,6 +231,7 @@ VALUES ('3c0d021d-fb2c-4ffd-938d-04a40914ef02', (SELECT id FROM users WHERE user
         '2024-03-29', 'Daily report',
         200000, 180000);
 
+--changeset mgvozdev:14
 INSERT INTO reward(id,
                    profile_id,
                    user_id,
@@ -229,6 +245,7 @@ VALUES ('90509797-2eb0-4f8a-bff3-086913f1e0e7',
         (SELECT id FROM users WHERE username = 'nick'),
         'FREE_MEAL', '2024-03-29 15:30:00', '2024-04-07', '2024-03-29 18:00:00', 'REDEEMED');
 
+--changeset mgvozdev:15
 INSERT INTO table_chip_set(id, chip, amount, total,
                            table_id)
 VALUES ('056fbe6c-f58f-4201-a5f1-83f4e63c653a', 'BLACK', 40, 4000,
@@ -242,6 +259,7 @@ VALUES ('056fbe6c-f58f-4201-a5f1-83f4e63c653a', 'BLACK', 40, 4000,
        ('f314aa0a-01c7-4ccc-b4c0-e7987d5a9c1c', 'WHITE', 60, 60,
         (SELECT id FROM tables WHERE number = 901));
 
+--changeset mgvozdev:16
 INSERT INTO player_chip_set(id, chip, amount, total,
                             player_id)
 VALUES ('b2fb1dc4-8a29-4d53-afdf-1f6a69f8ba92', 'BLACK', 2, 200,
