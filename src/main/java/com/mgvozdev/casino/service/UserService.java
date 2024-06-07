@@ -16,9 +16,9 @@ public interface UserService {
 
     UserReadDto create(UserCreateDto userCreateDto);
 
-    UserReadDto update(UUID id, UserEditDto userCreateEditDto);
+    UserReadDto update(UUID id, UserEditDto userEditDto);
 
-    UserReadDto updateInfo(UUID id, UserInfoEditDto userCreateEditDto);
+    UserReadDto updateInfo(UUID id, UserInfoEditDto userInfoEditDto);
 
     boolean delete(UUID id);
 }
