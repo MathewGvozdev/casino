@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   main:
     banner-mode: off
@@ -12,12 +15,15 @@ spring:
     hibernate:
       ddl-auto: none
 
-#  sql:
-#    init:
-#      schema-locations: classpath:db/schema.sql
-#      data-locations: classpath:db/data.sql
-#      mode: always
-
 logging:
   level:
     root: INFO
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
+    tagsSorter: alpha
+  packages-to-scan: /com/mgvozdev/casino

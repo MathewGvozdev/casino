@@ -4,6 +4,7 @@ import com.mgvozdev.casino.dto.UserCreateDto;
 import com.mgvozdev.casino.dto.UserEditDto;
 import com.mgvozdev.casino.dto.UserInfoEditDto;
 import com.mgvozdev.casino.dto.UserReadDto;
+import com.mgvozdev.casino.entity.Role;
 import com.mgvozdev.casino.entity.UserInfo;
 import com.mgvozdev.casino.exception.ErrorMessage;
 import com.mgvozdev.casino.exception.UserException;
@@ -13,17 +14,20 @@ import com.mgvozdev.casino.repository.UserInfoRepository;
 import com.mgvozdev.casino.repository.UserRepository;
 import com.mgvozdev.casino.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
@@ -96,5 +100,26 @@ public class UserServiceImpl implements UserService {
                     return true;
                 })
                 .orElse(false);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .map(user -> new org.springframework.security.core.userdetails.User(
+                        user.getUsername(),
+                        user.getPassword(),
+                        getAuthorities(user.getRoles())
+                ))
+                .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getTitle()));
+            role.getAuthorities().forEach(authority ->
+                    authorities.add(new SimpleGrantedAuthority(authority.getPermission())));
+        }
+        return authorities;
     }
 }

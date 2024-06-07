@@ -52,12 +52,12 @@ VALUES ('ba162cbb-9454-4ad0-b407-baa0c993b342',
         (SELECT id FROM authority WHERE permission = 'UPDATE_ROLE'));
 
 INSERT INTO users(id, username, password)
-VALUES ('616deeeb-b47f-4550-95f7-cb31dabd14ea', 'alamazza', 'sv1234'),
-       ('5ba92800-9645-4d21-ab44-f78cb6ca5e58', 'rgreen', 'sv1111'),
-       ('7fa59e9a-2fa1-4d9d-88f3-8cb80563e3ab', 'abecker', 'pb1234'),
-       ('020625cf-ddc6-47da-a517-402fb4906f9f', 'samtally', 'sm1234'),
-       ('a9d86390-3940-4ed3-9182-1c1090386a4a', 'nick', 'ho3333'),
-       ('b0b2dc10-b807-462b-932a-a6fc2499abde', 'admin', 'admin');
+VALUES ('616deeeb-b47f-4550-95f7-cb31dabd14ea', 'alamazza', '$2a$12$l8NQJEpuRk7.sHpA.VGjaOmXO0B0DUZ2Y3U8sKbgleo8mXix8ehTa'),
+       ('5ba92800-9645-4d21-ab44-f78cb6ca5e58', 'rgreen', '$2a$12$9W29LSGUTGczlDTY9fmD8u1KL36hoYCj16dLrhn.N5ZKqSgG.aZmC'),
+       ('7fa59e9a-2fa1-4d9d-88f3-8cb80563e3ab', 'abecker', '$2a$12$7SVftZjq6b.m2tL6ahf6mOsPYjm2KohHUtleINuue.WUou26RAbO6'),
+       ('020625cf-ddc6-47da-a517-402fb4906f9f', 'samtally', '$2a$12$iMcyZfmZlQ4gDs93YHt7W.hW1FmgDXw1ttFiY2P5A3oSvhFAtMGna'),
+       ('a9d86390-3940-4ed3-9182-1c1090386a4a', 'nick', '$2a$12$j7WuEBII67pRBLNTI/DPlOovtzfBdI5rLKAHzYlU0tz02JwiLUh2G'),
+       ('b0b2dc10-b807-462b-932a-a6fc2499abde', 'admin', '$2a$12$8PxPTg4Vbajo4s8FA4jHu.bqPq2OUYMuUXtPPaIklmcf6RRV1HZt.');
 
 INSERT INTO user_info(id, user_id,
                        first_name, last_name, shift, hired_on, salary)
