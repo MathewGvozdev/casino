@@ -39,8 +39,6 @@ public class PlayerControllerTest {
     @Autowired
     private PlayerService playerService;
 
-
-
     @Test
     void findAll_positive_returnListOfPlayers() throws Exception {
         var expectedList = playerService.findAll();
@@ -240,7 +238,7 @@ public class PlayerControllerTest {
         mockMvc.perform(post("/players/{id}/chips", playerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -295,7 +293,6 @@ public class PlayerControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    //TODO 15.05.2024: jacoco doesn't see this test
     @Test
     public void deleteAllPlayerChips_negativeNotExistingId_notFoundStatus() throws Exception {
         var notExistingPlayerId = "11111111-aaaa-bbbb-cccc-000000000000";

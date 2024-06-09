@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.mgvozdev.casino.util.AuthorityRoleList.*;
+
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -24,12 +26,19 @@ public class SecurityConfig {
     @Bean
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/players").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(ADMIN_LIST).hasRole(ADMIN)
+                        .requestMatchers(HOST_LIST).hasRole(HOST)
+                        .requestMatchers(SHIFT_MANAGER_LIST).hasRole(SHIFT_MANAGER)
+                        .requestMatchers(PIT_BOSS_LIST).hasRole(PIT_BOSS)
+                        .requestMatchers(SUPERVISOR_LIST).hasRole(SUPERVISOR)
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .deleteCookies("JSESSIONID"))
                 .formLogin(Customizer.withDefaults());
         return http.build();
     }

@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest
-@WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
+@WithMockUser(username = "admin", password = "admin", authorities = "ROLE_ADMIN")
 @Sql("classpath:/db/test-schema.sql")
 @Sql("classpath:/db/test-data.sql")
 public @interface IntegrationTest {
