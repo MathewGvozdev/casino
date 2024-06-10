@@ -8,10 +8,15 @@ public class AuthorityRoleList {
     public static final String HOST = "HOST";
     public static final String ADMIN = "ADMIN";
 
+    public static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+
     public static final String[] ADMIN_LIST = {
             "/users/**",
             "/players/**",
-            "/players",
             "/profiles/**",
             "/tables/**"
     };

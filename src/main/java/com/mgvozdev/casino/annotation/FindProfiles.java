@@ -18,9 +18,11 @@ import java.lang.annotation.Target;
 @ResponseStatus(HttpStatus.OK)
 @Operation(summary = "searching all profiles or profiles with requested parameters",
         description = "the method returns a list of profile DTOs",
-        tags = "profiles",
+        tags = "profile-controller",
         responses = {
-                @ApiResponse(responseCode = "200", description = "found")
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "found")
         }
 )
 public @interface FindProfiles {

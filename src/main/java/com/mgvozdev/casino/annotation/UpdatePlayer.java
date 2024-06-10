@@ -1,8 +1,12 @@
 package com.mgvozdev.casino.annotation;
 
+import com.mgvozdev.casino.controller.handler.ControllerExceptionHandler;
 import com.mgvozdev.casino.dto.PlayerEditDto;
+import com.mgvozdev.casino.dto.PlayerReadDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,19 +27,70 @@ import java.lang.annotation.Target;
 @ResponseStatus(HttpStatus.OK)
 @Operation(summary = "editing of existing player by his UUID",
         description = "if player is found and updated, the method returns its new DTO, otherwise throws exception NOT UPDATED",
-        tags = "players",
+        tags = "player-controller",
+        parameters = {
+                @Parameter(
+                        name = "id",
+                        description = "The unique identifier of the player",
+                        required = true,
+                        examples = {
+                                @ExampleObject(
+                                        name = "Existing player",
+                                        value = "dfafbb82-414b-4dc5-872e-f9dc63b1ee42"
+                                )
+                        }
+                )
+        },
         requestBody = @RequestBody(
                 description = "PlayerEditDto",
                 required = true,
                 content = @Content(
                         mediaType = "application/json",
-                        schema = @Schema(implementation = PlayerEditDto.class)
+                        schema = @Schema(implementation = PlayerEditDto.class),
+                        examples = {
+                                @ExampleObject(
+                                        name = "Valid update",
+                                        value = """
+                                                {
+                                                    "buyIn" : "500",
+                                                    "closedAt": 2024-03-30T16:30:00
+                                                    "avgBet": 25
+                                                }
+                                                """),
+                                @ExampleObject(
+                                        name = "Invalid update, wrong values",
+                                        value = """
+                                                {
+                                                    "buyIn" : "-500",
+                                                    "closedAt": 2024-03-30
+                                                    "avgBet": -20
+                                                }
+                                                """)
+                        }
                 )
         ),
         responses = {
-                @ApiResponse(responseCode = "200", description = "updated"),
-                @ApiResponse(responseCode = "400", description = "not updated"),
-                @ApiResponse(responseCode = "404", description = "not found")
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "updated",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = PlayerReadDto.class)
+                        )),
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "not updated",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ControllerExceptionHandler.class)
+                        )),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "not found",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ControllerExceptionHandler.class)
+                        ))
         }
 )
 public @interface UpdatePlayer {

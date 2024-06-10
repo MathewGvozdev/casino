@@ -1,8 +1,11 @@
 package com.mgvozdev.casino.annotation;
 
+import com.mgvozdev.casino.controller.handler.ControllerExceptionHandler;
 import com.mgvozdev.casino.dto.ChipSetDto;
+import com.mgvozdev.casino.dto.PlayerReadDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,18 +26,60 @@ import java.lang.annotation.Target;
 @ResponseStatus(HttpStatus.CREATED)
 @Operation(summary = "adding chips for a certain player",
         description = "if chips are created, the method returns the set of these chips, otherwise throws exception NOT CREATED",
-        tags = "chips",
+        tags = {"player-controller", "chips"},
         requestBody = @RequestBody(
                 description = "set of ChipSetDtos without amount",
                 required = true,
                 content = @Content(
                         mediaType = "application/json",
-                        schema = @Schema(implementation = ChipSetDto.class)
+                        schema = @Schema(implementation = ChipSetDto.class),
+                        examples = {
+                                @ExampleObject(
+                                        name = "Valid creation",
+                                        value = """
+                                                [
+                                                    {
+                                                        "chip" : "GREEN",
+                                                        "total": 100
+                                                    },
+                                                    {
+                                                        "chip" : "RED",
+                                                        "total": 100
+                                                    }
+                                                ]
+                                                """),
+                                @ExampleObject(
+                                        name = "Invalid creation, wrong content",
+                                        value = """
+                                                [
+                                                    {
+                                                        "chip" : "GREEN",
+                                                        "total": -100
+                                                    },
+                                                    {
+                                                        "chip" : "NoCHIP",
+                                                        "total": 100
+                                                    }
+                                                ]
+                                                """)
+                        }
                 )
         ),
         responses = {
-                @ApiResponse(responseCode = "201", description = "created"),
-                @ApiResponse(responseCode = "400", description = "not created")
+                @ApiResponse(
+                        responseCode = "201",
+                        description = "created",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ChipSetDto.class)
+                        )),
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "not created",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ControllerExceptionHandler.class)
+                        ))
         }
 )
 public @interface AddChipsForPlayer {

@@ -1,8 +1,13 @@
 package com.mgvozdev.casino.annotation;
 
+import com.mgvozdev.casino.controller.handler.ControllerExceptionHandler;
+import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.dto.ProfileCreateEditDto;
+import com.mgvozdev.casino.dto.ProfileReadDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,19 +28,92 @@ import java.lang.annotation.Target;
 @ResponseStatus(HttpStatus.OK)
 @Operation(summary = "editing of existing profile by his UUID",
         description = "if profile is found and updated, the method returns its new DTO, otherwise throws exception NOT UPDATED",
-        tags = "profiles",
+        tags = "profile-controller",
+        parameters = {
+                @Parameter(
+                        name = "id",
+                        description = "The unique identifier of the profile",
+                        required = true,
+                        examples = {
+                                @ExampleObject(
+                                        name = "Existing profile",
+                                        value = "64158c86-bcd8-4267-bb00-16f9fe82051e"
+                                )
+                        }
+                )
+        },
         requestBody = @RequestBody(
                 description = "ProfileCreateEditDto",
                 required = true,
                 content = @Content(
                         mediaType = "application/json",
-                        schema = @Schema(implementation = ProfileCreateEditDto.class)
+                        schema = @Schema(implementation = ProfileCreateEditDto.class),
+                        examples = {
+                                @ExampleObject(
+                                        name = "Valid update",
+                                        value = """
+                                                {
+                                                   "documentType": "PASSPORT",
+                                                   "country": "USA",
+                                                   "documentNumber": "11112222",
+                                                   "firstName": "Alla",
+                                                   "lastName": "Ivanova",
+                                                   "dateOfBirth": "2024-06-10",
+                                                   "issueDate": "2024-06-10",
+                                                   "expirationDate": "2024-06-10",
+                                                   "address": "Moscow",
+                                                   "phoneNumber": "+124837412",
+                                                   "membershipType": "BRONZE",
+                                                   "status": "PERMITTED",
+                                                   "totalDeposit": 1000,
+                                                   "totalWinnings": 600
+                                                 }
+                                                """),
+                                @ExampleObject(
+                                        name = "Invalid update, wrong values",
+                                        value = """
+                                                {
+                                                   "documentType": "document",
+                                                   "country": "too many symbols",
+                                                   "documentNumber": "11112222",
+                                                   "firstName": "Alla",
+                                                   "lastName": "Ivanova",
+                                                   "dateOfBirth": "2024-06-10",
+                                                   "issueDate": "2024-06-10",
+                                                   "expirationDate": "2024-06-10",
+                                                   "address": "Moscow",
+                                                   "phoneNumber": "+124837412",
+                                                   "membershipType": "BRONZE",
+                                                   "status": "PERMITTED",
+                                                   "totalDeposit": -1000,
+                                                   "totalWinnings": 600
+                                                 }
+                                                """)
+                        }
                 )
         ),
         responses = {
-                @ApiResponse(responseCode = "200", description = "updated"),
-                @ApiResponse(responseCode = "400", description = "not updated"),
-                @ApiResponse(responseCode = "404", description = "not found")
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "updated",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ProfileReadDto.class)
+                        )),
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "not updated",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ControllerExceptionHandler.class)
+                        )),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "not found",
+                        content = @Content(
+                                mediaType = "application/json",
+                                schema = @Schema(implementation = ControllerExceptionHandler.class)
+                        ))
         }
 )
 public @interface UpdateProfile {

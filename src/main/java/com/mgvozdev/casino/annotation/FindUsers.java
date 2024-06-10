@@ -18,9 +18,11 @@ import java.lang.annotation.Target;
 @ResponseStatus(HttpStatus.OK)
 @Operation(summary = "searching all users",
         description = "the method returns a list of user DTOs",
-        tags = "users",
+        tags = "user-controller",
         responses = {
-                @ApiResponse(responseCode = "200", description = "found")
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "found")
         }
 )
 public @interface FindUsers {

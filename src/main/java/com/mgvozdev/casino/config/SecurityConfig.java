@@ -29,12 +29,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers(ADMIN_LIST).hasRole(ADMIN)
-                        .requestMatchers(HOST_LIST).hasRole(HOST)
-                        .requestMatchers(SHIFT_MANAGER_LIST).hasRole(SHIFT_MANAGER)
-                        .requestMatchers(PIT_BOSS_LIST).hasRole(PIT_BOSS)
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(SUPERVISOR_LIST).hasRole(SUPERVISOR)
+                        .requestMatchers(HOST_LIST).hasRole(HOST)
+                        .requestMatchers(PIT_BOSS_LIST).hasRole(PIT_BOSS)
+                        .requestMatchers(SHIFT_MANAGER_LIST).hasRole(SHIFT_MANAGER)
+                        .requestMatchers(ADMIN_LIST).hasRole(ADMIN)
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .logout(logout -> logout

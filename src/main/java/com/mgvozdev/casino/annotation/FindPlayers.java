@@ -18,9 +18,11 @@ import java.lang.annotation.Target;
 @ResponseStatus(HttpStatus.OK)
 @Operation(summary = "searching all players or players with requested parameters",
         description = "the method returns a list of player DTOs",
-        tags = "players",
+        tags = "player-controller",
         responses = {
-                @ApiResponse(responseCode = "200", description = "found")
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "found")
         }
 )
 public @interface FindPlayers {

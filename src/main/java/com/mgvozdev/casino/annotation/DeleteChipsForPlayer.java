@@ -1,6 +1,10 @@
 package com.mgvozdev.casino.annotation;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.HttpStatus;
@@ -19,10 +23,31 @@ import java.lang.annotation.Target;
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @Operation(summary = "deleting chips by player UUID",
         description = "the method returns ResponseEntity with the result of operation",
-        tags = "chips",
+        tags = {"player-controller", "chips"},
+        parameters = {
+                @Parameter(
+                        name = "id",
+                        description = "The unique identifier of the player",
+                        required = true,
+                        examples = {
+                                @ExampleObject(
+                                        name = "Deleting for the existing ID",
+                                        value = "dfafbb82-414b-4dc5-872e-f9dc63b1ee42"
+                                ),
+                                @ExampleObject(
+                                        name = "Deleting for the non-existing ID",
+                                        value = "dfafbb82-414b-4dc5-872e-f9dc63b1ee00"
+                                )
+                        }
+                )
+        },
         responses = {
-                @ApiResponse(responseCode = "204", description = "deleted, no content"),
-                @ApiResponse(responseCode = "404", description = "not found")
+                @ApiResponse(
+                        responseCode = "204",
+                        description = "deleted, no content"),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "not found")
         }
 )
 public @interface DeleteChipsForPlayer {
