@@ -1,5 +1,6 @@
 package com.mgvozdev.casino.controller;
 
+import com.mgvozdev.casino.annotation.*;
 import com.mgvozdev.casino.dto.ProfileCreateEditDto;
 import com.mgvozdev.casino.dto.ProfileReadDto;
 import com.mgvozdev.casino.entity.enums.MembershipType;
@@ -7,7 +8,6 @@ import com.mgvozdev.casino.entity.enums.ProfileStatus;
 import com.mgvozdev.casino.service.ProfileService;
 import com.mgvozdev.casino.validation.UuidChecker;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +26,12 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-    @GetMapping("/{id}")
+    @FindProfileById(path = "/{id}")
     public ProfileReadDto findById(@UuidChecker @PathVariable("id") UUID id) {
         return profileService.findById(id);
     }
 
-    @GetMapping
+    @FindProfiles
     public List<ProfileReadDto> findAll(@RequestParam(required = false) String docNum,
                                         @RequestParam(required = false) MembershipType memType,
                                         @RequestParam(required = false) ProfileStatus status,
@@ -49,19 +49,18 @@ public class ProfileController {
         }
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @CreateProfile
     public ProfileReadDto create(@Validated @RequestBody ProfileCreateEditDto profileCreateEditDto) {
         return profileService.create(profileCreateEditDto);
     }
 
-    @PutMapping("/{id}")
+    @UpdateProfile(path = "/{id}")
     public ProfileReadDto update(@UuidChecker @PathVariable("id") UUID id,
                                  @Validated @RequestBody ProfileCreateEditDto profileCreateEditDto) {
         return profileService.update(id, profileCreateEditDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteProfile(path = "/{id}")
     public ResponseEntity<?> delete(@UuidChecker @PathVariable("id") UUID id) {
         return profileService.delete(id)
                 ? noContent().build()

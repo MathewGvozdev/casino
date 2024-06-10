@@ -3,8 +3,6 @@ package com.mgvozdev.casino.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mgvozdev.casino.annotation.IntegrationTest;
-import com.mgvozdev.casino.dto.ProfileReadDto;
-import com.mgvozdev.casino.dto.UserEditDto;
 import com.mgvozdev.casino.dto.UserReadDto;
 import com.mgvozdev.casino.service.UserService;
 import com.mgvozdev.casino.utils.TestUtils;
@@ -20,7 +18,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @IntegrationTest
