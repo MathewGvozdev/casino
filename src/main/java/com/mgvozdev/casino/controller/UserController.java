@@ -4,6 +4,7 @@ import com.mgvozdev.casino.dto.*;
 import com.mgvozdev.casino.service.UserService;
 import com.mgvozdev.casino.validation.UuidChecker;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class UserController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserReadDto create(@Validated @RequestBody UserCreateDto userCreateDto) {
         return userService.create(userCreateDto);
     }
@@ -46,12 +48,5 @@ public class UserController {
     public UserReadDto update(@UuidChecker @PathVariable("id") UUID id,
                               @Validated @RequestBody UserInfoEditDto userInfoEditDto) {
         return userService.updateInfo(id, userInfoEditDto);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@UuidChecker @PathVariable("id") UUID id) {
-        return userService.delete(id)
-                ? noContent().build()
-                : notFound().build();
     }
 }

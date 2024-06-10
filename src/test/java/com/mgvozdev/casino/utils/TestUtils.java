@@ -1,11 +1,10 @@
 package com.mgvozdev.casino.utils;
 
-import com.mgvozdev.casino.dto.ChipSetDto;
-import com.mgvozdev.casino.dto.PlayerCreateDto;
-import com.mgvozdev.casino.dto.PlayerEditDto;
-import com.mgvozdev.casino.entity.enums.Chip;
+import com.mgvozdev.casino.dto.*;
+import com.mgvozdev.casino.entity.enums.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,5 +44,49 @@ public class TestUtils {
 
     public static ChipSetDto getChipSetDto() {
         return new ChipSetDto(Chip.RED, 40, new BigDecimal(200));
+    }
+
+    public static ProfileCreateEditDto getProfileCreateEditDto() {
+        return new ProfileCreateEditDto(
+                DocumentType.DRIVER_LICENSE,
+                "CAN",
+                "00224400",
+                "Tomas",
+                "Shwarz",
+                LocalDate.of(1980, 3, 23),
+                LocalDate.of(2020, 1, 14),
+                LocalDate.of(2025, 1, 14),
+                "Berlin Gote Strasse 80",
+                "+402194819",
+                MembershipType.BRONZE,
+                ProfileStatus.PERMITTED,
+                new BigDecimal(0),
+                new BigDecimal(0)
+                );
+    }
+
+    public static UserCreateDto getUserCreateDto() {
+        return new UserCreateDto(
+                "newuser",
+                "pass",
+                "John",
+                "Johnson",
+                Shift.DAY,
+                LocalDate.of(2024, 6, 10),
+                new BigDecimal(32)
+        );
+    }
+
+    public static UserEditDto getUserEditDto() {
+        return new UserEditDto("edited_user", "newpass");
+    }
+
+    public static UserInfoEditDto getUserInfoEditDto() {
+        return new UserInfoEditDto(
+                "New",
+                "User",
+                Shift.GRAVE,
+                LocalDate.now(),
+                new BigDecimal(30));
     }
 }

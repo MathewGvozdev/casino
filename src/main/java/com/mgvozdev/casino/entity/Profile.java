@@ -83,7 +83,7 @@ public class Profile {
     @Column(name = "total_winnings")
     private BigDecimal totalWinnings;
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     private List<Player> playerSessions = new ArrayList<>();
 
     @OneToMany(mappedBy = "profile")

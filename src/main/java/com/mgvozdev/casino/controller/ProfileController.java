@@ -7,6 +7,7 @@ import com.mgvozdev.casino.entity.enums.ProfileStatus;
 import com.mgvozdev.casino.service.ProfileService;
 import com.mgvozdev.casino.validation.UuidChecker;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +50,7 @@ public class ProfileController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ProfileReadDto create(@Validated @RequestBody ProfileCreateEditDto profileCreateEditDto) {
         return profileService.create(profileCreateEditDto);
     }
