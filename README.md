@@ -185,23 +185,28 @@ players and table racks, assigning rewards for certain players and creating dail
 
 ### Used Technologies:
 
-Programming Language: Java
-Frameworks and Libraries:
-Spring Framework:
-Spring Boot
-Spring Security
-Hibernate (via Spring Data JPA)
-SpringDoc OpenAPI
-Lombok
-MapStruct
-Swagger (via swagger-annotations)
-BCrypt 
-Liquibase 
-Database: PostgreSQL (main database), H2 (for testing)
+Technologies:
+- Java Core
+- Database: PostgreSQL
+- API: RESTful API
+
+Frameworks:
+- Spring Framework
+  - Spring Boot
+  - Spring Security
+- Hibernate (via Spring Data JPA)
+
+Libraries:
+- Lombok
+- MapStruct
+- Swagger (part of SpringDoc OpenAPI)
+- BCrypt
+- Liquibase
+
 Build and Testing Tools:
-Gradle
-Jacoco (for code coverage analysis)
-API: RESTful API for client-server interaction
+- Gradle
+- Jacoco
+- H2 (for testing database)
 
 ### Validators
 
