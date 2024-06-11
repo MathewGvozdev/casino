@@ -53,10 +53,11 @@ import java.lang.annotation.Target;
                                         name = "Valid update",
                                         value = """
                                                 {
-                                                    "username" : "updated_user",
-                                                    "password": sv10
+                                                    "username": "updated_user",
+                                                    "password": "sv10"
                                                 }
-                                                """)
+                                                """
+                                )
                         }
                 )
         ),

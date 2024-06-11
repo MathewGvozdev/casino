@@ -53,19 +53,21 @@ import java.lang.annotation.Target;
                                         value = """
                                                 {
                                                     "buyIn" : "500",
-                                                    "closedAt": 2024-03-30T16:30:00
+                                                    "closedAt": "2024-03-30T16:30:00",
                                                     "avgBet": 25
                                                 }
-                                                """),
+                                                """
+                                ),
                                 @ExampleObject(
                                         name = "Invalid update, wrong values",
                                         value = """
                                                 {
                                                     "buyIn" : "-500",
-                                                    "closedAt": 2024-03-30
-                                                    "avgBet": -20
+                                                    "closedAt": "2024-03-30T16:30:00",
+                                                    "avgBet": -25
                                                 }
-                                                """)
+                                                """
+                                )
                         }
                 )
         ),

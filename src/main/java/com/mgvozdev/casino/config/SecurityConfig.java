@@ -4,6 +4,8 @@ import com.mgvozdev.casino.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyAuthoritiesMapper;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -22,6 +24,7 @@ import static com.mgvozdev.casino.util.AuthorityRoleList.*;
 public class SecurityConfig {
 
     private final UserServiceImpl userDetailsService;
+    private final RoleHierarchyImpl roleHierarchy;
 
     @Bean
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -41,6 +44,11 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID"))
                 .formLogin(Customizer.withDefaults());
         return http.build();
+    }
+
+    @Bean
+    public RoleHierarchyAuthoritiesMapper authoritiesMapper() {
+        return new RoleHierarchyAuthoritiesMapper(roleHierarchy);
     }
 
     @Bean

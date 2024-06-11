@@ -2,8 +2,8 @@ package com.mgvozdev.casino.annotation;
 
 import com.mgvozdev.casino.controller.handler.ControllerExceptionHandler;
 import com.mgvozdev.casino.dto.ChipSetDto;
-import com.mgvozdev.casino.dto.PlayerReadDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,6 +27,19 @@ import java.lang.annotation.Target;
 @Operation(summary = "adding chips for a certain player",
         description = "if chips are created, the method returns the set of these chips, otherwise throws exception NOT CREATED",
         tags = {"player-controller", "chips"},
+        parameters = {
+                @Parameter(
+                        name = "id",
+                        description = "The unique identifier of the player",
+                        required = true,
+                        examples = {
+                                @ExampleObject(
+                                        name = "Existing player",
+                                        value = "dfafbb82-414b-4dc5-872e-f9dc63b1ee42"
+                                )
+                        }
+                )
+        },
         requestBody = @RequestBody(
                 description = "set of ChipSetDtos without amount",
                 required = true,

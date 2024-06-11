@@ -14,38 +14,39 @@ public class AuthorityRoleList {
             "/swagger-ui.html"
     };
 
-    public static final String[] ADMIN_LIST = {
-            "/users/**",
+    public static final String[] SUPERVISOR_LIST = {
             "/players/**",
             "/profiles/**",
-            "/tables/**"
-    };
-
-    public static final String[] HOST_LIST = {
-            "/users/**",
-            "/profiles/**",
-            "/rewards/**",
-            "/reports/**"
-    };
-
-    public static final String[] SHIFT_MANAGER_LIST = {
-            "/players/**",
-            "/profiles/**",
-            "/rewards/**",
-            "/reports/**",
             "/tables/**"
     };
 
     public static final String[] PIT_BOSS_LIST = {
             "/players/**",
             "/profiles/**",
-            "/reports/**",
-            "/tables/**"
+            "/tables/**",
+            "/reports/**"
     };
 
-    public static final String[] SUPERVISOR_LIST = {
+    public static final String[] SHIFT_MANAGER_LIST = {
             "/players/**",
             "/profiles/**",
-            "/tables/**"
+            "/tables/**",
+            "/reports/**",
+            "/rewards/**"
+    };
+
+    public static final String[] HOST_LIST = {
+            "/profiles/**",
+            "/rewards/**",
+            "/reports/**"
+    };
+
+    public static final String[] ADMIN_LIST = {
+            "/players/**",
+            "/profiles/**",
+            "/tables/**",
+            "/reports/**",
+            "/rewards/**",
+            "/users/**"
     };
 }

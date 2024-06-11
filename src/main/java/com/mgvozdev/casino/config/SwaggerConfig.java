@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
                 title = "Casino management tool",
                 description = """
                         It is a prototype of the backend offline casino management tool.
-                        Data consist of players and their sessions, tables and their sessions, chips, users (all manager staff),
+                        Data consists of players and their sessions, tables and their sessions, chips, users (all manager staff),
                         dealers, rewards, reports, roles and authorities.
                         """,
                 version = "1.0.0",
