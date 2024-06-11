@@ -7,7 +7,7 @@ players and table racks, assigning rewards for certain players and creating dail
 
 ### Class Diagram
 
-![PhotoDependencyClasses](https://github.com/MathewGvozdev/casino/blob/master/class-diagram.jpg)
+![PhotoDependencyClasses](https://github.com/MathewGvozdev/casino/blob/master/class_diagram.jpg)
 
 ### Database Structure
 
