@@ -46,7 +46,7 @@ import java.lang.annotation.Target;
                                                    "issueDate": "2023-06-01",
                                                    "expirationDate": "2027-06-01",
                                                    "address": "New York",
-                                                   "phoneNumber": "+1472347819",
+                                                   "phoneNumber": "1472347819",
                                                    "membershipType": "BRONZE",
                                                    "status": "PERMITTED",
                                                    "totalDeposit": 0,

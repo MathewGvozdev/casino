@@ -32,14 +32,14 @@ public class ProfileController {
     }
 
     @FindProfiles
-    public List<ProfileReadDto> findAll(@RequestParam(required = false) String docNum,
-                                        @RequestParam(required = false) MembershipType memType,
+    public List<ProfileReadDto> findAll(@RequestParam(required = false) String documentNumber,
+                                        @RequestParam(required = false) MembershipType membershipType,
                                         @RequestParam(required = false) ProfileStatus status,
                                         @RequestParam(required = false) BigDecimal deposit) {
-        if (docNum != null) {
-            return profileService.findBy(docNum);
-        } else if (memType != null) {
-            return profileService.findBy(memType);
+        if (documentNumber != null) {
+            return profileService.findBy(documentNumber);
+        } else if (membershipType != null) {
+            return profileService.findBy(membershipType);
         } else if (status != null) {
             return profileService.findBy(status);
         } else if (deposit != null) {

@@ -28,6 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PlayerControllerTest {
 
+    private static final UUID EXISTING_PLAYER_ID = UUID.fromString("d9ba4962-aa83-40b1-a027-794d5531e586");
+    private static final UUID NON_EXISTING_PLAYER_ID = UUID.fromString("d9ba4962-aa83-40b1-a027-794d55310000");
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mockMvc;
@@ -78,16 +81,14 @@ public class PlayerControllerTest {
 
     @Test
     void findById_positive_returnPlayerDto() throws Exception {
-        var uuid = UUID.fromString("d9ba4962-aa83-40b1-a027-794d5531e586");
-        var playerReadDto = playerService.findById(uuid);
+        var playerReadDto = playerService.findById(EXISTING_PLAYER_ID);
         var json = objectMapper.writeValueAsString(playerReadDto);
 
-        var mvcResult = mockMvc.perform(get("/players/{id}", uuid)
+        var mvcResult = mockMvc.perform(get("/players/{id}", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
                 .andReturn();
-
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse, PlayerReadDto.class);
 
@@ -96,9 +97,7 @@ public class PlayerControllerTest {
 
     @Test
     void findById_negativeWrongUuid_throwsPlayerException() throws Exception {
-        var notExistingUuid = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
-
-        mockMvc.perform(get("/players/{id}", notExistingUuid)
+        mockMvc.perform(get("/players/{id}", NON_EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -134,16 +133,14 @@ public class PlayerControllerTest {
 
     @Test
     public void update_positive_returnUpdatedPlayer() throws Exception {
-        var uuid = "d9ba4962-aa83-40b1-a027-794d5531e586";
         var playerEditDto = TestUtils.getPlayerEditDto();
         var json = objectMapper.writeValueAsString(playerEditDto);
 
-        var mvcResult = mockMvc.perform(put("/players/{id}", uuid)
+        var mvcResult = mockMvc.perform(put("/players/{id}", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
                 .andReturn();
-
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse, PlayerReadDto.class);
 
@@ -154,11 +151,10 @@ public class PlayerControllerTest {
 
     @Test
     public void update_negativeUuidNotFound_throwsPlayerException() throws Exception {
-        var notExistingUuid = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
         var playerEditDto = TestUtils.getPlayerEditDto();
         var json = objectMapper.writeValueAsString(playerEditDto);
 
-        mockMvc.perform(put("/players/{id}", notExistingUuid)
+        mockMvc.perform(put("/players/{id}", NON_EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNotFound());
@@ -166,17 +162,16 @@ public class PlayerControllerTest {
 
     @Test
     public void update_negativeWrongValuesGiven_throwsPlayerException() throws Exception {
-        var uuid = "d9ba4962-aa83-40b1-a027-794d5531e586";
         var dtoWithWrongBuyIn = new PlayerEditDto(new BigDecimal(-500), LocalDateTime.now(), 50);
         var dtoWithWrongAvgBet = new PlayerEditDto(new BigDecimal(500), LocalDateTime.now(), -20);
         var wrongBuyInJson = objectMapper.writeValueAsString(dtoWithWrongBuyIn);
         var nullAvgBetJson = objectMapper.writeValueAsString(dtoWithWrongAvgBet);
 
-        mockMvc.perform(put("/players/{id}", uuid)
+        mockMvc.perform(put("/players/{id}", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(wrongBuyInJson))
                 .andExpect(status().isBadRequest());
-        mockMvc.perform(put("/players/{id}", uuid)
+        mockMvc.perform(put("/players/{id}", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(nullAvgBetJson))
                 .andExpect(status().isBadRequest());
@@ -184,27 +179,22 @@ public class PlayerControllerTest {
 
     @Test
     public void delete_positive_noContentStatus() throws Exception {
-        var uuid = "d9ba4962-aa83-40b1-a027-794d5531e586";
-
-        mockMvc.perform(delete("/players/{id}", uuid))
+        mockMvc.perform(delete("/players/{id}", EXISTING_PLAYER_ID))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     public void delete_negativeNotExistingId_notFoundStatus() throws Exception {
-        var notExistingUuid = "11111111-aaaa-bbbb-cccc-000000000000";
-
-        mockMvc.perform(delete("/players/{id}", notExistingUuid))
+        mockMvc.perform(delete("/players/{id}", NON_EXISTING_PLAYER_ID))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void addChipsForPlayer_positive_returnSetOfChips() throws Exception {
-        var playerId = UUID.fromString("a9f6c8cf-fec4-4ffc-99d6-13e6bc1e9b5f");
         var chips = TestUtils.getSetOfChips();
         var json = objectMapper.writeValueAsString(chips);
 
-        var mvcResult = mockMvc.perform(post("/players/{id}/chips", playerId)
+        var mvcResult = mockMvc.perform(post("/players/{id}/chips", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
@@ -219,11 +209,10 @@ public class PlayerControllerTest {
 
     @Test
     public void addChipsForPlayer_negativeNoSuchPlayer_throwsPlayerException() throws Exception {
-        var notExistingPlayerId = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
         var chips = TestUtils.getSetOfChips();
         var json = objectMapper.writeValueAsString(chips);
 
-        mockMvc.perform(post("/players/{id}/chips", notExistingPlayerId)
+        mockMvc.perform(post("/players/{id}/chips", NON_EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNotFound());
@@ -231,11 +220,10 @@ public class PlayerControllerTest {
 
     @Test
     public void addChipsForPlayer_negativeWrongValuesGiven_throwsPlayerException() throws Exception {
-        var playerId = UUID.fromString("a9f6c8cf-fec4-4ffc-99d6-13e6bc1e9b5f");
         var chips = TestUtils.getSetOfChipsForNegative();
         var json = objectMapper.writeValueAsString(chips);
 
-        mockMvc.perform(post("/players/{id}/chips", playerId)
+        mockMvc.perform(post("/players/{id}/chips", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest());
@@ -243,11 +231,10 @@ public class PlayerControllerTest {
 
     @Test
     public void updateChipSetForPlayer_positive_returnPlayerChips() throws Exception {
-        var playerId = UUID.fromString("dfafbb82-414b-4dc5-872e-f9dc63b1ee42");
         var chipSetDto = TestUtils.getChipSetDto();
         var json = objectMapper.writeValueAsString(chipSetDto);
 
-        var mvcResult = mockMvc.perform(put("/players/{id}/chips", playerId)
+        var mvcResult = mockMvc.perform(put("/players/{id}/chips", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -256,18 +243,17 @@ public class PlayerControllerTest {
         var actualResult = objectMapper.readValue(jsonResponse,
                 new TypeReference<Set<ChipSetDto>>() {
                 });
-        var updatedChips = playerService.findById(playerId).chips();
+        var updatedChips = playerService.findById(EXISTING_PLAYER_ID).chips();
 
         assertEquals(updatedChips, actualResult);
     }
 
     @Test
     public void updateChipSetForPlayer_negativeNoSuchPlayer_throwsChipException() throws Exception {
-        var notExistingPlayerId = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
         var chipSetDto = TestUtils.getChipSetDto();
         var json = objectMapper.writeValueAsString(chipSetDto);
 
-        mockMvc.perform(put("/players/{id}/chips", notExistingPlayerId)
+        mockMvc.perform(put("/players/{id}/chips", NON_EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNotFound());
@@ -275,11 +261,10 @@ public class PlayerControllerTest {
 
     @Test
     public void updateChipSetForPlayer_negativeWrongValuesGiven_throwsPlayerException() throws Exception {
-        var playerId = UUID.fromString("dfafbb82-414b-4dc5-872e-f9dc63b1ee42");
         var wrongChipSetDto = new ChipSetDto(Chip.RED, null, new BigDecimal(-50));
         var json = objectMapper.writeValueAsString(wrongChipSetDto);
 
-        mockMvc.perform(put("/players/{id}/chips", playerId)
+        mockMvc.perform(put("/players/{id}/chips", EXISTING_PLAYER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest());
@@ -287,17 +272,13 @@ public class PlayerControllerTest {
 
     @Test
     public void deleteAllPlayerChips_positive_noContentStatus() throws Exception {
-        var playerId = "dfafbb82-414b-4dc5-872e-f9dc63b1ee42";
-
-        mockMvc.perform(delete("/players/{id}/chips", playerId))
+        mockMvc.perform(delete("/players/{id}/chips", EXISTING_PLAYER_ID))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     public void deleteAllPlayerChips_negativeNotExistingId_notFoundStatus() throws Exception {
-        var notExistingPlayerId = "11111111-aaaa-bbbb-cccc-000000000000";
-
-        mockMvc.perform(delete("/players/{id}/chips", notExistingPlayerId))
+        mockMvc.perform(delete("/players/{id}/chips", NON_EXISTING_PLAYER_ID))
                 .andExpect(status().isNotFound());
     }
 }

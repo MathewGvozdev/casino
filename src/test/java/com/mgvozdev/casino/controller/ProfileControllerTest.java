@@ -25,6 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ProfileControllerTest {
 
+    private static final UUID EXISTING_PROFILE_ID = UUID.fromString("a6a43441-ac01-4de7-911e-94d7c6cb6fbd");
+    private static final UUID NON_EXISTING_PROFILE_ID = UUID.fromString("a6a43441-ac01-4de7-911e-94d7c6cb0000");
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mockMvc;
@@ -56,16 +59,14 @@ public class ProfileControllerTest {
 
     @Test
     void findById_positive_returnProfileDto() throws Exception {
-        var uuid = UUID.fromString("a6a43441-ac01-4de7-911e-94d7c6cb6fbd");
-        var profileReadDto = profileService.findById(uuid);
+        var profileReadDto = profileService.findById(EXISTING_PROFILE_ID);
         var json = objectMapper.writeValueAsString(profileReadDto);
 
-        var mvcResult = mockMvc.perform(get("/profiles/{id}", uuid)
+        var mvcResult = mockMvc.perform(get("/profiles/{id}", EXISTING_PROFILE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
                 .andReturn();
-
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse, ProfileReadDto.class);
 
@@ -74,9 +75,7 @@ public class ProfileControllerTest {
 
     @Test
     void findById_negativeWrongUuid_throwsProfileException() throws Exception {
-        var notExistingUuid = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
-
-        mockMvc.perform(get("/profiles/{id}", notExistingUuid)
+        mockMvc.perform(get("/profiles/{id}", NON_EXISTING_PROFILE_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -107,16 +106,14 @@ public class ProfileControllerTest {
 
     @Test
     public void update_positive_returnUpdatedProfile() throws Exception {
-        var uuid = "a6a43441-ac01-4de7-911e-94d7c6cb6fbd";
         var profileEditDto = TestUtils.getProfileCreateEditDto();
         var json = objectMapper.writeValueAsString(profileEditDto);
 
-        var mvcResult = mockMvc.perform(put("/profiles/{id}", uuid)
+        var mvcResult = mockMvc.perform(put("/profiles/{id}", EXISTING_PROFILE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
                 .andReturn();
-
         var jsonResponse = mvcResult.getResponse().getContentAsString();
         var actualResult = objectMapper.readValue(jsonResponse, ProfileReadDto.class);
 
@@ -133,11 +130,10 @@ public class ProfileControllerTest {
 
     @Test
     public void update_negativeUuidNotFound_throwsPlayerException() throws Exception {
-        var notExistingUuid = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
         var profileEditDto = TestUtils.getProfileCreateEditDto();
         var json = objectMapper.writeValueAsString(profileEditDto);
 
-        mockMvc.perform(put("/profiles/{id}", notExistingUuid)
+        mockMvc.perform(put("/profiles/{id}", NON_EXISTING_PROFILE_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNotFound());
@@ -145,17 +141,13 @@ public class ProfileControllerTest {
 
     @Test
     public void delete_positive_noContentStatus() throws Exception {
-        var uuid = "a6a43441-ac01-4de7-911e-94d7c6cb6fbd";
-
-        mockMvc.perform(delete("/profiles/{id}", uuid))
+        mockMvc.perform(delete("/profiles/{id}", EXISTING_PROFILE_ID))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     public void delete_negativeNotExistingId_notFoundStatus() throws Exception {
-        var notExistingUuid = "11111111-aaaa-bbbb-cccc-000000000000";
-
-        mockMvc.perform(delete("/profiles/{id}", notExistingUuid))
+        mockMvc.perform(delete("/profiles/{id}", NON_EXISTING_PROFILE_ID))
                 .andExpect(status().isNotFound());
     }
 }

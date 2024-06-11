@@ -86,6 +86,6 @@ public class Profile {
     @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     private List<Player> playerSessions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
     private List<Reward> rewards = new ArrayList<>();
 }

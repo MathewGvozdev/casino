@@ -16,6 +16,4 @@ public interface PlayerRepository extends JpaRepository<Player, UUID> {
 
     List<Player> findByOpenedAtBetween(LocalDateTime openedAtStart,
                                        LocalDateTime openedAtEnd);
-
-    List<Player> findByProfileId(UUID profileId);
 }

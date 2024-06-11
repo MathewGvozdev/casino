@@ -1,7 +1,6 @@
 package com.mgvozdev.casino.annotation;
 
 import com.mgvozdev.casino.controller.handler.ControllerExceptionHandler;
-import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.dto.ProfileCreateEditDto;
 import com.mgvozdev.casino.dto.ProfileReadDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,7 +61,7 @@ import java.lang.annotation.Target;
                                                    "issueDate": "2024-06-10",
                                                    "expirationDate": "2024-06-10",
                                                    "address": "Moscow",
-                                                   "phoneNumber": "+124837412",
+                                                   "phoneNumber": "2124837412",
                                                    "membershipType": "BRONZE",
                                                    "status": "PERMITTED",
                                                    "totalDeposit": 1000,
@@ -82,7 +81,7 @@ import java.lang.annotation.Target;
                                                    "issueDate": "2024-06-10",
                                                    "expirationDate": "2024-06-10",
                                                    "address": "Moscow",
-                                                   "phoneNumber": "+124837412",
+                                                   "phoneNumber": "+248374122",
                                                    "membershipType": "BRONZE",
                                                    "status": "PERMITTED",
                                                    "totalDeposit": -1000,

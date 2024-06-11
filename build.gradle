@@ -58,13 +58,15 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    'com/mgvozdev/casino/annotation/**',
-                    'com/mgvozdev/casino/dto/**',
+                    'com/mgvozdev/casino/annotation',
+                    'com/mgvozdev/casino/aspect',
+                    'com/mgvozdev/casino/config',
+                    'com/mgvozdev/casino/dto',
                     'com/mgvozdev/casino/entity/**',
-                    'com/mgvozdev/casino/exception/**',
-                    'com/mgvozdev/casino/mapper/**',
-                    'com/mgvozdev/casino/repository/**',
-                    'com/mgvozdev/casino/validation/**',
+                    'com/mgvozdev/casino/exception',
+                    'com/mgvozdev/casino/mapper',
+                    'com/mgvozdev/casino/repository',
+                    'com/mgvozdev/casino/util',
                     'com/mgvozdev/casino/controller/handler/**',
                     'com/mgvozdev/casino/CasinoApplication.class'
             ])

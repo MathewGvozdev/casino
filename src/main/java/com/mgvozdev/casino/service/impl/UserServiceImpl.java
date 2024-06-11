@@ -6,7 +6,7 @@ import com.mgvozdev.casino.dto.UserInfoEditDto;
 import com.mgvozdev.casino.dto.UserReadDto;
 import com.mgvozdev.casino.entity.Role;
 import com.mgvozdev.casino.entity.UserInfo;
-import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.exception.UserException;
 import com.mgvozdev.casino.mapper.UserInfoMapper;
 import com.mgvozdev.casino.mapper.UserMapper;

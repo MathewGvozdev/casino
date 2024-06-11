@@ -24,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
+    private static final UUID EXISTING_USER_ID = UUID.fromString("616deeeb-b47f-4550-95f7-cb31dabd14ea");
+    private static final UUID NON_EXISTING_USER_ID = UUID.fromString("616deeeb-b47f-4550-95f7-cb31dabd0000");
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mockMvc;
@@ -55,11 +58,10 @@ public class UserControllerTest {
 
     @Test
     void findById_positive_returnUserDto() throws Exception {
-        var uuid = UUID.fromString("616deeeb-b47f-4550-95f7-cb31dabd14ea");
-        var userReadDto = userService.findById(uuid);
+        var userReadDto = userService.findById(EXISTING_USER_ID);
         var json = objectMapper.writeValueAsString(userReadDto);
 
-        var mvcResult = mockMvc.perform(get("/users/{id}", uuid)
+        var mvcResult = mockMvc.perform(get("/users/{id}", EXISTING_USER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -72,9 +74,7 @@ public class UserControllerTest {
 
     @Test
     void findById_negativeWrongUuid_throwsUserException() throws Exception {
-        var notExistingUuid = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
-
-        mockMvc.perform(get("/users/{id}", notExistingUuid)
+        mockMvc.perform(get("/users/{id}", NON_EXISTING_USER_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -100,11 +100,10 @@ public class UserControllerTest {
 
     @Test
     public void updateUser_positive_returnUpdatedUser() throws Exception {
-        var uuid = "616deeeb-b47f-4550-95f7-cb31dabd14ea";
         var userEditDto = TestUtils.getUserEditDto();
         var json = objectMapper.writeValueAsString(userEditDto);
 
-        var mvcResult = mockMvc.perform(put("/users/{id}", uuid)
+        var mvcResult = mockMvc.perform(put("/users/{id}", EXISTING_USER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -117,11 +116,10 @@ public class UserControllerTest {
 
     @Test
     public void updateInfo_positive_returnUpdatedUser() throws Exception {
-        var uuid = "616deeeb-b47f-4550-95f7-cb31dabd14ea";
         var userInfoEditDto = TestUtils.getUserInfoEditDto();
         var json = objectMapper.writeValueAsString(userInfoEditDto);
 
-        var mvcResult = mockMvc.perform(put("/users/{id}/info", uuid)
+        var mvcResult = mockMvc.perform(put("/users/{id}/info", EXISTING_USER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -136,11 +134,10 @@ public class UserControllerTest {
 
     @Test
     public void update_negativeUuidNotFound_throwsUserException() throws Exception {
-        var notExistingUuid = UUID.fromString("11111111-aaaa-bbbb-cccc-000000000000");
         var userEditDto = TestUtils.getUserEditDto();
         var json = objectMapper.writeValueAsString(userEditDto);
 
-        mockMvc.perform(put("/users/{id}", notExistingUuid)
+        mockMvc.perform(put("/users/{id}", NON_EXISTING_USER_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isNotFound());

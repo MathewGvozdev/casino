@@ -2,7 +2,7 @@ package com.mgvozdev.casino.service.impl;
 
 import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.exception.ChipException;
-import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.exception.PlayerException;
 import com.mgvozdev.casino.mapper.ChipMapper;
 import com.mgvozdev.casino.repository.PlayerChipSetRepository;

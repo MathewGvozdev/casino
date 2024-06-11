@@ -1,7 +1,6 @@
 package com.mgvozdev.casino.annotation;
 
 import com.mgvozdev.casino.controller.handler.ControllerExceptionHandler;
-import com.mgvozdev.casino.dto.ChipSetDto;
 import com.mgvozdev.casino.dto.UserEditDto;
 import com.mgvozdev.casino.dto.UserReadDto;
 import io.swagger.v3.oas.annotations.Operation;

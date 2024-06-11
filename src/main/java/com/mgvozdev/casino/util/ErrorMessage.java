@@ -1,4 +1,4 @@
-package com.mgvozdev.casino.exception;
+package com.mgvozdev.casino.util;
 
 public class ErrorMessage {
 
@@ -8,4 +8,5 @@ public class ErrorMessage {
 
     public static final String INVALID_UUID = "UUID format isn't correct";
     public static final String INVALID_CHIPS = "Chipset dto isn't correct";
+    public static final String INVALID_PHONE_NUMBER = "Phone number format isn't correct";
 }

@@ -13,7 +13,8 @@ public class RoleHierarchyConfig {
         String hierarchy = """
                 ROLE_ADMIN > ROLE_SHIFT_MANAGER\s
                 ROLE_SHIFT_MANAGER > ROLE_PIT_BOSS\s
-                ROLE_PIT_BOSS > ROLE_SUPERVISOR""";
+                ROLE_PIT_BOSS > ROLE_SUPERVISOR
+                """;
         roleHierarchy.setHierarchy(hierarchy);
         return roleHierarchy;
     }

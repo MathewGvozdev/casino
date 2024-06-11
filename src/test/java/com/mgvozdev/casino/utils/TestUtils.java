@@ -43,7 +43,7 @@ public class TestUtils {
     }
 
     public static ChipSetDto getChipSetDto() {
-        return new ChipSetDto(Chip.RED, 40, new BigDecimal(200));
+        return new ChipSetDto(Chip.GREEN, 16, new BigDecimal(400));
     }
 
     public static ProfileCreateEditDto getProfileCreateEditDto() {
@@ -57,7 +57,7 @@ public class TestUtils {
                 LocalDate.of(2020, 1, 14),
                 LocalDate.of(2025, 1, 14),
                 "Berlin Gote Strasse 80",
-                "+402194819",
+                "4021948199",
                 MembershipType.BRONZE,
                 ProfileStatus.PERMITTED,
                 new BigDecimal(0),

@@ -4,7 +4,7 @@ import com.mgvozdev.casino.dto.ProfileCreateEditDto;
 import com.mgvozdev.casino.dto.ProfileReadDto;
 import com.mgvozdev.casino.entity.enums.MembershipType;
 import com.mgvozdev.casino.entity.enums.ProfileStatus;
-import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.exception.ProfileException;
 import com.mgvozdev.casino.mapper.ProfileMapper;
 import com.mgvozdev.casino.repository.ProfileRepository;

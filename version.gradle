@@ -1,13 +1,10 @@
 ext {
     versions = [
-            'springboot': '3.2.3',
-            'dependency-management': '1.1.4',
-            'lombok': '6.3.0',
             'jdk': '17',
             'springdoc': '2.5.0',
             'mapstruct': '1.5.5.Final',
-            'gradle': '7.3',
             'h2': '2.2.224',
-            'jacoco': '0.8.8'
+            'jacoco': '0.8.8',
+            'gradle': '7.3'
     ]
 }

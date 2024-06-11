@@ -3,7 +3,7 @@ package com.mgvozdev.casino.service.impl;
 import com.mgvozdev.casino.dto.PlayerCreateDto;
 import com.mgvozdev.casino.dto.PlayerEditDto;
 import com.mgvozdev.casino.dto.PlayerReadDto;
-import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.exception.PlayerException;
 import com.mgvozdev.casino.mapper.PlayerMapper;
 import com.mgvozdev.casino.repository.PlayerRepository;

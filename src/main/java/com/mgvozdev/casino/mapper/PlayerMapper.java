@@ -4,7 +4,7 @@ import com.mgvozdev.casino.dto.*;
 import com.mgvozdev.casino.entity.Player;
 import com.mgvozdev.casino.entity.PlayerChipSet;
 import com.mgvozdev.casino.entity.Profile;
-import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.exception.PlayerException;
 import com.mgvozdev.casino.repository.PlayerRepository;
 import com.mgvozdev.casino.repository.ProfileRepository;

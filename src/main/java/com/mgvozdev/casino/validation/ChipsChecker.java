@@ -1,6 +1,6 @@
 package com.mgvozdev.casino.validation;
 
-import com.mgvozdev.casino.exception.ErrorMessage;
+import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.validation.impl.ChipsValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

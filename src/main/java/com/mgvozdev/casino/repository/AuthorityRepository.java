@@ -11,6 +11,4 @@ import java.util.UUID;
 public interface AuthorityRepository extends JpaRepository<Authority, UUID> {
 
     Optional<Authority> findById(UUID id);
-
-    Optional<Authority> findByPermission(String permission);
 }
