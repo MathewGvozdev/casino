@@ -73,7 +73,8 @@ public class TestUtils {
                 "Johnson",
                 Shift.DAY,
                 LocalDate.of(2024, 6, 10),
-                new BigDecimal(32)
+                new BigDecimal(32),
+                "ROLE_SUPERVISOR"
         );
     }
 

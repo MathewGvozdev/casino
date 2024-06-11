@@ -29,9 +29,9 @@ CREATE TABLE authority
 
 CREATE TABLE role_authority
 (
-    id           UUID PRIMARY KEY,
     role_id      UUID REFERENCES role (id),
-    authority_id UUID REFERENCES authority (id)
+    authority_id UUID REFERENCES authority (id),
+    PRIMARY KEY (role_id, authority_id)
 );
 
 CREATE TABLE users
@@ -43,9 +43,9 @@ CREATE TABLE users
 
 CREATE TABLE user_role
 (
-    id      UUID PRIMARY KEY,
     user_id UUID REFERENCES users (id),
-    role_id UUID REFERENCES role (id)
+    role_id UUID REFERENCES role (id),
+    PRIMARY KEY (user_id, role_id)
 );
 
 CREATE TABLE user_info

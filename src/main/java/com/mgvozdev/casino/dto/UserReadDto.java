@@ -5,5 +5,6 @@ import com.mgvozdev.casino.entity.enums.Shift;
 public record UserReadDto(String username,
                           String firstName,
                           String lastName,
-                          Shift shift) {
+                          Shift shift,
+                          String role) {
 }

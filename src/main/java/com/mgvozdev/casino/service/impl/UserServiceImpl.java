@@ -5,7 +5,9 @@ import com.mgvozdev.casino.dto.UserEditDto;
 import com.mgvozdev.casino.dto.UserInfoEditDto;
 import com.mgvozdev.casino.dto.UserReadDto;
 import com.mgvozdev.casino.entity.Role;
+import com.mgvozdev.casino.entity.User;
 import com.mgvozdev.casino.entity.UserInfo;
+import com.mgvozdev.casino.repository.RoleRepository;
 import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.exception.UserException;
 import com.mgvozdev.casino.mapper.UserInfoMapper;
@@ -24,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static com.mgvozdev.casino.util.BCryptUtil.encryptPassword;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
+    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final UserInfoMapper userInfoMapper;
 
@@ -51,10 +56,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserReadDto create(UserCreateDto userCreateDto) {
         return Optional.of(userCreateDto)
+                .map(dto -> dto.withEncryptedPassword(encryptPassword(userCreateDto.password())))
                 .map(userMapper::toEntity)
                 .map(userRepository::save)
-                .map(entity -> {
+                .map(user -> {
                     var userInfo = saveUserInfo(userCreateDto);
+                    setRoleFromDto(userCreateDto, user);
                     return userInfoMapper.toDto(userInfo);
                 })
                 .orElseThrow(() -> new UserException(ErrorMessage.NOT_CREATED));
@@ -63,6 +70,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserInfo saveUserInfo(UserCreateDto userCreateDto) {
         var userInfo = userInfoMapper.toEntity(userCreateDto);
         return userInfoRepository.save(userInfo);
+    }
+
+    private void setRoleFromDto(UserCreateDto userCreateDto, User user) {
+        var role = roleRepository.findByTitle(userCreateDto.role());
+        if (role.isPresent()) {
+            var roles = Collections.singleton(role.get());
+            user.setRoles(roles);
+        }
     }
 
     @Override

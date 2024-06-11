@@ -37,26 +37,29 @@ import java.lang.annotation.Target;
                                         name = "Valid creation",
                                         value = """
                                                 {
-                                                   "username": "new_user",
-                                                   "password": "123",
-                                                   "firstName": "John",
-                                                   "lastName": "Brown",
-                                                   "shift": "DAY",
-                                                   "hiredOn": "2024-06-10",
-                                                   "salary": 30
+                                                    "username": "new_user",
+                                                    "password": "123",
+                                                    "firstName": "John",
+                                                    "lastName": "Brown",
+                                                    "shift": "DAY",
+                                                    "hiredOn": "2024-06-10",
+                                                    "salary": 30,
+                                                    "role": "ROLE_SUPERVISOR"
                                                 }
-                                                """),
+                                                """
+                                ),
                                 @ExampleObject(
                                         name = "Invalid creation, wrong content",
                                         value = """
                                                 {
-                                                   "username": "smth_wrong",
-                                                   "password": "-09132",
-                                                   "firstName": "John",
-                                                   "lastName": "Brown",
-                                                   "shift": "shift",
-                                                   "hiredOn": "2024-06-10",
-                                                   "salary": -30
+                                                    "username": "new_user",
+                                                    "password": "123",
+                                                    "firstName": "John",
+                                                    "lastName": "Brown",
+                                                    "shift": "DAY",
+                                                    "hiredOn": "2024-06-10",
+                                                    "salary": 30,
+                                                    "role": "ROLE_SUPERVISOR"
                                                 }
                                                 """)
                         }

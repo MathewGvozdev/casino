@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS authority
 --changeset mgvozdev:3
 CREATE TABLE IF NOT EXISTS role_authority
 (
-    id           UUID PRIMARY KEY,
     role_id      UUID REFERENCES role (id),
-    authority_id UUID REFERENCES authority (id)
+    authority_id UUID REFERENCES authority (id),
+    PRIMARY KEY (role_id, authority_id)
 );
 
 --changeset mgvozdev:4
@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS users
 --changeset mgvozdev:5
 CREATE TABLE IF NOT EXISTS user_role
 (
-    id      UUID PRIMARY KEY,
     user_id UUID REFERENCES users (id),
-    role_id UUID REFERENCES role (id)
+    role_id UUID REFERENCES role (id),
+    PRIMARY KEY (user_id, role_id)
 );
 
 --changeset mgvozdev:6
@@ -54,18 +54,18 @@ CREATE TABLE IF NOT EXISTS user_info
 CREATE TABLE IF NOT EXISTS profile
 (
     id              UUID PRIMARY KEY,
-    document_type   VARCHAR(16)         NOT NULL,
-    country         CHAR(3)             NOT NULL,
-    document_number VARCHAR(32)         NOT NULL,
-    first_name      VARCHAR(32)         NOT NULL,
-    last_name       VARCHAR(32)         NOT NULL,
-    date_of_birth   DATE                NOT NULL,
-    issue_date      DATE                NOT NULL,
-    expiration_date DATE                NOT NULL,
+    document_type   VARCHAR(16) NOT NULL,
+    country         CHAR(3)     NOT NULL,
+    document_number VARCHAR(32) NOT NULL,
+    first_name      VARCHAR(32) NOT NULL,
+    last_name       VARCHAR(32) NOT NULL,
+    date_of_birth   DATE        NOT NULL,
+    issue_date      DATE        NOT NULL,
+    expiration_date DATE        NOT NULL,
     address         VARCHAR(64),
     phone_number    VARCHAR(16),
-    membership_type VARCHAR(8)          NOT NULL,
-    status          VARCHAR(16)         NOT NULL,
+    membership_type VARCHAR(8)  NOT NULL,
+    status          VARCHAR(16) NOT NULL,
     total_deposit   NUMERIC,
     total_winnings  NUMERIC
 );
@@ -116,9 +116,9 @@ CREATE TABLE IF NOT EXISTS table_session
 CREATE TABLE IF NOT EXISTS player_table_session
 (
     id               UUID PRIMARY KEY,
-    player_id        UUID REFERENCES player (id)         NOT NULL,
+    player_id        UUID REFERENCES player (id)        NOT NULL,
     table_session_id UUID REFERENCES table_session (id) NOT NULL,
-    started_at       TIMESTAMP                           NOT NULL
+    started_at       TIMESTAMP                          NOT NULL
 );
 
 --changeset mgvozdev:13
