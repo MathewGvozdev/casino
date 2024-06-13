@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgrescontainer
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: casino
+    networks:
+      - appnetwork
+    ports:
+      - "5432:5432"
+
+  app:
+    image: casinoimage
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: casino
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+    depends_on:
+      - postgres
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
