@@ -5,16 +5,11 @@ import com.mgvozdev.casino.dto.*;
 import com.mgvozdev.casino.service.UserService;
 import com.mgvozdev.casino.validation.UuidChecker;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.springframework.http.ResponseEntity.noContent;
-import static org.springframework.http.ResponseEntity.notFound;
 
 @RestController
 @RequestMapping("/users")

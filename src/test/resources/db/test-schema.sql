@@ -163,4 +163,3 @@ CREATE TABLE report
     total_drop_in  NUMERIC,
     total_winnings NUMERIC
 );
-
