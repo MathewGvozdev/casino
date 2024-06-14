@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres
+    image: postgres:latest
     container_name: postgrescontainer
     environment:
       POSTGRES_PASSWORD: postgres
@@ -11,13 +11,12 @@ services:
     networks:
       - appnetwork
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   app:
-    image: casinoimage
-    build: .
+    image: mathewgvozdev/casino:latest
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
@@ -29,5 +28,14 @@ services:
     networks:
       - appnetwork
 
+volumes:
+  postgresql_data:
+    driver_opts:
+      type: none
+      o: bind
+      device: /path/to/postgresql_data
+
+
 networks:
   appnetwork:
+    driver: bridge
