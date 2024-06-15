@@ -1,21 +1,20 @@
 version: '3.8'
 
 services:
-#  postgres:
-#    image: postgres:latest
-#    container_name: postgrescontainer
-#    environment:
-#      POSTGRES_PASSWORD: postgres
-#      POSTGRES_USER: postgres
-#      POSTGRES_DB: casino
-#    networks:
-#      - appnetwork
-#    ports:
-#      - "5433:5432"
+  postgres:
+    image: postgres:latest
+    container_name: postgrescontainer
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: casino
+    networks:
+      - appnetwork
+    ports:
+      - "5433:5432"
 
   app:
-    build: .
-#    image: mathewgvozdev/casino:latest
+    image: mathewgvozdev/casino:latest
     ports:
       - "8081:8080"
     environment:
