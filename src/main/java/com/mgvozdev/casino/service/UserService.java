@@ -1,9 +1,6 @@
 package com.mgvozdev.casino.service;
 
-import com.mgvozdev.casino.dto.UserCreateDto;
-import com.mgvozdev.casino.dto.UserEditDto;
-import com.mgvozdev.casino.dto.UserInfoEditDto;
-import com.mgvozdev.casino.dto.UserReadDto;
+import com.mgvozdev.casino.dto.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,4 +18,6 @@ public interface UserService {
     UserReadDto updateInfo(UUID id, UserInfoEditDto userInfoEditDto);
 
     boolean delete(UUID id);
+
+    void updatePassword(String username, PasswordUpdateRequestDto password);
 }

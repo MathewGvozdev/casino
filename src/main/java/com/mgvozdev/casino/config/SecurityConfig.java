@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(HOST_LIST).hasRole(HOST)
                         .requestMatchers(PIT_BOSS_LIST).hasRole(PIT_BOSS)
                         .requestMatchers(SHIFT_MANAGER_LIST).hasRole(SHIFT_MANAGER)
+                        .requestMatchers("/users/password").authenticated()
                         .requestMatchers(ADMIN_LIST).hasRole(ADMIN)
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

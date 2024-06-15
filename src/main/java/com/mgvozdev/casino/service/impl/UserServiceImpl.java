@@ -1,13 +1,11 @@
 package com.mgvozdev.casino.service.impl;
 
-import com.mgvozdev.casino.dto.UserCreateDto;
-import com.mgvozdev.casino.dto.UserEditDto;
-import com.mgvozdev.casino.dto.UserInfoEditDto;
-import com.mgvozdev.casino.dto.UserReadDto;
+import com.mgvozdev.casino.dto.*;
 import com.mgvozdev.casino.entity.Role;
 import com.mgvozdev.casino.entity.User;
 import com.mgvozdev.casino.entity.UserInfo;
 import com.mgvozdev.casino.repository.RoleRepository;
+import com.mgvozdev.casino.util.BCryptUtil;
 import com.mgvozdev.casino.util.ErrorMessage;
 import com.mgvozdev.casino.exception.UserException;
 import com.mgvozdev.casino.mapper.UserInfoMapper;
@@ -26,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import static com.mgvozdev.casino.util.BCryptUtil.encryptPassword;
+import static com.mgvozdev.casino.util.BCryptUtil.encrypt;
+import static com.mgvozdev.casino.util.BCryptUtil.matches;
 
 @Service
 @Transactional
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserReadDto create(UserCreateDto userCreateDto) {
         return Optional.of(userCreateDto)
-                .map(dto -> dto.withEncryptedPassword(encryptPassword(userCreateDto.password())))
+                .map(dto -> dto.withEncryptedPassword(encrypt(userCreateDto.password())))
                 .map(userMapper::toEntity)
                 .map(userRepository::save)
                 .map(user -> {
@@ -115,6 +114,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     return true;
                 })
                 .orElse(false);
+    }
+
+    @Override
+    public void updatePassword(String username, PasswordUpdateRequestDto passwordUpdateRequestDto) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (!matches(passwordUpdateRequestDto.getCurrentPassword(), user.getPassword())) {
+            throw new UserException("Current password is incorrect");
+        }
+
+        user.setPassword(encrypt(passwordUpdateRequestDto.getNewPassword()));
+        userRepository.saveAndFlush(user);
     }
 
     @Override
