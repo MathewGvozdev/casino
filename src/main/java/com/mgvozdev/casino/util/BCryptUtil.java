@@ -7,7 +7,11 @@ public class BCryptUtil {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
-    public static String encryptPassword(String plainPassword) {
-        return passwordEncoder.encode(plainPassword);
+    public static String encrypt(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
+
+    public static boolean matches(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

@@ -5,6 +5,9 @@ import com.mgvozdev.casino.dto.*;
 import com.mgvozdev.casino.service.UserService;
 import com.mgvozdev.casino.validation.UuidChecker;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,5 +46,13 @@ public class UserController {
     public UserReadDto update(@UuidChecker @PathVariable("id") UUID id,
                               @Validated @RequestBody UserInfoEditDto userInfoEditDto) {
         return userService.updateInfo(id, userInfoEditDto);
+    }
+
+//    @UpdatePassword(path = "/password")
+    @PatchMapping("/password")
+    @ResponseStatus(HttpStatus.OK)
+    public void updatePassword(@AuthenticationPrincipal UserDetails userDetails,
+                               @RequestBody PasswordUpdateRequestDto passwordUpdateRequestDto) {
+        userService.updatePassword(userDetails.getUsername(), passwordUpdateRequestDto);
     }
 }
